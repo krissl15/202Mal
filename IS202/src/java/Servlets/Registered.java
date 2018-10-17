@@ -65,10 +65,7 @@ public class Registered extends HttpServlet {
                     out.println("<form action='http://localhost:8084/hello/'>");
                     out.println("<br> <input type= \"submit\" value= \"Tilbake\" name= \"Tilbake\">");
                     out.println("</form>");
-            }else if( ){
-                
-            
-            } else if (password.equals(passwordCheck)) { //alt er OK
+                } else if (password.equals(passwordCheck)) { //alt er OK
                     out.println("<br> <h3> Navn: " + firstName + " " + surName + "</h3>");
                     
                     StudentTools st = new StudentTools();

@@ -69,7 +69,7 @@ public class StudentTools {
         }
     }
     
-    public void checkUserName(){
+    public void checkUserName(PrintWriter out) throws SQLException{
         DbConnector db = new DbConnector();
             try(Connection conn = db.getConnection(out);){
                 
