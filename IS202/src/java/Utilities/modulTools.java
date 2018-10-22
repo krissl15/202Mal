@@ -30,7 +30,7 @@ public class modulTools {
             while(rsName.next()){
             String modulName = rsName.getString("modul_navn");
             out.println(modulName+"<br>");
-            //modulnavn print slutt
+            } //modulnavn print slutt
             //modulTekst print start
             try(PreparedStatement tekst = conn.prepareStatement(selectTekst)){
                 tekst.setInt(1, moduleID);
@@ -38,11 +38,11 @@ public class modulTools {
                 while(rsTekst.next()){
                     String modulTekst = rsTekst.getString("modul_tekst");
                     out.println("modul tekst: " + modulTekst);
-                }
+                }//modul 
                    
             }
             }
-        }//try end
-        }//try end
-    }//showmodule end
-}//class end
+        }
+        }
+    }
+

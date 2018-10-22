@@ -10,4 +10,10 @@
           url="jdbc:mysql://localhost:3306/slit">
 </Resource>
 
+<Realm className="org.apache.catalina.realm.DataSourceRealm" 
+         dataSourceName="jdbc/slit"  localDataSource="true"
+         userTable="bruker"   userNameCol="brukernavn"  userCredCol="passord"
+         
+         userRoleTable="bruker_rolle"  roleNameCol="rolle" />
+
 </Context>

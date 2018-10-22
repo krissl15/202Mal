@@ -16,4 +16,38 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
+    
+     <security-constraint>
+        <!--  to access these pages  -->
+        <web-resource-collection>
+            <web-resource-name>Modulsider</web-resource-name>
+            <url-pattern>/ModulForms</url-pattern>
+        </web-resource-collection>
+        <!--  the user must have one of these roles  -->
+        <auth-constraint>
+            <role-name>Student</role-name>
+        </auth-constraint>
+        
+    </security-constraint>
+
+    <!--  the available roles  -->
+    <security-role>
+        <role-name>Foreleser</role-name>
+    </security-role>
+    <security-role>
+        <role-name>Student</role-name>
+    </security-role>
+    <security-role>
+        <role-name>Hjelpelærer</role-name>
+    </security-role>
+
+    <!-- which realm to use -->
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>DataSourceRealm</realm-name>
+    </login-config>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 </web-app>
