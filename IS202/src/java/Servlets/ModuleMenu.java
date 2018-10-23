@@ -37,14 +37,24 @@ public class ModuleMenu extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModulForms</title>");            
+            out.println("<title>Servlet ModulForms</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<form action=\"ModulePage\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"module\" value=\"1\"> \n" +
-"		 <input type=\"Submit\" name=\"module\" value=\"2\">\n" +
-"		 <input type=\"Submit\" name=\"module\" value=\"3\"><br><br>  \n" +
-"            </form>  ");
+            out.println("<form action=\"ModulePage\" method=\"post\">\n"
+                    + "                <input type=\"Submit\" name=\"module\" value=\"1\"> \n"
+                    + "		 <input type=\"Submit\" name=\"module\" value=\"2\">\n"
+                    + "		 <input type=\"Submit\" name=\"module\" value=\"3\"><br><br>  \n"
+                    + "            </form>  "
+                    );
+
+            if (request.isUserInRole("Foreleser")) {
+                out.print("<form action=\"RegisterForm\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"btnCreateModule\" value=\"Lag Modul\"> <br><br>  \n" +
+"            </form>");
+            }
+            
+            
+
             out.println("</body>");
             out.println("</html>");
         }

@@ -40,6 +40,7 @@ public class MainPage extends HttpServlet {
             out.println("<title>Servlet MainPage</title>");            
             out.println("</head>");
             out.println("<body>");
+            
             out.println("<form action=\"RegisterForm\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnRegister\" value=\"Registrer deg\"> <br><br>  \n" +
 "            </form>\n" +
