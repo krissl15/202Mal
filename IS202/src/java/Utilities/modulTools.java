@@ -88,4 +88,8 @@ public class modulTools {
         }//try end
     }//showmodule end
     
+<<<<<<< HEAD
 }//class end
+=======
+}//class end
+>>>>>>> 6b7b087781ace75214e9802a27c82d0ec7fba1ed
