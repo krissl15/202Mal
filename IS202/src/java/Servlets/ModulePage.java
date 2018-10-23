@@ -48,17 +48,17 @@ public class ModulePage extends HttpServlet {
             
              modulTools mT = new modulTools();
              String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
-             if(moduleNr.contains("1")){ //Sjekker om knappene inneholder tallet på modulen i navnet
+             if(moduleNr.equals("1")){ //Sjekker om knappene inneholder tallet på modulen i navnet
                  //modul1 her
                  int nr = 1;
                  out.println("Name of module: ");
                  mT.showModule(nr, out);
                  
-             }else if(moduleNr.contains("2")){
+             }else if(moduleNr.equals("2")){
                  //modul2 her
                  int nr = 2;
                  mT.showModule(nr, out);
-             }else if(moduleNr.contains("3")){
+             }else if(moduleNr.equals("3")){
             //modul3 her
         }
             
