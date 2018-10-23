@@ -22,12 +22,14 @@
         <web-resource-collection>
             <web-resource-name>Hovedside</web-resource-name>
             <url-pattern>/MainPage</url-pattern>
-        </web-resource-collection>
+            <url-pattern>/ModulForms</url-pattern>
+         </web-resource-collection>
         <!--  the user must have one of these roles  -->
         <auth-constraint>
             <role-name>Student</role-name>
             <role-name>Foreleser</role-name>
             <role-name>Hjelpelærer</role-name>
+            
         </auth-constraint>
         
     </security-constraint>
