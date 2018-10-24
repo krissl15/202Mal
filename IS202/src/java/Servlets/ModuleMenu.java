@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Doffen
  */
-@WebServlet(name = "ModulForms", urlPatterns = {"/ModulForms"})
-public class ModulForms extends HttpServlet {
+@WebServlet(name = "ModuleMenu", urlPatterns = {"/ModuleMenu"})
+public class ModuleMenu extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,7 +37,7 @@ public class ModulForms extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModulForms</title>");            
+            out.println("<title>Servlet ModuleMenu</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<form action=\"ModulePage\" method=\"post\">\n" +
