@@ -5,7 +5,7 @@
  */
 package Servlets;
 
-import Utilities.modulTools;
+import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -43,10 +43,34 @@ public class ModuleAdded extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleAddedd</title>");            
+            out.println("<title>Servlet ModuleAdded</title>");            
             out.println("</head>");
             out.println("<body>");
-             out.println("hei");
+            out.println("<body>\n" +
+"        <div>\n" +
+"            <p>Registrer modul</p>\n" +
+"\n" +
+"            <form>\n" +
+"		 <b>Modul ID</b><input type=\"text\" name=\"textmoduleID\" placeholder=\"Modul ID\"> <br><br>  \n" +
+"		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n" +
+"                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n" +
+"                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n" +
+"                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/inaktiv\"> <br><br>  \n" +
+"                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n" +                     
+"\n" +
+"\n" +
+"                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n" +
+"            </form>\n" +
+"        </div>\n" + 
+                    
+"        <div>\n" +
+"            <form action=\"ModuleMenu\" method=\"post\">\n" +  
+"                <input type=\"Submit\" value=\"Tilbake\"><br>  \n" +  
+"            </form>\n" +                    
+"        </div>\n" +                     
+"    </body>");
+            
+           
             String modul_id = request.getParameter("textmoduleID");
             String modul_navn = request.getParameter("textmoduleName");
             String modul_læringsmål = request.getParameter("textGoal");
@@ -58,7 +82,7 @@ public class ModuleAdded extends HttpServlet {
             int intID = Integer.parseInt(modul_id);	
             int intDato = Integer.parseInt(modul_fristdato);
             
-                    modulTools mt = new modulTools();
+                    ModuleTools mt = new ModuleTools();
                   
                     mt.insertModule(intID, modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
                     
@@ -118,3 +142,4 @@ public class ModuleAdded extends HttpServlet {
     }// </editor-fold>
 
 }
+
