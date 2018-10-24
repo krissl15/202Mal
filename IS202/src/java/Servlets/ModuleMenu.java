@@ -37,34 +37,24 @@ public class ModuleMenu extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleMenu</title>");            
+            out.println("<title>Servlet ModulForms</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<form action=\"ModulePage\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"module\" value=\"1\"> \n" +
-"		 <input type=\"Submit\" name=\"module\" value=\"2\">\n" +
-"		 <input type=\"Submit\" name=\"module\" value=\"3\"><br><br>  \n" +
-"            </form>  ");
+            out.println("<form action=\"ModulePage\" method=\"post\">\n"
+                    + "                <input type=\"Submit\" name=\"module\" value=\"1\"> \n"
+                    + "		 <input type=\"Submit\" name=\"module\" value=\"2\">\n"
+                    + "		 <input type=\"Submit\" name=\"module\" value=\"3\"><br><br>  \n"
+                    + "            </form>  "
+                    );
+
+            if (request.isUserInRole("Foreleser")) {
+                out.print("<form action=\"RegisterForm\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"btnCreateModule\" value=\"Lag Modul\"> <br><br>  \n" +
+"            </form>");
+            }
             
-             out.println("<body>\n" +
-"        <div>\n" +
-"            <p>Registrer modul</p>\n" +
-"\n" +
-"            <form action=\"ModuleAdded\">\n" +
-"		 <b>Modul ID</b><input type=\"text\" name=\"textmoduleID\" placeholder=\"Modul ID\" required> <br><br>  \n" +
-"		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n" +
-"                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n" +
-"                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n" +
-"                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/inaktiv\"> <br><br>  \n" +
-"                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n" +
-                     
-"				\n" +
-"\n" +
-"                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n" +
-"            </form>\n" +
-"              <br><br>\n" +
-"        </div>\n" +
-"    </body>");
+            
+
             out.println("</body>");
             out.println("</html>");
         }
