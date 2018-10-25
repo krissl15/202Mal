@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlets;
 
 import java.io.IOException;
@@ -17,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Doffen
  */
-@WebServlet(name = "ModulForms", urlPatterns = {"/ModulForms"})
+@WebServlet(name = "ModuleMenu", urlPatterns = {"/ModuleMenu"})
 public class ModuleMenu extends HttpServlet {
 
     /**
@@ -37,24 +32,23 @@ public class ModuleMenu extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModulForms</title>");
+            out.println("<title>Servlet ModuleMenu</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<form action=\"ModulePage\" method=\"post\">\n"
-                    + "                <input type=\"Submit\" name=\"module\" value=\"1\"> \n"
-                    + "		 <input type=\"Submit\" name=\"module\" value=\"2\">\n"
-                    + "		 <input type=\"Submit\" name=\"module\" value=\"3\"><br><br>  \n"
-                    + "            </form>  "
-                    );
-
-            if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"RegisterForm\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnCreateModule\" value=\"Lag Modul\"> <br><br>  \n" +
+            out.println("<form action=\"ModulePage\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"module\" value=\"1\"> \n" +
+"		 <input type=\"Submit\" name=\"module\" value=\"2\">\n" +
+"		 <input type=\"Submit\" name=\"module\" value=\"3\"><br><br>  \n" +
+"                   </form>  ");
+            
+             if (request.isUserInRole("Foreleser")) {
+                out.print("<form action=\"ModuleAdded\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br><br>  \n" +
 "            </form>");
             }
             
-            
-
+           
+             
             out.println("</body>");
             out.println("</html>");
         }

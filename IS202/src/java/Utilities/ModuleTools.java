@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Utilities;
 
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,8 +11,31 @@ import java.sql.SQLException;
  *
  * @author Doffen
  */
-public class modulTools {
+public class ModuleTools {
     
+    public void insertModule(int modul_id, String modul_navn, String modul_læringsmål, 
+            String modul_tekst, String modul_status, int modul_fristdato, PrintWriter out) throws SQLException {
+        String sql = "INSERT INTO slit.modul(modul_id, modul_navn, modul_læringsmål, modul_tekst, "
+                + "modul_status, modul_fristdato) VALUES(?,?,?,?,?,?)";
+        
+       DbConnector db = new DbConnector();
+        try(Connection conn = db.getConnection(out)){
+                try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, modul_id);
+            pstmt.setString(2, modul_navn);
+            pstmt.setString(3, modul_læringsmål);
+            pstmt.setString(4, modul_tekst);
+            pstmt.setString(5, modul_status);
+            pstmt.setInt(6, modul_fristdato);
+            
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        }
+
+    }
+
     
     public void showModule(int moduleID, PrintWriter out) throws SQLException{
        String selectName = "select modul_navn from modul where modul_id =?"; //modulnavn
@@ -87,9 +106,10 @@ public class modulTools {
         }//try end
         }//try end
     }//showmodule end
+ 
+    public void moduleMenu() throws SQLException{
+       
+    }
+  
     
-<<<<<<< HEAD
 }//class end
-=======
-}//class end
->>>>>>> 6b7b087781ace75214e9802a27c82d0ec7fba1ed

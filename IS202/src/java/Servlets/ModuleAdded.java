@@ -8,6 +8,7 @@ package Servlets;
 import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Doffen
+ * @author asmundfagstad
  */
-@WebServlet(name = "ModulePage", urlPatterns = {"/ModulePage"})
-public class ModulePage extends HttpServlet {
+@WebServlet(name = "ModuleAdded", urlPatterns = {"/ModuleAdded"})
+public class ModuleAdded extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,31 +43,45 @@ public class ModulePage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModulePage</title>");
+            out.println("<title>Servlet ModuleAdded</title>");
             out.println("</head>");
             out.println("<body>");
+            out.println("<body>\n"
+                    + "        <div>\n"
+                    + "            <p>Registrer modul</p>\n"
+                    + "\n"
+                    + "            <form>\n"
+                    + "		 <b>Modul ID</b><input type=\"text\" name=\"textmoduleID\" placeholder=\"Modul ID\"> <br><br>  \n"
+                    + "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n"
+                    + "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n"
+                    + "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n"
+                    + "                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/inaktiv\"> <br><br>  \n"
+                    + "                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n"
+                    + "\n"
+                    + "\n"
+                    + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n"
+                    + "            </form>\n"
+                    + "        </div>\n"
+                    + "        <div>\n");
 
-            ModuleTools mT = new ModuleTools();
-            String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
-           
-            if (moduleNr.contains("1")) { //Sjekker om knappene inneholder tallet på modulen i navnet
-                //modul1 her
-                int nr = 1;
-                out.println("Name of module: ");
-                mT.showModule(nr, out);
+            String modul_id = request.getParameter("textmoduleID");
+            String modul_navn = request.getParameter("textmoduleName");
+            String modul_læringsmål = request.getParameter("textGoal");
+            String modul_tekst = request.getParameter("textModule");
+            String modul_status;
+            modul_status = request.getParameter("textStatus");
+            String modul_fristdato = request.getParameter("textDate");
 
-            } else if (moduleNr.contains("2")) {
-                //modul2 her
-                int nr = 2;
-                mT.showModule(nr, out);
-            } else if (moduleNr.contains("3")) {
-                int nr = 3;
-                mT.showModule(nr, out);
-            }
+            int intID = Integer.parseInt(modul_id);
+            int intDato = Integer.parseInt(modul_fristdato);
 
-            out.println("</body>");
-            out.println("</html>");
+            ModuleTools mt = new ModuleTools();
+
+            mt.insertModule(intID, modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
         }
+
+        out.println("</body>");
+        out.println("</html>");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -84,7 +99,7 @@ public class ModulePage extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModulePage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleAdded.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -102,7 +117,7 @@ public class ModulePage extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModulePage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleAdded.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

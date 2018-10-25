@@ -1,5 +1,6 @@
 package Utilities;
 
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.sql.*;
 import javax.naming.Context;
@@ -38,5 +39,9 @@ public class DbConnector {
         }
         return null;
     }  // end getConnection       
+
+    Connection getConnection(PrintStream out) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
  
 }
