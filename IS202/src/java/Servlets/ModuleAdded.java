@@ -51,7 +51,6 @@ public class ModuleAdded extends HttpServlet {
 "            <p>Registrer modul</p>\n" +
 "\n" +
 "            <form>\n" +
-//"		 <b>Modul ID</b><input type=\"text\" name=\"textmoduleID\" placeholder=\"Modul ID\"> <br><br>  \n" +
 "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n" +
 "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n" +
 "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n" +
@@ -70,16 +69,14 @@ public class ModuleAdded extends HttpServlet {
 "        </div>\n" +                     
 "    </body>");
             
-           
-            //String modul_id = request.getParameter("textmoduleID");
+          
             String modul_navn = request.getParameter("textmoduleName");
             String modul_læringsmål = request.getParameter("textGoal");
             String modul_tekst = request.getParameter("textModule");
             String modul_status;
             modul_status = request.getParameter("textStatus");
             String modul_fristdato = request.getParameter("textDate");
-            
-            //int intID = Integer.parseInt(modul_id);	
+            	
             int intDato = Integer.parseInt(modul_fristdato);
             
                     ModuleTools mt = new ModuleTools();
