@@ -4,8 +4,8 @@
 <Resource name="jdbc/slit" 
           type="javax.sql.DataSource" 
           auth="Container"
-          username="root" 
-          password="root" 
+          username="randmin" 
+          password="555666" 
           driverClassName="com.mysql.jdbc.Driver"
           url="jdbc:mysql://localhost:3306/slit">
 </Resource>

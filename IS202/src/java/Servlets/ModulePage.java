@@ -59,6 +59,8 @@ public class ModulePage extends HttpServlet {
                  int nr = 2;
                  mT.showModule(nr, out);
              }else if(moduleNr.equals("3")){
+                 int nr = 3;
+                 mT.showModule(nr, out);
             //modul3 her
         }
             
