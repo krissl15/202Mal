@@ -5,7 +5,7 @@
  */
 package Servlets;
 
-import Utilities.modulTools;
+import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -46,7 +46,7 @@ public class ModulePage extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             
-             modulTools mT = new modulTools();
+             ModuleTools mT = new ModuleTools();
              String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
              if(moduleNr.equals("1")){ //Sjekker om knappene inneholder tallet på modulen i navnet
                  //modul1 her
