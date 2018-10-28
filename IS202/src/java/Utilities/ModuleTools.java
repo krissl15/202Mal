@@ -17,20 +17,19 @@ import java.sql.SQLException;
  */
 public class ModuleTools {
     
-    public void insertModule(int modul_id, String modul_navn, String modul_læringsmål, 
+    public void insertModule(String modul_navn, String modul_læringsmål, 
             String modul_tekst, String modul_status, int modul_fristdato, PrintWriter out) throws SQLException {
-        String sql = "INSERT INTO slit.modul(modul_id, modul_navn, modul_læringsmål, modul_tekst, "
-                + "modul_status, modul_fristdato) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO slit.modul(modul_navn, modul_læringsmål, modul_tekst, "
+                + "modul_status, modul_fristdato) VALUES(?,?,?,?,?)";
         
        DbConnector db = new DbConnector();
         try(Connection conn = db.getConnection(out)){
                 try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, modul_id);
-            pstmt.setString(2, modul_navn);
-            pstmt.setString(3, modul_læringsmål);
-            pstmt.setString(4, modul_tekst);
-            pstmt.setString(5, modul_status);
-            pstmt.setInt(6, modul_fristdato);
+            pstmt.setString(1, modul_navn);
+            pstmt.setString(2, modul_læringsmål);
+            pstmt.setString(3, modul_tekst);
+            pstmt.setString(4, modul_status);
+            pstmt.setInt(5, modul_fristdato);
             
             pstmt.executeUpdate();
         } catch (SQLException e) {

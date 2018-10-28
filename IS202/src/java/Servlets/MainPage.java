@@ -41,13 +41,17 @@ public class MainPage extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             
-            out.println("<form action=\"RegisterForm\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnRegister\" value=\"Registrer deg\"> <br><br>  \n" +
-"            </form>\n" +
-"            <form action=\"ModuleMenu\" method=\"post\">\n" +
+            if(request.isUserInRole("UregistrertStudent")){
+            out.println("Du er ikke registrert i dette faget.<br>"
+                    + "Få en foreleser til å registrere deg");
+            }else{
+             out.println("<form action=\"ModuleMenu\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnModuler\" value=\"Moduler\"> <br><br>  \n" +
-"            </form>  \n" +
-"            <br><br>");
+"            </form>  \n" + "<form action=\"MedlemsListeVlet\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"btnMedlemsListe\" value=\"Medlemsliste\"> <br><br>  \n" +
+"            </form>");   
+            }
+                    
             out.println("</body>");
             out.println("</html>");
         }
