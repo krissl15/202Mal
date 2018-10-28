@@ -22,6 +22,7 @@
         <web-resource-collection>
             <web-resource-name>Hovedside</web-resource-name>
             <url-pattern>/MainPage</url-pattern>
+
          </web-resource-collection>
         <!--  the user must have one of these roles  -->
         <auth-constraint>
