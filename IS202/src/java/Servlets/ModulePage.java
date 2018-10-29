@@ -5,10 +5,14 @@
  */
 package Servlets;
 
+import Utilities.DbConnector;
 import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -42,29 +46,34 @@ public class ModulePage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModulePage</title>");            
+            out.println("<title>Servlet ModulePage</title>");
             out.println("</head>");
             out.println("<body>");
-            
-             ModuleTools mT = new ModuleTools();
-             String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
-             if(moduleNr.equals("1")){ //Sjekker om knappene inneholder tallet på modulen i navnet
-                 //modul1 her
-                 int nr = 1;
-                 out.println("Name of module: ");
-                 mT.showModule(nr, out);
-                 
-             }else if(moduleNr.equals("2")){
-                 //modul2 her
-                 int nr = 2;
-                 mT.showModule(nr, out);
-             }else if(moduleNr.equals("3")){
-                 int nr = 3;
-                 mT.showModule(nr, out);
-            //modul3 her
-        }
-            
-            
+
+            ModuleTools mT = new ModuleTools();
+            String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
+
+            DbConnector db = new DbConnector();
+            try (Connection conn = db.getConnection(out)) {
+
+                //modulnavn print start   
+                try (Statement st = conn.createStatement()) {
+                    String moduleQ = "select modul_id from modul";
+                    ResultSet rsModules = st.executeQuery(moduleQ);
+                    while (rsModules.next()) {
+                        String modulID = rsModules.getString("modul_id");
+                        if (moduleNr.contains(modulID)) { //Sjekker om knappene inneholder tallet på modulen i navnet
+                            //modul1 her
+                            int intID = Integer.parseInt(modulID);
+                            int nr = intID;
+                            out.println("Name of module: ");
+                            mT.showModule(nr, out);
+
+                        }
+                    }
+                }
+            }
+
             out.println("</body>");
             out.println("</html>");
         }
