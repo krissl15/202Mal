@@ -1,12 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Servlets;
 
+import Utilities.DbConnector;
+import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,9 +33,10 @@ public class ModuleMenu extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -40,11 +46,23 @@ public class ModuleMenu extends HttpServlet {
             out.println("<title>Servlet ModuleMenu</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<form action=\"ModulePage\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"module\" value=\"1\"> \n" +
-"		 <input type=\"Submit\" name=\"module\" value=\"2\">\n" +
-"		 <input type=\"Submit\" name=\"module\" value=\"3\"><br><br>  \n" +
-"                   </form>  ");
+  
+            ModuleTools mt = new ModuleTools();
+            
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+
+            //modulnavn print start   
+            try (Statement st = conn.createStatement()) {
+                 String moduleQ = "select modul_id from modul";
+                ResultSet rsModules = st.executeQuery(moduleQ);
+                while (rsModules.next()) {
+                    String modulID = rsModules.getString("modul_id");
+                    out.println("<form action=\"ModulePage\" method=\"post\">"
+                            + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
+                }//registrerte brukere slutt
+            }
+        }
             
              if (request.isUserInRole("Foreleser")) {
                 out.print("<form action=\"ModuleAdded\" method=\"post\">\n" +
@@ -71,7 +89,11 @@ public class ModuleMenu extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ModuleMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -85,7 +107,11 @@ public class ModuleMenu extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ModuleMenu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
