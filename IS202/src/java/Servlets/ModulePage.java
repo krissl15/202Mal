@@ -62,7 +62,7 @@ public class ModulePage extends HttpServlet {
                     ResultSet rsModules = st.executeQuery(moduleQ);
                     while (rsModules.next()) {
                         String modulID = rsModules.getString("modul_id");
-                        if (moduleNr.contains(modulID)) { //Sjekker om knappene inneholder tallet på modulen i navnet
+                        if (moduleNr.equals(modulID)) { //Sjekker om knappene inneholder tallet på modulen i navnet
                             //modul1 her
                             int intID = Integer.parseInt(modulID);
                             int nr = intID;
