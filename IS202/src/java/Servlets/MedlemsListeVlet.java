@@ -5,13 +5,13 @@
  */
 package Servlets;
 
-import Utilities.ModuleTools;
+import Utilities.MemberTools;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author asmundfagstad
+ * @author Doffen
  */
-@WebServlet(name = "ModuleAdded", urlPatterns = {"/ModuleAdded"})
-public class ModuleAdded extends HttpServlet {
+@WebServlet(name = "MedlemsListeVlet", urlPatterns = {"/MedlemsListeVlet"})
+public class MedlemsListeVlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,54 +34,52 @@ public class ModuleAdded extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      * @throws java.sql.SQLException
+     * @throws javax.naming.NamingException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleAdded</title>");
+            out.println("<title>Servlet MedlemsListeVlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<body>\n"
-                    + "        <div>\n"
-                    + "            <p>Registrer modul</p>\n"
-                    + "\n"
-                    + "            <form>\n"
-                    + "		 <b>Modul ID</b><input type=\"text\" name=\"textmoduleID\" placeholder=\"Modul ID\"> <br><br>  \n"
-                    + "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n"
-                    + "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n"
-                    + "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n"
-                    + "                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/inaktiv\"> <br><br>  \n"
-                    + "                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n"
-                    + "\n"
-                    + "\n"
-                    + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n"
-                    + "            </form>\n"
-                    + "        </div>\n"
-                    + "        <div>\n");
-
-            String modul_id = request.getParameter("textmoduleID");
-            String modul_navn = request.getParameter("textmoduleName");
-            String modul_læringsmål = request.getParameter("textGoal");
-            String modul_tekst = request.getParameter("textModule");
-            String modul_status;
-            modul_status = request.getParameter("textStatus");
-            String modul_fristdato = request.getParameter("textDate");
-
-            int intID = Integer.parseInt(modul_id);
-            int intDato = Integer.parseInt(modul_fristdato);
-
-            ModuleTools mt = new ModuleTools();
-
-            mt.insertModule(intID, modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
+            MemberTools memt = new MemberTools();
+            
+            if (request.isUserInRole("Foreleser")){ //Sjekk om brukeren er foreleser
+            out.println("Registrerte medlemmer<br>");
+            memt.printMembersByRole("RegistrertStudent", out);
+            out.println("<br>Ikke registrerte medlemmer<br>");
+            memt.printMembersByRole("UregistrertStudent", out);
+             String change = request.getParameter("member"); //alle knappene heter det samme ("member")
+             if(change.contains("Registrer")){ //Sjekker om knappen er en "fjern" eller "Registrer
+                 
+                 String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
+                 memt.registerStudent(name, out); //registrert brukeren når knappen blir trykket
+                 memt.addToModulKanal(name, out);
+                 response.sendRedirect("MedlemsListeVlet"); //Oppdaterer siden ved å directe brukeren til samme side
+             }
+             
+             if(change.contains("Fjern")){ //Sjekker om knappen er en "fjern" eller "Registrer
+                 String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
+                 memt.unRegister(name, out);
+                 memt.removeFromModulKanal(name, out);
+                 response.sendRedirect("MedlemsListeVlet");
+                 
+             }
+             }else if(request.isUserInRole("RegistrertStudent")){ //Studenter ser kun registrerte brukere
+                 out.print("Registrerte brukere: <br><br>");
+                 memt.printRegisteredMembers(out);
+             }
+           
+            
+            
+            out.println("</body>");
+            out.println("</html>");
         }
-
-        out.println("</body>");
-        out.println("</html>");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -98,8 +96,8 @@ public class ModuleAdded extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ModuleAdded.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException | NamingException ex) {
+            Logger.getLogger(MedlemsListeVlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -117,7 +115,9 @@ public class ModuleAdded extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleAdded.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MedlemsListeVlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(MedlemsListeVlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

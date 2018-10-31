@@ -1,3 +1,8 @@
+package Utilities;
+
+import java.io.PrintWriter;
+import static java.lang.System.out;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,6 +22,7 @@ import java.sql.SQLException;
  */
 public class ModuleTools {
     
+
     public void insertModule(String modul_navn, String modul_læringsmål, 
             String modul_tekst, String modul_status, int modul_fristdato, PrintWriter out) throws SQLException {
         String sql = "INSERT INTO slit.modul(modul_navn, modul_læringsmål, modul_tekst, "
@@ -25,6 +31,7 @@ public class ModuleTools {
        DbConnector db = new DbConnector();
         try(Connection conn = db.getConnection(out)){
                 try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+           
             pstmt.setString(1, modul_navn);
             pstmt.setString(2, modul_læringsmål);
             pstmt.setString(3, modul_tekst);
@@ -109,6 +116,9 @@ public class ModuleTools {
         }//try end
         }//try end
     }//showmodule end
+
+}//class end
+
     
     /**
      *
