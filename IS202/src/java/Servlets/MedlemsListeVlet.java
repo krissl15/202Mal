@@ -47,25 +47,32 @@ public class MedlemsListeVlet extends HttpServlet {
             out.println("<title>Servlet MedlemsListeVlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            MemberTools mt = new MemberTools();
+            MemberTools memt = new MemberTools();
             
+            if (request.isUserInRole("Foreleser")){ //Sjekk om brukeren er foreleser
             out.println("Registrerte medlemmer<br>");
-            mt.printRegisteredMembers(out);
+            memt.printMembersByRole("RegistrertStudent", out);
             out.println("<br>Ikke registrerte medlemmer<br>");
-            mt.printUnregisteredmembers(out);
+            memt.printMembersByRole("UregistrertStudent", out);
              String change = request.getParameter("member"); //alle knappene heter det samme ("member")
              if(change.contains("Registrer")){ //Sjekker om knappen er en "fjern" eller "Registrer
                  
                  String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
-                 mt.registerStudent(name, out);
-                 response.sendRedirect("MedlemsListeVlet");
+                 memt.registerStudent(name, out); //registrert brukeren når knappen blir trykket
+                 memt.addToModulKanal(name, out);
+                 response.sendRedirect("MedlemsListeVlet"); //Oppdaterer siden ved å directe brukeren til samme side
              }
              
              if(change.contains("Fjern")){ //Sjekker om knappen er en "fjern" eller "Registrer
                  String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
-                 mt.unRegister(name, out);
+                 memt.unRegister(name, out);
+                 memt.removeFromModulKanal(name, out);
                  response.sendRedirect("MedlemsListeVlet");
                  
+             }
+             }else if(request.isUserInRole("RegistrertStudent")){ //Studenter ser kun registrerte brukere
+                 out.print("Registrerte brukere: <br><br>");
+                 memt.printRegisteredMembers(out);
              }
            
             

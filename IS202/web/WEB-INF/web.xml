@@ -37,8 +37,9 @@
     <security-constraint>
         <!--  to access these pages  -->
         <web-resource-collection>
-            <web-resource-name>Modulside</web-resource-name>
+            <web-resource-name>DynamiskeSider</web-resource-name>
             <url-pattern>/ModuleMenu</url-pattern>
+            <url-pattern>/MedlemsListeVlet</url-pattern>
          </web-resource-collection>
         <!--  the user must have one of these roles  -->
         <auth-constraint>

@@ -107,9 +107,7 @@ public class ModuleTools {
         }//try end
     }//showmodule end
  
-    public void moduleMenu() throws SQLException{
-       
-    }
+
   
     
 }//class end
