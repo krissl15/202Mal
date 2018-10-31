@@ -109,7 +109,52 @@ public class ModuleTools {
         }//try end
         }//try end
     }//showmodule end
-
+ public void editModule(int modul_id, String modul_navn, String modul_læringsmål, 
+        String modul_tekst, String modul_status, int modul_fristdato, PrintWriter out){
+        String sql = "update modul set modul_id =?, modul_navn=?, modul_læringsmål=?, "
+                + "modul_tekst=?, modul_status=?, modul_fristdato=?";
+        
+        DbConnector db = new DbConnector();
+        try(Connection conn = db.getConnection(out)){
+        try(PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setInt(1, modul_id);
+            pstm.setString(2, modul_navn);
+            pstm.setString(3, modul_læringsmål);
+            pstm.setString(4, modul_tekst);
+            pstm.setString(5, modul_status);
+            pstm.setInt(6, modul_fristdato);
+            pstm.executeUpdate();
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());   
+        }
+    }     catch (SQLException e) {
+            Logger.getLogger(ModuleTools.class.getName()).log(Level.SEVERE, null, e);
+    }
+    }
+    public void edit(int intID, String modul_navn, String modul_læringsmål, String modul_tekst, String modul_status, int intDato, PrintWriter out) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+      
+  
+    public void deleteModule(int modul_id, PrintWriter out){
+        String sql = "DELETE FROM slit.module where Modul_id =?";
+        
+        DbConnector db = new DbConnector();
+        try(Connection conn = db.getConnection(out)){
+        try(PreparedStatement pstm = conn.prepareStatement(sql)) {
+            pstm.setInt(1, modul_id);
+            pstm.executeUpdate();
+        } catch (SQLException e) {
+            
+            System.out.println(e.getMessage());   
+    }
+    }   catch (SQLException ex) {   
+            Logger.getLogger(ModuleTools.class.getName()).log(Level.SEVERE, null, ex);
+    }   
+    }
+    
+    
   
     
 }//class end
