@@ -119,65 +119,46 @@ public class ModuleTools {
 
 }//class end
 
-    
-    /**
-     *
-     * @param modul_id
-     * @param modul_navn
-     * @param modul_læringsmål
-     * @param modul_tekst
-     * @param modul_status
-     * @param modul_fristdato
-     * @param out
-     */
-    public void editModule(int modul_id, String modul_navn, String modul_læringsmål, 
+     public void editModule(int modul_id, String modul_navn, String modul_læringsmål, 
         String modul_tekst, String modul_status, int modul_fristdato, PrintWriter out){
-        String sql = "UPDATE modul SET modul_navn=?, modul_læringsmål=?, "
+        String sql = "UPDATE slit.modul SET modul_navn=?, modul_læringsmål=?, "
                 + "modul_tekst=?, modul_status=?, modul_fristdato=? WHERE modul_id =?";
         
         DbConnector db = new DbConnector();
         try(Connection conn = db.getConnection(out)){
-        try(PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setString(2, modul_navn);
-            pstm.setString(3, modul_læringsmål);
-            pstm.setString(4, modul_tekst);
-            pstm.setString(5, modul_status);
-            pstm.setInt(6, modul_fristdato);
-            pstm.executeUpdate();
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, modul_navn);
+            pstmt.setString(2, modul_læringsmål);
+            pstmt.setString(3, modul_tekst);
+            pstmt.setString(4, modul_status);
+            pstmt.setInt(5, modul_fristdato);
+            pstmt.executeUpdate();
             
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());   
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());   
         }
-    }     catch (SQLException e) {
-            Logger.getLogger(ModuleTools.class.getName()).log(Level.SEVERE, null, e);
+    }     catch (SQLException ex) {
+            Logger.getLogger(ModuleTools.class.getName()).log(Level.SEVERE, null, ex);
     }
     }
-     
-  
+    
     public void deleteModule(int modul_id, PrintWriter out){
-        String sql = "DELETE FROM slit.module where Modul_id =?";
+        String sql = "DELETE FROM slit.modul WHERE Modul_id =?";
         
         DbConnector db = new DbConnector();
         try(Connection conn = db.getConnection(out)){
-        try(PreparedStatement pstm = conn.prepareStatement(sql)) {
-            pstm.setInt(1, modul_id);
-            pstm.executeUpdate();
-        } catch (SQLException e) {
+        try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, modul_id);
+            pstmt.executeUpdate();
+        } catch (SQLException ex) {
             
-            System.out.println(e.getMessage());   
+            System.out.println(ex.getMessage());   
     }
     }   catch (SQLException ex) {   
             Logger.getLogger(ModuleTools.class.getName()).log(Level.SEVERE, null, ex);
     }   
     }
 
-    public void edit(int intID, String modul_navn, String modul_læringsmål, String modul_tekst, String modul_status, int intDato, PrintWriter out) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void edit(String modul_navn, String modul_læringsmål, String modul_tekst, String modul_status, int intDato, PrintWriter out) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     
 }//class end
