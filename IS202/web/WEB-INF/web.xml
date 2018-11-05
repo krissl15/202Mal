@@ -20,7 +20,7 @@
      <security-constraint>
         <!--  to access these pages  -->
         <web-resource-collection>
-            <web-resource-name>MainPage</web-resource-name>
+            <web-resource-name>Hovedside</web-resource-name>
             <url-pattern>/MainPage</url-pattern>
          </web-resource-collection>
         <!--  the user must have one of these roles  -->
@@ -29,7 +29,9 @@
             <role-name>UregistrertStudent</role-name>
             <role-name>Foreleser</role-name>
             <role-name>Hjelpelærer</role-name>
+            
         </auth-constraint>
+        
     </security-constraint>
     
     <security-constraint>
@@ -37,14 +39,18 @@
         <web-resource-collection>
             <web-resource-name>DynamiskeSider</web-resource-name>
             <url-pattern>/ModuleMenu</url-pattern>
+            <url-pattern>/ModulPage</url-pattern>
             <url-pattern>/MedlemsListeVlet</url-pattern>
-         </web-resource-collection>
+            <url-pattern>/InnleveringsVlet</url-pattern>
+        </web-resource-collection>
         <!--  the user must have one of these roles  -->
         <auth-constraint>
             <role-name>RegistrertStudent</role-name>
             <role-name>Foreleser</role-name>
             <role-name>Hjelpelærer</role-name>
+            
         </auth-constraint>
+        
     </security-constraint>
     
 
