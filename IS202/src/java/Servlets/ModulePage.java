@@ -49,14 +49,13 @@ public class ModulePage extends HttpServlet {
             out.println("<title>Servlet ModulePage</title>");
             out.println("</head>");
             out.println("<body>");
-
+            out.println("modulside");
             ModuleTools mT = new ModuleTools();
             String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
+            int intModuleNr = Integer.parseInt(moduleNr);
 
             DbConnector db = new DbConnector();
             try (Connection conn = db.getConnection(out)) {
-
-                //modulnavn print start   
                 try (Statement st = conn.createStatement()) {
                     String moduleQ = "select modul_id from modul";
                     ResultSet rsModules = st.executeQuery(moduleQ);
@@ -69,9 +68,28 @@ public class ModulePage extends HttpServlet {
                             out.println("Name of module: ");
                             mT.showModule(nr, out);
 
-                        }
-                    }
-                }
+                        }//end if
+                    }//end while
+                }//end preparedstatement
+            }//end connection
+
+            if (request.isUserInRole("Foreleser")) {
+                out.print("<form action=\"ModuleEdit\" method=\"post\">\n"
+                        + "                <input type=\"Submit\" name=\"btnEdit\" value=\"Rediger modul\"> <br>  \n"
+                        + "               </form>");
+                out.print("<form action=\"DeleteModuleVlet\" method=\"post\">\n"
+                        + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett Modul " + moduleNr + "\"><br>"
+                        + "               </form>");
+            }
+
+            /*
+            *Lever oppgave-knapp
+             */
+            if (request.isUserInRole("RegistrertStudent")) {
+
+                out.println("<form action=\"InnleveringVlet\" method=\"post\">\n"
+                        + "<input type=\"Submit\" name=\"deliverModule\" value=\"Lever Modul " + moduleNr + "\" \n"
+                        + "<form>  \n");
             }
 
             out.println("</body>");
