@@ -137,10 +137,10 @@ public class ModuleTools {
             psStatus.setString(1, name);
             psStatus.setInt(2, moduleID);
 
-            ResultSet rsStatus = psStatus.executeQuery();
+            try(ResultSet rsStatus = psStatus.executeQuery()){
             while (rsStatus.next()) {
                 deliveryStatus = rsStatus.getString("mk_status");
-
+            }
             }
         }//end connection
         return deliveryStatus;
