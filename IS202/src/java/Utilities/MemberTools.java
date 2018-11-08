@@ -40,11 +40,20 @@ public class MemberTools {
                         out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MedlemsListeVlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\"><br>");
+                        out.println("<form action=\"MedlemsListeVlet\" method=\"post\">"
+                                + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
                     } else if (rolle.equals("UregistrertStudent")) {
                         out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MedlemsListeVlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Registrer " + userName + "\"><br>");
                     }
+                    else if (rolle.equals("Assistent")) {
+                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.println("<form action=\"MedlemsListeVlet\" method=\"post\">"
+                                + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
+                    }
+
+                               
                 }
             }
         }
@@ -87,11 +96,35 @@ public class MemberTools {
             }
         }
     }
+    
+    public void registerAssistent(String name, PrintWriter out) throws SQLException {
+        String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+            try (PreparedStatement ps = conn.prepareStatement(updateQ)) {
+                ps.setString(1, "Assistent");
+                ps.setString(2, name);
+                ps.executeUpdate();
+            }
+        }
+    }
 
     /*
     *@Param name of student to unregister
      */
     public void unRegister(String name, PrintWriter out) throws SQLException {
+        String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement ps = conn.prepareStatement(updateQ)) {
+                ps.setString(1, "UregistrertStudent");
+                ps.setString(2, name);
+                ps.executeUpdate();
+            }
+        
+    }
+    
+        public void unRegisterAssistent(String name, PrintWriter out) throws SQLException {
         String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
