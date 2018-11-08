@@ -54,7 +54,10 @@ public class MedlemsListeVlet extends HttpServlet {
             memt.printMembersByRole("RegistrertStudent", out);
             out.println("<br>Ikke registrerte medlemmer<br>");
             memt.printMembersByRole("UregistrertStudent", out);
+            out.println("<br>Assistenter<br>");
+            memt.printMembersByRole("Assistent",out);
              String change = request.getParameter("member"); //alle knappene heter det samme ("member")
+             
              if(change.contains("Registrer")){ //Sjekker om knappen er en "fjern" eller "Registrer
                  
                  String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
@@ -70,9 +73,24 @@ public class MedlemsListeVlet extends HttpServlet {
                  response.sendRedirect("MedlemsListeVlet");
                  
              }
-             }else if(request.isUserInRole("RegistrertStudent")){ //Studenter ser kun registrerte brukere
+             
+               if(change.contains("Ta bort assistent")){ //Sjekker om knappen er en "fjern" eller "Registrer
+                 String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
+                 memt.unRegisterAssistent(name, out);
+                 response.sendRedirect("MedlemsListeVlet");
+                 
+             }
+             
+             if(change.contains("Assistent")){
+                 String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
+                 memt.registerAssistent(name, out);
+                 response.sendRedirect("MedlemsListeVlet");
+            }
+             
+                       }else if(request.isUserInRole("RegistrertStudent")){ //Studenter ser kun registrerte brukere
                  out.print("Registrerte brukere: <br><br>");
                  memt.printRegisteredMembers(out);
+                       
              }
            
             
