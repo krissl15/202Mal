@@ -28,7 +28,7 @@
             <role-name>RegistrertStudent</role-name>
             <role-name>UregistrertStudent</role-name>
             <role-name>Foreleser</role-name>
-            <role-name>Hjelpelærer</role-name>
+            <role-name>Assistent</role-name>
             
         </auth-constraint>
         
@@ -49,7 +49,7 @@
         <auth-constraint>
             <role-name>RegistrertStudent</role-name>
             <role-name>Foreleser</role-name>
-            <role-name>Hjelpelærer</role-name>
+            <role-name>Assistent</role-name>
             
         </auth-constraint>
         
@@ -67,7 +67,7 @@
         <role-name>UregistrertStudent</role-name>
     </security-role>
     <security-role>
-        <role-name>Hjelpelærer</role-name>
+        <role-name>Assistent</role-name>
     </security-role>
 
     <!-- which realm to use -->
