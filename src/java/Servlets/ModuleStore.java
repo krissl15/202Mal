@@ -5,14 +5,10 @@
  */
 package Servlets;
 
-import Utilities.DbConnector;
 import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -23,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Doffen
+ * @author phuonghapham
  */
-@WebServlet(name = "ModulePage", urlPatterns = {"/ModulePage"})
-public class ModulePage extends HttpServlet {
+@WebServlet(name = "ModuleStore", urlPatterns = {"/ModuleStore"})
+public class ModuleStore extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,55 +42,44 @@ public class ModulePage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModulePage</title>");
-            out.println("</head>");
+            out.println("<title>Servlet ModuleStore</title>");            
+            out.println("</head>");        
             out.println("<body>");
+            
             ModuleTools mT = new ModuleTools();
-            String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
-            int intModuleNr = Integer.parseInt(moduleNr);
+            
+            
+            String btnEdit = request.getParameter("btnEdit");
+            String moduleNr = btnEdit.substring(btnEdit.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change
+            int modulID = Integer.parseInt(moduleNr);
+            
+            String getName = mT.getModuleName(modulID, out);
+            String getGoal = mT.getGoal(modulID, out);
+            String getText = mT.getText(modulID, out);
+            String getStatus = mT.getStatus(modulID, out);
+            String getDate = mT.getDate(modulID, out);
 
-            DbConnector db = new DbConnector();
-            try (Connection conn = db.getConnection(out)) {
-                try (Statement st = conn.createStatement()) {
-                    String moduleQ = "select modul_id from modul";
-                    ResultSet rsModules = st.executeQuery(moduleQ);
-                    while (rsModules.next()) {
-                        String modulID = rsModules.getString("modul_id");
-                        if (moduleNr.equals(modulID)) { //Sjekker om knappene inneholder tallet på modulen i navnet
-                            //modul1 her
-                            int intID = Integer.parseInt(modulID);
-                            int nr = intID;
-                            out.println("Name of module: ");
-                            mT.showModule(nr, out);
 
-                        }//end if
-                    }//end while
-                }//end preparedstatement
-            }//end connection
-
-            if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"ModuleStore\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnEdit\" value=\"Rediger modul " + intModuleNr + "\"<br>  \n"
-                        + "               </form>");
-                out.print("<form action=\"DeleteModuleVlet\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett Modul " + intModuleNr + "\"><br>"
-                        + "               </form>");
-            }
-
-            /*
-            *Lever oppgave-knapp
-             */
-            if (request.isUserInRole("RegistrertStudent")) {
-
-                out.println("<form action=\"InnleveringVlet\" method=\"post\">\n"
-                        + "<input type=\"Submit\" name=\"deliverModule\" value=\"Lever Modul " + moduleNr + "\" \n"
-                        + "<form>  \n");
-            }
+            out.println("Registrer modul " + modulID);
+            out.println("<form action=\"ModuleEdit\" method=\"POST\">\n" +
+            "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\""+ getName + "\"><br>" +
+            "Modul læringsmål <input type=\"text\" name=\"textGoal1\" placeholder=\"Oppdater læringsmål\" value=\""+ getGoal + "\"><br>" +
+"Modul tekst <input type=\"text\" name=\"textModule1\" placeholder=\"Oppdater tekst på modulen\" value=\""+ getText + "\"><br>" +
+"Modul status <input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/inaktiv\" value=\""+ getStatus + "\"><br>" +
+"Modul fristdato <input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\""+ getDate + "\"><br>" +
+"\n" +
+"<input type=\"Submit\" name=\"btnAdd\" value=\"Oppdater modul " + modulID +"\">\n" +
+"</form>\n" +
+"<br>");
+            out.println("<form action=\"ModuleMenu\" method=\"POST\">\n" +
+"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
+"</form>");
 
             out.println("</body>");
             out.println("</html>");
         }
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -111,7 +96,7 @@ public class ModulePage extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModulePage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleStore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -129,7 +114,7 @@ public class ModulePage extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModulePage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleStore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -143,4 +128,4 @@ public class ModulePage extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-}
+    }

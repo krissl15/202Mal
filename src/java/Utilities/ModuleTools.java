@@ -20,16 +20,16 @@ public class ModuleTools {
      * @param out
      * @throws SQLException
      */
-    public void insertModule(String modul_navn, String modul_læringsmål, 
+   public void insertModule(String modul_navn, String modul_goal, 
             String modul_tekst, String modul_status, int modul_fristdato, PrintWriter out) throws SQLException {
-        String sql = "INSERT INTO slit.modul(modul_navn, modul_læringsmål, modul_tekst, "
+        String sql = "INSERT INTO slit.modul(modul_navn, modul_goal, modul_tekst, "
                 + "modul_status, modul_fristdato) VALUES(?,?,?,?,?)";
         
        DbConnector db = new DbConnector();
         try(Connection conn = db.getConnection(out)){
                 try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, modul_navn);
-            pstmt.setString(2, modul_læringsmål);
+            pstmt.setString(2, modul_goal);
             pstmt.setString(3, modul_tekst);
             pstmt.setString(4, modul_status);
             pstmt.setInt(5, modul_fristdato);
@@ -42,7 +42,6 @@ public class ModuleTools {
 
         }
 
-
     /**
      *
      * @param moduleID
@@ -52,7 +51,7 @@ public class ModuleTools {
     public void showModule(int moduleID, PrintWriter out) throws SQLException {
         String selectName = "select modul_navn from modul where modul_id =?"; //modulnavn
         String selectTekst = "select modul_tekst from modul where modul_id=?";
-        String selectLæringsmål = "select modul_læringsmål from modul where modul_id=?";
+        String selectGoal = "select modul_goal from modul where modul_id=?";
         String selectStatus = "select modul_status from modul where modul_id=?";
         String selectFristdato = "select modul_fristdato from modul where modul_id=?";
         DbConnector db = new DbConnector();
@@ -77,12 +76,12 @@ public class ModuleTools {
                             //modulTekst print slutt
 
                             //modulLæringsmål print start
-                            try (PreparedStatement læringsmål = conn.prepareStatement(selectLæringsmål)) {
-                                læringsmål.setInt(1, moduleID);
-                                ResultSet rsLæringsmål = læringsmål.executeQuery();
-                                while (rsLæringsmål.next()) {
-                                    String modulLæringsmål = rsLæringsmål.getString("modul_læringsmål");
-                                    out.println("Læringsmål: " + modulLæringsmål + "<br>");
+                            try (PreparedStatement goal = conn.prepareStatement(selectGoal)) {
+                                goal.setInt(1, moduleID);
+                                ResultSet rsGoal = goal.executeQuery();
+                                while (rsGoal.next()) {
+                                    String modulGoal = rsGoal.getString("modul_goal");
+                                    out.println("Læringsmål: " + modulGoal + "<br>");
                                     //modulLæringsmål print slutt
 
                                     //modulStatus print start
@@ -119,6 +118,96 @@ public class ModuleTools {
         }//try end
     }//showmodule end
 
+    public String getModuleName(int moduleID, PrintWriter out) throws SQLException{
+        String psModulNavn = "select modul_navn from modul where modul_id=?";
+        String modulNavn = null;
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psStatus = conn.prepareStatement(psModulNavn)) {
+            psStatus.setInt(1, moduleID);
+
+            try(ResultSet rsModulNavn = psStatus.executeQuery()){
+            while (rsModulNavn.next()) {
+                modulNavn = rsModulNavn.getString("modul_navn");
+            }
+            }
+        }//end connection
+        return modulNavn;    
+    }
+    
+        public String getGoal(int moduleID, PrintWriter out) throws SQLException{
+        String psModuleGoal = "select modul_goal from modul where modul_id=?";
+        String moduleGoal = null;
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psStatus = conn.prepareStatement(psModuleGoal)) {
+            psStatus.setInt(1, moduleID);
+
+            try(ResultSet rsModuleGoal = psStatus.executeQuery()){
+            while (rsModuleGoal.next()) {
+                moduleGoal = rsModuleGoal.getString("modul_goal");
+            }
+            }
+        }//end connection
+        return moduleGoal;    
+    }
+        
+    public String getText(int moduleID, PrintWriter out) throws SQLException{
+        String psModuleText = "select modul_tekst from modul where modul_id=?";
+        String moduleText = null;
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psStatus = conn.prepareStatement(psModuleText)) {
+            psStatus.setInt(1, moduleID);
+
+            try(ResultSet rsModuleText = psStatus.executeQuery()){
+            while (rsModuleText.next()) {
+                moduleText = rsModuleText.getString("modul_tekst");
+            }
+            }
+        }//end connection
+        return moduleText;    
+    }
+    
+    public String getStatus(int moduleID, PrintWriter out) throws SQLException{
+        String psModuleStatus = "select modul_status from modul where modul_id=?";
+        String moduleStatus = null;
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psStatus = conn.prepareStatement(psModuleStatus)) {
+            psStatus.setInt(1, moduleID);
+
+            try(ResultSet rsModuleStatus = psStatus.executeQuery()){
+            while (rsModuleStatus.next()) {
+                moduleStatus = rsModuleStatus.getString("modul_status");
+            }
+            }
+        }//end connection
+        return moduleStatus;    
+    }
+    
+        public String getDate(int moduleID, PrintWriter out) throws SQLException{
+        String psModuleDate = "select modul_fristdato from modul where modul_id=?";
+        String moduleDate = null;
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psStatus = conn.prepareStatement(psModuleDate)) {
+            psStatus.setInt(1, moduleID);
+
+            try(ResultSet rsModuleDate = psStatus.executeQuery()){
+            while (rsModuleDate.next()) {
+                moduleDate = rsModuleDate.getString("modul_fristdato");
+            }
+            }
+        }//end connection
+        return moduleDate;    
+    }
+            
     /**
      *
      * @param name
@@ -145,7 +234,6 @@ public class ModuleTools {
         }//end connection
         return deliveryStatus;
     }//method end 
-    
 /**
  * 
  * @param modul_id
@@ -168,5 +256,26 @@ public class ModuleTools {
         }
     }
     
+    public void updateModule(int modulID, String modul_navn, String modul_goal, 
+            String modul_tekst, String modul_status, String modul_fristdato, PrintWriter out) throws SQLException{
+        String upd ="UPDATE slit.modul SET modul_navn =?, modul_goal=?, modul_tekst=?, modul_status=?, modul_fristdato=? WHERE modul_id=?";
+                 DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement updModule = conn.prepareStatement(upd)){
+            updModule.setString(1, modul_navn);
+            updModule.setString(2, modul_goal);
+            updModule.setString(3, modul_tekst);
+            updModule.setString(4, modul_status);
+            updModule.setString(5, modul_fristdato);
+            updModule.setInt(6, modulID);
+      
+            updModule.executeUpdate();
+        
+                
+      } // end try     // end try     
+         catch (SQLException ex) {
+                out.println("Ikke fått oppdatert modul " +ex);
+         }
+  }
 
 }//class end
