@@ -2,10 +2,11 @@ package Servlets;
 
 import Utilities.DbConnector;
 import Utilities.ModuleTools;
-import Utilities.RandomTools;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,7 +47,6 @@ public class ModuleMenu extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
   
-            
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
 
@@ -67,9 +67,6 @@ public class ModuleMenu extends HttpServlet {
 "                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br><br>  \n" +
 "            </form>");
             }
-             
-             RandomTools rt = new RandomTools();
-             rt.homeButton(out);
             
            
              
