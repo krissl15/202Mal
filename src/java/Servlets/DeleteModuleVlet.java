@@ -44,7 +44,7 @@ public class DeleteModuleVlet extends HttpServlet {
             out.println("<title>Servlet DeleteModuleVlet</title>");
             out.println("</head>");
             out.println("<body>");
-
+/////////////////////cock here
             String btnDelete = request.getParameter("btnDelete");
             String moduleNr = btnDelete.substring(btnDelete.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change).
             int intModuleNr = Integer.parseInt(moduleNr);
