@@ -51,8 +51,9 @@ public class DeleteModuleVlet extends HttpServlet {
 
             ModuleTools mt = new ModuleTools();
 
-            mt.deleteModule(intModuleNr, out);
+            //mt.deleteModule(intModuleNr, out);
 
+            out.println("fjern markeringen over");
             out.println("modulen er slettet");
 
             out.print("<form action=\"ModuleMenu\" method=\"post\">\n"
