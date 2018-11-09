@@ -49,7 +49,6 @@ public class ModulePage extends HttpServlet {
             out.println("<title>Servlet ModulePage</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("modulside");
             ModuleTools mT = new ModuleTools();
             String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
             int intModuleNr = Integer.parseInt(moduleNr);
@@ -74,11 +73,11 @@ public class ModulePage extends HttpServlet {
             }//end connection
 
             if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"ModuleEdit\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnEdit\" value=\"Rediger modul\"> <br>  \n"
+                out.print("<form action=\"ModuleStore\" method=\"post\">\n"
+                        + "                <input type=\"Submit\" name=\"btnEdit\" value=\"Rediger modul " + intModuleNr + "\"<br>  \n"
                         + "               </form>");
                 out.print("<form action=\"DeleteModuleVlet\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett Modul " + moduleNr + "\"><br>"
+                        + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett Modul " + intModuleNr + "\"><br>"
                         + "               </form>");
             }
 
