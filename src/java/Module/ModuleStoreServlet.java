@@ -61,6 +61,7 @@ public class ModuleStoreServlet extends HttpServlet {
 
             out.println("Registrer modul " + modulID);
             out.println("<form action=\"ModuleEditServlet\" method=\"POST\">\n" +
+            "Modul ID <input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modulnavn\" value=\""+ modulID + "\"><br>" +
             "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\""+ getName + "\"><br>" +
             "Modul læringsmål <input type=\"text\" name=\"textGoal1\" placeholder=\"Oppdater læringsmål\" value=\""+ getGoal + "\"><br>" +
 "Modul tekst <input type=\"text\" name=\"textModule1\" placeholder=\"Oppdater tekst på modulen\" value=\""+ getText + "\"><br>" +
