@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package Module;
 
-import Module.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -19,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Doffen
+ * @author phuonghapham
  */
-@WebServlet(name = "DeleteModuleVlet", urlPatterns = {"/DeleteModuleVlet"})
-public class DeleteModuleVlet extends HttpServlet {
+@WebServlet(name = "ModuleStoreServlet", urlPatterns = {"/ModuleStoreServlet"})
+public class ModuleStoreServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,6 +31,7 @@ public class DeleteModuleVlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -41,25 +41,44 @@ public class DeleteModuleVlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteModuleVlet</title>");
-            out.println("</head>");
+            out.println("<title>Servlet ModuleStore</title>");            
+            out.println("</head>");        
             out.println("<body>");
-            String btnDelete = request.getParameter("btnDelete");
-            String moduleNr = btnDelete.substring(btnDelete.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change).
-            int intModuleNr = Integer.parseInt(moduleNr);
+            
+            ModuleTools mT = new ModuleTools();
+            
+            
+            String btnEdit = request.getParameter("btnEdit");
+            String moduleNr = btnEdit.substring(btnEdit.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change
+            int modulID = Integer.parseInt(moduleNr);
+            
+            String getName = mT.getModuleName(modulID, out);
+            String getGoal = mT.getGoal(modulID, out);
+            String getText = mT.getText(modulID, out);
+            String getStatus = mT.getStatus(modulID, out);
+            String getDate = mT.getDate(modulID, out);
 
-            ModuleTools mt = new ModuleTools();
 
-            mt.deleteModule(intModuleNr, out);
-            out.println("modulen er slettet");
+            out.println("Registrer modul " + modulID);
+            out.println("<form action=\"ModuleEditServlet\" method=\"POST\">\n" +
+            "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\""+ getName + "\"><br>" +
+            "Modul læringsmål <input type=\"text\" name=\"textGoal1\" placeholder=\"Oppdater læringsmål\" value=\""+ getGoal + "\"><br>" +
+"Modul tekst <input type=\"text\" name=\"textModule1\" placeholder=\"Oppdater tekst på modulen\" value=\""+ getText + "\"><br>" +
+"Modul status <input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/inaktiv\" value=\""+ getStatus + "\"><br>" +
+"Modul fristdato <input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\""+ getDate + "\"><br>" +
+"\n" +
+"<input type=\"Submit\" name=\"btnAdd\" value=\"Oppdater modul " + modulID +"\">\n" +
+"</form>\n" +
+"<br>");
+            out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
+"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
+"</form>");
 
-            out.print("<form action=\"ModuleMenu\" method=\"post\">\n"
-                    + "                <input type=\"Submit\" name=\"btnBack\" value=\"Til Menyen\"> <br>  \n"
-                    + "               </form>");
             out.println("</body>");
             out.println("</html>");
         }
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -76,7 +95,7 @@ public class DeleteModuleVlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(DeleteModuleVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleStoreServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -94,7 +113,7 @@ public class DeleteModuleVlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(DeleteModuleVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleStoreServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -108,4 +127,4 @@ public class DeleteModuleVlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-}
+    }

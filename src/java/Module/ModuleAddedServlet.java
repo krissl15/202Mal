@@ -1,14 +1,14 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Module;
 
-import Utilities.DbConnector;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Doffen
+ * @author asmundfagstad
  */
-@WebServlet(name = "ModuleMenu", urlPatterns = {"/ModuleMenu"})
-public class ModuleMenu extends HttpServlet {
+@WebServlet(name = "ModuleAddedServlet", urlPatterns = {"/ModuleAddedServlet"})
+public class ModuleAddedServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,36 +42,44 @@ public class ModuleMenu extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleMenu</title>");            
+            out.println("<title>Servlet ModuleAdded</title>");
             out.println("</head>");
             out.println("<body>");
-  
-        DbConnector db = new DbConnector();
-        try (Connection conn = db.getConnection(out)) {
+            out.println("<body>\n"
+                    + "        <div>\n"
+                    + "            <p>Registrer modul</p>\n"
+                    + "\n"
+                    + "            <form>\n"
+                    + "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n"
+                    + "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n"
+                    + "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n"
+                    + "                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/inaktiv\"> <br><br>  \n"
+                    + "                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n"
+                    + "\n"
+                    + "\n"
+                    + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n"
+                    + "            </form>\n"
+                    + "        </div>\n"
+                    + "        <div>\n");
 
-            //modulnavn print start   
-            try (Statement st = conn.createStatement()) {
-                 String moduleQ = "select modul_id from modul";
-                ResultSet rsModules = st.executeQuery(moduleQ);
-                while (rsModules.next()) {
-                    String modulID = rsModules.getString("modul_id");
-                    out.println("<form action=\"ModulePage\" method=\"post\">"
-                            + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
-                }//registrerte brukere slutt
-            }
-        }
             
-             if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"ModuleAdded\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br><br>  \n" +
-"            </form>");
-            }
+            String modul_navn = request.getParameter("textmoduleName");
+            String modul_læringsmål = request.getParameter("textGoal");
+            String modul_tekst = request.getParameter("textModule");
+            String modul_status;
+            modul_status = request.getParameter("textStatus");
+            String modul_fristdato = request.getParameter("textDate");
+
             
-           
-             
-            out.println("</body>");
-            out.println("</html>");
+            int intDato = Integer.parseInt(modul_fristdato);
+
+            ModuleTools mt = new ModuleTools();
+
+            mt.insertModule(modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
         }
+
+        out.println("</body>");
+        out.println("</html>");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -89,7 +97,7 @@ public class ModuleMenu extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleAddedServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -107,7 +115,7 @@ public class ModuleMenu extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleMenu.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleAddedServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

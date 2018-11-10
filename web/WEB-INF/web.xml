@@ -38,11 +38,11 @@
         <!--  to access these pages  -->
         <web-resource-collection>
             <web-resource-name>DynamiskeSider</web-resource-name>
-            <url-pattern>/ModuleMenu</url-pattern>
-            <url-pattern>/ModulePage</url-pattern>
-            <url-pattern>/MedlemsListeVlet</url-pattern>
-            <url-pattern>/InnleveringVlet</url-pattern>
-            <url-pattern>/DeleteModuleVlet</url-pattern>
+            <url-pattern>/ModuleMenuServlet</url-pattern>
+            <url-pattern>/ModulePageServlet</url-pattern>
+            <url-pattern>/MemberListServlet</url-pattern>
+            <url-pattern>/InnleveringServlet</url-pattern>
+            <url-pattern>/DeleteModuleServlet</url-pattern>
 
         </web-resource-collection>
         <!--  the user must have one of these roles  -->

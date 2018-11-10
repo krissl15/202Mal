@@ -1,12 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Servlets;
+package Module;
 
+import Utilities.DbConnector;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Doffen
  */
-@WebServlet(name = "MainPage", urlPatterns = {"/MainPage"})
-public class MainPage extends HttpServlet {
+@WebServlet(name = "ModuleMenuServlet", urlPatterns = {"/ModuleMenuServlet"})
+public class ModuleMenuServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,30 +32,43 @@ public class MainPage extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MainPage</title>");            
+            out.println("<title>Servlet ModuleMenu</title>");            
             out.println("</head>");
             out.println("<body>");
-            
-            if(request.isUserInRole("UregistrertStudent")){
-            out.println("Du er ikke registrert i dette faget.<br>"
-                    + "Få en foreleser til å registrere deg");
-            }else{
-             out.println("<form action=\"ModuleMenu\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnModuler\" value=\"Moduler\"> <br><br>  \n" +
-"            </form>  \n" + "<form action=\"MedlemsListeVlet\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnMedlemsListe\" value=\"Medlemsliste\"> <br><br>  \n" +
-"            </form>");   
+  
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+
+            //modulnavn print start   
+            try (Statement st = conn.createStatement()) {
+                 String moduleQ = "select modul_id from modul";
+                ResultSet rsModules = st.executeQuery(moduleQ);
+                while (rsModules.next()) {
+                    String modulID = rsModules.getString("modul_id");
+                    out.println("<form action=\"ModulePageServlet\" method=\"post\">"
+                            + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
+                }//registrerte brukere slutt
             }
-                    
+        }
+            
+             if (request.isUserInRole("Foreleser")) {
+                out.print("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br><br>  \n" +
+"            </form>");
+            }
+            
+           
+             
             out.println("</body>");
             out.println("</html>");
         }
@@ -69,7 +86,11 @@ public class MainPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ModuleMenuServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -83,7 +104,11 @@ public class MainPage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ModuleMenuServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package Members;
 
-import Utilities.MemberTools;
 import Utilities.RandomTools;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Doffen
  */
-@WebServlet(name = "MedlemsListeVlet", urlPatterns = {"/MedlemsListeVlet"})
-public class MedlemsListeVlet extends HttpServlet {
+@WebServlet(name = "MemberListServlet", urlPatterns = {"/MemberListServlet"})
+public class MemberListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -68,7 +67,7 @@ public class MedlemsListeVlet extends HttpServlet {
                     if (aCheck.contains(name)) { //checkbox check
                         memt.registerStudent(name, out); //registrert brukeren når knappen blir trykket
                         memt.addToModulKanal(name, out);
-                        response.sendRedirect("MedlemsListeVlet"); //Oppdaterer siden ved å directe brukeren til samme side
+                        response.sendRedirect("MemberListServlet"); //Oppdaterer siden ved å directe brukeren til samme side
                     }
                 }
 
@@ -77,21 +76,21 @@ public class MedlemsListeVlet extends HttpServlet {
                     if (rCheck.contains(name)) {
                         memt.unRegister(name, out);
                         memt.removeFromModulKanal(name, out);
-                        response.sendRedirect("MedlemsListeVlet");
+                        response.sendRedirect("MemberListServlet");
                     }
                 }
                 
                  if(change.contains("Ta bort assistent")){ //Sjekker om knappen er en "fjern" eller "Registrer
                  String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
                  memt.unRegister(name, out);
-                 response.sendRedirect("MedlemsListeVlet");
+                 response.sendRedirect("MemberListServlet");
                  
              }
              
              if(change.contains("Assistent")){
                  String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
                  memt.registerAssistent(name, out);
-                 response.sendRedirect("MedlemsListeVlet");
+                 response.sendRedirect("MemberListServlet");
             }
                 
                 
@@ -124,7 +123,7 @@ public class MedlemsListeVlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException | NamingException ex) {
-            Logger.getLogger(MedlemsListeVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MemberListServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -142,9 +141,9 @@ public class MedlemsListeVlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(MedlemsListeVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MemberListServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NamingException ex) {
-            Logger.getLogger(MedlemsListeVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MemberListServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
