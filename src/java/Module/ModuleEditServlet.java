@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author asmundfagstad
+ * @author BrageFagstad
  */
-@WebServlet(name = "ModuleAdded", urlPatterns = {"/ModuleAdded"})
-public class ModuleAdded extends HttpServlet {
+@WebServlet(name = "ModuleEditServlet", urlPatterns = {"/ModuleEditServlet"})
+public class ModuleEditServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +32,6 @@ public class ModuleAdded extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -42,46 +41,32 @@ public class ModuleAdded extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleAdded</title>");
+            out.println("<title>Servlet ModuleEdit</title>");            
             out.println("</head>");
+            
+            
             out.println("<body>");
-            out.println("<body>\n"
-                    + "        <div>\n"
-                    + "            <p>Registrer modul</p>\n"
-                    + "\n"
-                    + "            <form>\n"
-                    + "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n"
-                    + "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n"
-                    + "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n"
-                    + "                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/inaktiv\"> <br><br>  \n"
-                    + "                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n"
-                    + "\n"
-                    + "\n"
-                    + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n"
-                    + "            </form>\n"
-                    + "        </div>\n"
-                    + "        <div>\n");
-
+            String modul_navn = request.getParameter("textmoduleName1");
+            String modul_goal = request.getParameter("textGoal1");
+            String modul_tekst = request.getParameter("textModule1");
+            String modul_status = request.getParameter("textStatus1");
+            String modul_fristdato = request.getParameter("textDate1");
             
-            String modul_navn = request.getParameter("textmoduleName");
-            String modul_læringsmål = request.getParameter("textGoal");
-            String modul_tekst = request.getParameter("textModule");
-            String modul_status;
-            modul_status = request.getParameter("textStatus");
-            String modul_fristdato = request.getParameter("textDate");
-
+            String btnAdd = request.getParameter("btnAdd");
+            String moduleNr = btnAdd.substring(btnAdd.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change
+            int modulID = Integer.parseInt(moduleNr);
             
-            int intDato = Integer.parseInt(modul_fristdato);
-
             ModuleTools mt = new ModuleTools();
-
-            mt.insertModule(modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
+            mt.updateModule(modulID, modul_navn, modul_goal, modul_tekst, modul_status, modul_fristdato, out);
+            out.println("Modulen er oppdatert");
+            out.println("<form action=\"ModuleMenuServlet\" method=\"post\">\n"
+                    + "                <input type=\"Submit\" name=\"btnBack\" value=\"Tilbake\"> <br>  \n"
+                    + "               </form>");
+            out.println("</body>");
+            out.println("</html>");
         }
-
-        out.println("</body>");
-        out.println("</html>");
     }
-
+  
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -97,7 +82,7 @@ public class ModuleAdded extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleAdded.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleEditServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -115,7 +100,7 @@ public class ModuleAdded extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleAdded.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleEditServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -128,5 +113,4 @@ public class ModuleAdded extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

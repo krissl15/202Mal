@@ -5,9 +5,9 @@
  */
 package Module;
 
+import Module.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author BrageFagstad
+ * @author Doffen
  */
-@WebServlet(name = "ModuleEdit", urlPatterns = {"/ModuleEdit"})
-public class ModuleEdit extends HttpServlet {
+@WebServlet(name = "DeleteModuleServlet", urlPatterns = {"/DeleteModuleServlet"})
+public class DeleteModuleServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,32 +41,26 @@ public class ModuleEdit extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleEdit</title>");            
+            out.println("<title>Servlet DeleteModuleVlet</title>");
             out.println("</head>");
-            
-            
             out.println("<body>");
-            String modul_navn = request.getParameter("textmoduleName1");
-            String modul_goal = request.getParameter("textGoal1");
-            String modul_tekst = request.getParameter("textModule1");
-            String modul_status = request.getParameter("textStatus1");
-            String modul_fristdato = request.getParameter("textDate1");
-            
-            String btnAdd = request.getParameter("btnAdd");
-            String moduleNr = btnAdd.substring(btnAdd.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change
-            int modulID = Integer.parseInt(moduleNr);
-            
+            String btnDelete = request.getParameter("btnDelete");
+            String moduleNr = btnDelete.substring(btnDelete.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change).
+            int intModuleNr = Integer.parseInt(moduleNr);
+
             ModuleTools mt = new ModuleTools();
-            mt.updateModule(modulID, modul_navn, modul_goal, modul_tekst, modul_status, modul_fristdato, out);
-            out.println("Modulen er oppdatert");
-            out.println("<form action=\"ModuleMenu\" method=\"post\">\n"
-                    + "                <input type=\"Submit\" name=\"btnBack\" value=\"Tilbake\"> <br>  \n"
+
+            mt.deleteModule(intModuleNr, out);
+            out.println("modulen er slettet");
+
+            out.print("<form action=\"ModuleMenuServlet\" method=\"post\">\n"
+                    + "                <input type=\"Submit\" name=\"btnBack\" value=\"Til Menyen\"> <br>  \n"
                     + "               </form>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-  
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -82,7 +76,7 @@ public class ModuleEdit extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleEdit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeleteModuleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -100,7 +94,7 @@ public class ModuleEdit extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleEdit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeleteModuleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -113,4 +107,5 @@ public class ModuleEdit extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

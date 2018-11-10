@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Doffen
  */
-@WebServlet(name = "ModulePage", urlPatterns = {"/ModulePage"})
-public class ModulePage extends HttpServlet {
+@WebServlet(name = "ModulePageServlet", urlPatterns = {"/ModulePageServlet"})
+public class ModulePageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,10 +73,10 @@ public class ModulePage extends HttpServlet {
             }//end connection
 
             if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"ModuleStore\" method=\"post\">\n"
+                out.print("<form action=\"ModuleStoreServlet\" method=\"post\">\n"
                         + "                <input type=\"Submit\" name=\"btnEdit\" value=\"Rediger modul " + intModuleNr + "\"<br>  \n"
                         + "               </form>");
-                out.print("<form action=\"DeleteModuleVlet\" method=\"post\">\n"
+                out.print("<form action=\"DeleteModuleServlet\" method=\"post\">\n"
                         + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett Modul " + intModuleNr + "\"><br>"
                         + "               </form>");
             }
@@ -100,7 +100,7 @@ public class ModulePage extends HttpServlet {
            if(moduleStatus == "Levert"){ 
                 //SHIT SOM SKAL SKJE OM DEN ER LEVERT
             }else{
-            out.println("<form action=\"DeliveryVlet\" method=\"post\">\n"
+            out.println("<form action=\"DeliveryServlet\" method=\"post\">\n"
                     + "                <input type=\"text\" name=\"deliveryText\" placeholder=\"Youtube link/svartekst\"> <br><br>\n"
                     + "					<input type=\"submit\" name=\"btnDeliver\"  value=\"Lever Modul " + intModuleNr + "\"><br>"
                     + "            </form>  ");
@@ -130,7 +130,7 @@ public class ModulePage extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModulePage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModulePageServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -148,7 +148,7 @@ public class ModulePage extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModulePage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModulePageServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

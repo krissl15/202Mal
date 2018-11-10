@@ -38,19 +38,19 @@ public class MemberTools {
 
                     if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
                         out.println(userName + " (" + firstName + " " + surName + ")");
-                        out.println("<form action=\"MedlemsListeVlet\" method=\"post\">"
+                        out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\"><br>");
-                         out.println("<form action=\"MedlemsListeVlet\" method=\"post\">"
+                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
                     } else if (rolle.equals("UregistrertStudent")) {
                         out.println(userName + " (" + firstName + " " + surName + ")");
-                        out.println("<form action=\"MedlemsListeVlet\" method=\"post\">"
+                        out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"checkbox\" name=\"addCheck\" value=\"Add " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Registrer " + userName + "\"><br>");
                     }else if (rolle.equals("Assistent")) {
                         out.println(userName + " (" + firstName + " " + surName + ")");
-                        out.println("<form action=\"MedlemsListeVlet\" method=\"post\">"
+                        out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
                     }
                 }

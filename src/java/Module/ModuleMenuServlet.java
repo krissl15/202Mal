@@ -1,15 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Delivery;
+package Module;
 
+import Utilities.DbConnector;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Doffen
  */
-@WebServlet(name = "DeliveryVlet", urlPatterns = {"/DeliveryVlet"})
-public class DeliveryVlet extends HttpServlet {
+@WebServlet(name = "ModuleMenuServlet", urlPatterns = {"/ModuleMenuServlet"})
+public class ModuleMenuServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,6 +32,7 @@ public class DeliveryVlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -42,31 +42,33 @@ public class DeliveryVlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeliveryVlet</title>");
+            out.println("<title>Servlet ModuleMenu</title>");            
             out.println("</head>");
             out.println("<body>");
+  
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
 
-            String module = request.getParameter("btnDeliver");
-            String sModuleID = module.substring(module.lastIndexOf(" ") + 1); //siste ordet i knappen er nr. på modulen. 
+            //modulnavn print start   
+            try (Statement st = conn.createStatement()) {
+                 String moduleQ = "select modul_id from modul";
+                ResultSet rsModules = st.executeQuery(moduleQ);
+                while (rsModules.next()) {
+                    String modulID = rsModules.getString("modul_id");
+                    out.println("<form action=\"ModulePageServlet\" method=\"post\">"
+                            + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
+                }//registrerte brukere slutt
+            }
+        }
             
-            int moduleID = Integer.parseInt(sModuleID);
-            String userName = request.getRemoteUser(); //navnet på brukeren
+             if (request.isUserInRole("Foreleser")) {
+                out.print("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br><br>  \n" +
+"            </form>");
+            }
             
-            
-            
-          
-          String deliveryText = request.getParameter("deliveryText");
-          String date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()); //kanskje denne blir needed
-          
-          String btnDeliver = request.getParameter("btnDeliver");
-          if(btnDeliver.contains("Lever")){
-          response.sendRedirect("DeliveryVlet"); //Oppdaterer siden ved å directe brukeren til samme side
-
-          }
-          
-        
-
-            
+           
+             
             out.println("</body>");
             out.println("</html>");
         }
@@ -87,7 +89,7 @@ public class DeliveryVlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(DeliveryVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleMenuServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -105,7 +107,7 @@ public class DeliveryVlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(DeliveryVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleMenuServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
