@@ -130,7 +130,7 @@ public class MemberTools {
     public void addToModulKanal(String name, PrintWriter out) throws SQLException {
         String moduleQ = "select modul_id from modul";
         String insertModulKanal = "insert into modulkanal (brukernavn, modul_id)\n"
-                + "values(?, ?);";
+                + "values(?, ?, ?);";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);

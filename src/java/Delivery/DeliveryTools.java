@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Utilities;
+package Delivery;
 
+import Utilities.DbConnector;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -41,16 +43,41 @@ public class DeliveryTools {
 
     }//method end
 
-    public void getLastDeliveryByUser(String name, PrintWriter out) throws SQLException {
+    public int getLastDeliveryByUser(String name, PrintWriter out) throws SQLException {
         String qModulKanal = ("select innlevering_id from innlevering where brukernavn=? order by innlevering_id desc limit 1;");
+        Integer i = null;
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
                 PreparedStatement psUpdateModulKanal = conn.prepareStatement(qModulKanal)) {
-
             psUpdateModulKanal.setString(1, name);
 
-        }
+            ResultSet rsModulKanal = psUpdateModulKanal.executeQuery();
+            while (rsModulKanal.next()) {
+                i = rsModulKanal.getInt("innlevering_id");
+            }
+
+        }//end connection
+        return i;
     }
 
-    }//class end 
+    public String checkIfDelivered(String name, int moduleID, PrintWriter out) throws SQLException {
+        String qStatus = "select mk_status from modulkanal where brukernavn=? and modul_id=?";
+        String deliveryStatus = null;
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psStatus = conn.prepareStatement(qStatus)) {
+            psStatus.setString(1, name);
+            psStatus.setInt(2, moduleID);
+
+            try (ResultSet rsStatus = psStatus.executeQuery()) {
+                while (rsStatus.next()) {
+                    deliveryStatus = rsStatus.getString("mk_status");
+                }
+            }
+        }//end connection
+        return deliveryStatus;
+    }//method end 
+
+}//class end 

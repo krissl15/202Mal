@@ -5,7 +5,7 @@
  */
 package Servlets;
 
-import Utilities.ModuleTools;
+import Module.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
