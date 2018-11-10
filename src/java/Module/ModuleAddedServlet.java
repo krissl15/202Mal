@@ -5,6 +5,7 @@
  */
 package Module;
 
+import Utilities.RandomTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -50,6 +51,8 @@ public class ModuleAddedServlet extends HttpServlet {
                     + "            <p>Registrer modul</p>\n"
                     + "\n"
                     + "            <form>\n"
+                    + "		 <b>Modul ID</b><input type=\"text\" name=\"moduleID\" placeholder=\"Modul ID\"> <br><br>  \n"
+
                     + "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n"
                     + "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n"
                     + "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n"
@@ -62,8 +65,13 @@ public class ModuleAddedServlet extends HttpServlet {
                     + "        </div>\n"
                     + "        <div>\n");
 
+            out.println("<form action=\"MainPage\" >\n" +
+"<input type=\"Submit\" name=\"btnHome\" value=\"Hovedmeny\"> \n" +
+"</form>  ");
             
-            String modul_navn = request.getParameter("textmoduleName");
+           String modul_navn = request.getParameter("textmoduleName");
+            String module_id = request.getParameter("moduleID");
+            int intModuleId = Integer.parseInt(module_id);
             String modul_læringsmål = request.getParameter("textGoal");
             String modul_tekst = request.getParameter("textModule");
             String modul_status;
@@ -75,8 +83,10 @@ public class ModuleAddedServlet extends HttpServlet {
 
             ModuleTools mt = new ModuleTools();
 
-            mt.insertModule(modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
+            mt.insertModule(intModuleId, modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
         }
+        
+        
 
         out.println("</body>");
         out.println("</html>");

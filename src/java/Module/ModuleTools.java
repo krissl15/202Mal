@@ -21,19 +21,20 @@ public class ModuleTools {
      * @param out
      * @throws SQLException
      */
-   public void insertModule(String modul_navn, String modul_goal, 
+   public void insertModule(int modulID, String modul_navn, String modul_goal, 
             String modul_tekst, String modul_status, int modul_fristdato, PrintWriter out) throws SQLException {
-        String sql = "INSERT INTO slit.modul(modul_navn, modul_goal, modul_tekst, "
-                + "modul_status, modul_fristdato) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO slit.modul(modul_id, modul_navn, modul_goal, modul_tekst, "
+                + "modul_status, modul_fristdato) VALUES(?,?,?,?,?,?)";
         
        DbConnector db = new DbConnector();
         try(Connection conn = db.getConnection(out)){
                 try(PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, modul_navn);
-            pstmt.setString(2, modul_goal);
-            pstmt.setString(3, modul_tekst);
-            pstmt.setString(4, modul_status);
-            pstmt.setInt(5, modul_fristdato);
+                    pstmt.setInt(1, modulID);
+            pstmt.setString(2, modul_navn);
+            pstmt.setString(3, modul_goal);
+            pstmt.setString(4, modul_tekst);
+            pstmt.setString(5, modul_status);
+            pstmt.setInt(6, modul_fristdato);
             
             pstmt.executeUpdate();
         } catch (SQLException ex) {
@@ -267,17 +268,18 @@ public class ModuleTools {
     }
     
     public void updateModule(int modulID, String modul_navn, String modul_goal, 
-            String modul_tekst, String modul_status, String modul_fristdato, PrintWriter out) throws SQLException{
-        String upd ="UPDATE slit.modul SET modul_navn =?, modul_goal=?, modul_tekst=?, modul_status=?, modul_fristdato=? WHERE modul_id=?";
+            String modul_tekst, String modul_status, String modul_fristdato, int oldModulId, PrintWriter out) throws SQLException{
+        String upd ="UPDATE slit.modul SET modul_id=?, modul_navn =?, modul_goal=?, modul_tekst=?, modul_status=?, modul_fristdato=? WHERE modul_id=?";
                  DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
                 PreparedStatement updModule = conn.prepareStatement(upd)){
-            updModule.setString(1, modul_navn);
-            updModule.setString(2, modul_goal);
-            updModule.setString(3, modul_tekst);
-            updModule.setString(4, modul_status);
-            updModule.setString(5, modul_fristdato);
-            updModule.setInt(6, modulID);
+            updModule.setInt(1, modulID);
+            updModule.setString(2, modul_navn);
+            updModule.setString(3, modul_goal);
+            updModule.setString(4, modul_tekst);
+            updModule.setString(5, modul_status);
+            updModule.setString(6, modul_fristdato);
+            updModule.setInt(7, oldModulId);
       
             updModule.executeUpdate();
         
