@@ -6,12 +6,13 @@
 package StudentProgress;
 
 import Utilities.DbConnector;
-import Utilities.ModuleTools;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,23 +21,55 @@ import java.sql.Statement;
 public class ProgressTools {
     
     
-public void listModulesByUsername(String brukernavn, PrintWriter out) throws SQLException{
-        ModuleTools mT = new ModuleTools();
-            DbConnector db = new DbConnector();
-            try (Connection conn = db.getConnection(out)) {
-                try (Statement st = conn.createStatement()) {
-                    String selectModule = "SELECT modul_id, mk_status, innlevering_id\n" +
+public void listModulesByUsername(String userName, PrintWriter out) throws SQLException{
+                
+    String selectModule = "SELECT modulkanal.modul_id, mk_status, innlevering_id, modul_navn\n" +
 "FROM modulkanal\n" +
-"WHERE brukernavn =?";
-                    ResultSet rsModules = st.executeQuery(selectModule);
-                    while (rsModules.next()) {
-                        String modulID = rsModules.getString("modul_id");
-                            int intID = Integer.parseInt(modulID);
-                            mT.showModule(intID, out);
-                            out.println("<br>");
+"INNER JOIN modul ON modul.modul_id = modulkanal.modul_id\n" +
+"WHERE brukernavn = ?";    
 
-                        }//end if
-                    }//end while
-                }//end preparedstatement
-            }//end connection
+            DbConnector db = new DbConnector();
+            try (Connection conn = db.getConnection(out);
+                PreparedStatement psListModules = conn.prepareStatement(selectModule)) {
+            psListModules.setString(1, userName);
+            ResultSet rsModulKanal = psListModules.executeQuery();
+            while (rsModulKanal.next()) {
+
+                String moduleID = rsModulKanal.getString("modul_id");
+                String modulName = rsModulKanal.getString("modul_navn");
+                String modulStatus = rsModulKanal.getString("mk_status");
+                int intID = Integer.parseInt(moduleID);
+                out.println(intID + " " + modulName + " Status: " + modulStatus + " Poeng: <br>");
+                //mT.showModule(intID, out);
+            }
+            }
+}
+
+
+
+public void printStudent(String userName, PrintWriter out){
+    String selectUser = "SELECT fornavn, etternavn, epost FROM bruker WHERE brukernavn=?";
+DbConnector db = new DbConnector();
+            try (Connection conn = db.getConnection(out);
+                PreparedStatement psListModules = conn.prepareStatement(selectUser)) {
+            psListModules.setString(1, userName);
+
+            ResultSet rsUser = psListModules.executeQuery();
+            while (rsUser.next()) {
+
+                String firstName = rsUser.getString("fornavn");
+                String lastName = rsUser.getString("etternavn");
+                String mail = rsUser.getString("epost");
+                out.println("Fornavn: " + firstName);
+                out.println("<br>");
+                out.println("Etternavn: " + lastName);
+                out.println("<br>");
+                out.println("E-post adresse: " + mail);
+
+            }
+            } catch (SQLException ex) {
+        Logger.getLogger(ProgressTools.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+
 }
