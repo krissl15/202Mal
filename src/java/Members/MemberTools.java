@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Utilities;
+package Members;
 
+import Utilities.DbConnector;
 import java.sql.*;
 import java.io.*;
 import javax.naming.NamingException;
