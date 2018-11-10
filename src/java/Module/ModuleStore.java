@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package Module;
 
-import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author BrageFagstad
+ * @author phuonghapham
  */
-@WebServlet(name = "ModuleEdit", urlPatterns = {"/ModuleEdit"})
-public class ModuleEdit extends HttpServlet {
+@WebServlet(name = "ModuleStore", urlPatterns = {"/ModuleStore"})
+public class ModuleStore extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,6 +31,7 @@ public class ModuleEdit extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -42,32 +41,45 @@ public class ModuleEdit extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleEdit</title>");            
-            out.println("</head>");
-            
-            
+            out.println("<title>Servlet ModuleStore</title>");            
+            out.println("</head>");        
             out.println("<body>");
-            String modul_navn = request.getParameter("textmoduleName1");
-            String modul_goal = request.getParameter("textGoal1");
-            String modul_tekst = request.getParameter("textModule1");
-            String modul_status = request.getParameter("textStatus1");
-            String modul_fristdato = request.getParameter("textDate1");
             
-            String btnAdd = request.getParameter("btnAdd");
-            String moduleNr = btnAdd.substring(btnAdd.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change
+            ModuleTools mT = new ModuleTools();
+            
+            
+            String btnEdit = request.getParameter("btnEdit");
+            String moduleNr = btnEdit.substring(btnEdit.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change
             int modulID = Integer.parseInt(moduleNr);
             
-            ModuleTools mt = new ModuleTools();
-            mt.updateModule(modulID, modul_navn, modul_goal, modul_tekst, modul_status, modul_fristdato, out);
-            out.println("Modulen er oppdatert");
-            out.println("<form action=\"ModuleMenu\" method=\"post\">\n"
-                    + "                <input type=\"Submit\" name=\"btnBack\" value=\"Tilbake\"> <br>  \n"
-                    + "               </form>");
+            String getName = mT.getModuleName(modulID, out);
+            String getGoal = mT.getGoal(modulID, out);
+            String getText = mT.getText(modulID, out);
+            String getStatus = mT.getStatus(modulID, out);
+            String getDate = mT.getDate(modulID, out);
+
+
+            out.println("Registrer modul " + modulID);
+            out.println("<form action=\"ModuleEdit\" method=\"POST\">\n" +
+            "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\""+ getName + "\"><br>" +
+            "Modul læringsmål <input type=\"text\" name=\"textGoal1\" placeholder=\"Oppdater læringsmål\" value=\""+ getGoal + "\"><br>" +
+"Modul tekst <input type=\"text\" name=\"textModule1\" placeholder=\"Oppdater tekst på modulen\" value=\""+ getText + "\"><br>" +
+"Modul status <input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/inaktiv\" value=\""+ getStatus + "\"><br>" +
+"Modul fristdato <input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\""+ getDate + "\"><br>" +
+"\n" +
+"<input type=\"Submit\" name=\"btnAdd\" value=\"Oppdater modul " + modulID +"\">\n" +
+"</form>\n" +
+"<br>");
+            out.println("<form action=\"ModuleMenu\" method=\"POST\">\n" +
+"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
+"</form>");
+
             out.println("</body>");
             out.println("</html>");
         }
     }
-  
+    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -83,7 +95,7 @@ public class ModuleEdit extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleEdit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleStore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -101,7 +113,7 @@ public class ModuleEdit extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleEdit.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleStore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -114,4 +126,5 @@ public class ModuleEdit extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-}
+
+    }

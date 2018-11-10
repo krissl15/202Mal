@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package Module;
 
-import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Doffen
+ * @author BrageFagstad
  */
-@WebServlet(name = "InnleveringVlet", urlPatterns = {"/InnleveringVlet"})
-public class InnleveringVlet extends HttpServlet {
+@WebServlet(name = "ModuleEdit", urlPatterns = {"/ModuleEdit"})
+public class ModuleEdit extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,37 +41,32 @@ public class InnleveringVlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InnleveringVlet</title>");
+            out.println("<title>Servlet ModuleEdit</title>");            
             out.println("</head>");
+            
+            
             out.println("<body>");
-
-            String n = request.getRemoteUser(); //navnet på brukeren
-            String module = request.getParameter("deliverModule");
-            String sModuleID = module.substring(module.lastIndexOf(" ") + 1); //siste ordet i knappen er nr. på modulen. 
-            int moduleID = Integer.parseInt(sModuleID);
+            String modul_navn = request.getParameter("textmoduleName1");
+            String modul_goal = request.getParameter("textGoal1");
+            String modul_tekst = request.getParameter("textModule1");
+            String modul_status = request.getParameter("textStatus1");
+            String modul_fristdato = request.getParameter("textDate1");
+            
+            String btnAdd = request.getParameter("btnAdd");
+            String moduleNr = btnAdd.substring(btnAdd.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change
+            int modulID = Integer.parseInt(moduleNr);
+            
             ModuleTools mt = new ModuleTools();
-            
-            String my = mt.checkIfDelivered(n, moduleID, out);
-            
-            if(my == "Levert"){
-                //SHIT SOM SKAL SKJE OM DEN ER LEVERT
-            }else{
-                String timeStamp = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()); //kanskje denne blir needed
-
-            out.println("<form action=\"InnleveringVlet\" method=\"post\">\n"
-                    + "                <input type=\"text\" name=\"deliveryText\" placeholder=\"Youtube link/svartekst\"> <br><br>\n"
-                    + "					<input type=\"submit\" name=\"btnDeliver\" value=\"Lever\">\n"
-                    + "            </form>  ");
-            }
-            
-        
-
-            
+            mt.updateModule(modulID, modul_navn, modul_goal, modul_tekst, modul_status, modul_fristdato, out);
+            out.println("Modulen er oppdatert");
+            out.println("<form action=\"ModuleMenu\" method=\"post\">\n"
+                    + "                <input type=\"Submit\" name=\"btnBack\" value=\"Tilbake\"> <br>  \n"
+                    + "               </form>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-
+  
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -89,7 +82,7 @@ public class InnleveringVlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(InnleveringVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -107,7 +100,7 @@ public class InnleveringVlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(InnleveringVlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleEdit.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -120,5 +113,4 @@ public class InnleveringVlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

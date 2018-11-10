@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Servlets;
+package Module;
 
-import Utilities.DbConnector;
-import Utilities.ModuleTools;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
+import static java.lang.System.out;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -23,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Doffen
+ * @author asmundfagstad
  */
-@WebServlet(name = "ModulePage", urlPatterns = {"/ModulePage"})
-public class ModulePage extends HttpServlet {
+@WebServlet(name = "ModuleAdded", urlPatterns = {"/ModuleAdded"})
+public class ModuleAdded extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,54 +42,44 @@ public class ModulePage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModulePage</title>");
+            out.println("<title>Servlet ModuleAdded</title>");
             out.println("</head>");
             out.println("<body>");
-            ModuleTools mT = new ModuleTools();
-            String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
-            int intModuleNr = Integer.parseInt(moduleNr);
+            out.println("<body>\n"
+                    + "        <div>\n"
+                    + "            <p>Registrer modul</p>\n"
+                    + "\n"
+                    + "            <form>\n"
+                    + "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n"
+                    + "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n"
+                    + "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n"
+                    + "                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/inaktiv\"> <br><br>  \n"
+                    + "                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n"
+                    + "\n"
+                    + "\n"
+                    + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n"
+                    + "            </form>\n"
+                    + "        </div>\n"
+                    + "        <div>\n");
 
-            DbConnector db = new DbConnector();
-            try (Connection conn = db.getConnection(out)) {
-                try (Statement st = conn.createStatement()) {
-                    String moduleQ = "select modul_id from modul";
-                    ResultSet rsModules = st.executeQuery(moduleQ);
-                    while (rsModules.next()) {
-                        String modulID = rsModules.getString("modul_id");
-                        if (moduleNr.equals(modulID)) { //Sjekker om knappene inneholder tallet på modulen i navnet
-                            //modul1 her
-                            int intID = Integer.parseInt(modulID);
-                            int nr = intID;
-                            out.println("Name of module: ");
-                            mT.showModule(nr, out);
+            
+            String modul_navn = request.getParameter("textmoduleName");
+            String modul_læringsmål = request.getParameter("textGoal");
+            String modul_tekst = request.getParameter("textModule");
+            String modul_status;
+            modul_status = request.getParameter("textStatus");
+            String modul_fristdato = request.getParameter("textDate");
 
-                        }//end if
-                    }//end while
-                }//end preparedstatement
-            }//end connection
+            
+            int intDato = Integer.parseInt(modul_fristdato);
 
-            if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"ModuleStore\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnEdit\" value=\"Rediger modul " + intModuleNr + "\"<br>  \n"
-                        + "               </form>");
-                out.print("<form action=\"DeleteModuleVlet\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett Modul " + intModuleNr + "\"><br>"
-                        + "               </form>");
-            }
+            ModuleTools mt = new ModuleTools();
 
-            /*
-            *Lever oppgave-knapp
-             */
-            if (request.isUserInRole("RegistrertStudent")) {
-
-                out.println("<form action=\"InnleveringVlet\" method=\"post\">\n"
-                        + "<input type=\"Submit\" name=\"deliverModule\" value=\"Lever Modul " + moduleNr + "\" \n"
-                        + "<form>  \n");
-            }
-
-            out.println("</body>");
-            out.println("</html>");
+            mt.insertModule(modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
         }
+
+        out.println("</body>");
+        out.println("</html>");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -111,7 +97,7 @@ public class ModulePage extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModulePage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleAdded.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -129,7 +115,7 @@ public class ModulePage extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModulePage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModuleAdded.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

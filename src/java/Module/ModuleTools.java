@@ -1,5 +1,6 @@
-package Utilities;
+package Module;
 
+import Utilities.DbConnector;
 import java.io.*;
 import java.sql.*;
 
@@ -172,6 +173,32 @@ public class ModuleTools {
         return moduleText;    
     }
     
+    /**
+     * Returnerer en string som forteller om modulen er muntlig/innlevering
+     * 
+     * @param moduleID
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
+    public String getModulType(int moduleID, PrintWriter out) throws SQLException{
+        String qModuleType = "select modul_innleveringstype from modul where modul_id=?";
+        String moduleType = null;
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psModuleType = conn.prepareStatement(qModuleType)) {
+            psModuleType.setInt(1, moduleID);
+
+            try(ResultSet rsModuleGoal = psModuleType.executeQuery()){
+            while (rsModuleGoal.next()) {
+                moduleType = rsModuleGoal.getString("modul_innleveringstype");
+            }
+            }
+        }//end connection
+        return moduleType;    
+    }
+    
     public String getStatus(int moduleID, PrintWriter out) throws SQLException{
         String psModuleStatus = "select modul_status from modul where modul_id=?";
         String moduleStatus = null;
@@ -216,24 +243,7 @@ public class ModuleTools {
      * @return
      * @throws SQLException
      */
-    public String checkIfDelivered(String name, int moduleID, PrintWriter out) throws SQLException {
-        String qStatus = "select mk_status from modulkanal where brukernavn=? and modul_id=?";
-        String deliveryStatus = null;
-
-        DbConnector db = new DbConnector();
-        try (Connection conn = db.getConnection(out);
-                PreparedStatement psStatus = conn.prepareStatement(qStatus)) {
-            psStatus.setString(1, name);
-            psStatus.setInt(2, moduleID);
-
-            try(ResultSet rsStatus = psStatus.executeQuery()){
-            while (rsStatus.next()) {
-                deliveryStatus = rsStatus.getString("mk_status");
-            }
-            }
-        }//end connection
-        return deliveryStatus;
-    }//method end 
+   
 /**
  * 
  * @param modul_id
