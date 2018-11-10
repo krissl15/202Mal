@@ -5,10 +5,13 @@
  */
 package StudentProgress;
 
-import StudentProgress.ProgressTools;
+import Utilities.DbConnector;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author phuonghapham
  */
-@WebServlet(name = "StudentProgress", urlPatterns = {"/StudentProgress"})
-public class StudentProgress extends HttpServlet {
+@WebServlet(name = "StudentProgressServlet", urlPatterns = {"/StudentProgressServlet"})
+public class StudentProgressServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,9 +48,34 @@ public class StudentProgress extends HttpServlet {
             out.println("<title>Servlet StudentProgress</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1> Her skal det stå info om student </h1>");
+            
+            String userName = request.getRemoteUser(); //navnet på brukeren
+            out.println("Progresjon for " + userName + "<br>");
+            
             ProgressTools proT = new ProgressTools();
-            proT.listModulesByUsername(out);
+            proT.printStudent(userName, out);
+            out.println("<br>");
+            out.println("<br>");
+
+                    DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+
+            //modulnavn print start   
+            try (Statement st = conn.createStatement()) {
+                 String moduleQ = "select modul_id from modul";
+                ResultSet rsModules = st.executeQuery(moduleQ);
+                while (rsModules.next()) {
+                    String modulID = rsModules.getString("modul_id");
+                    out.println("<form action=\"ModulePageServlet\" method=\"post\">"
+                            + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
+                    proT.listModulesByUsername(userName, out);
+                    out.println("<br>");
+            
+                }//registrerte brukere slutt
+            }
+        }
+            proT.listModulesByUsername(userName, out);
+            
             
             
             out.println("<br>");
@@ -55,6 +83,8 @@ public class StudentProgress extends HttpServlet {
             out.println("</html>");
         }
     }
+
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -71,7 +101,7 @@ public class StudentProgress extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(StudentProgress.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentProgressServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -89,7 +119,7 @@ public class StudentProgress extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(StudentProgress.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentProgressServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
