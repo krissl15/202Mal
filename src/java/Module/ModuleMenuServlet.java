@@ -65,7 +65,8 @@ public class ModuleMenuServlet extends HttpServlet {
                 out.print("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br><br>  \n" +
 "            </form>");
-            }
+
+            } 
              else if (request.isUserInRole("RegistrertStudent")){
                  out.print("<form action =\"StudentProgressServlet\" method =\"POST\">\n" +
 "<input type =\"Submit\" name =\"btnProgress\" value =\"Få oversikt over progresjon\">\n" +

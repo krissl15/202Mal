@@ -57,6 +57,7 @@ public class ModuleStoreServlet extends HttpServlet {
             String getText = mT.getText(modulID, out);
             String getStatus = mT.getStatus(modulID, out);
             String getDate = mT.getDate(modulID, out);
+            String getType = mT.getType(modulID, out);
 
 
             out.println("Registrer modul " + modulID);
@@ -65,6 +66,8 @@ public class ModuleStoreServlet extends HttpServlet {
             "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\""+ getName + "\"><br>" +
             "Modul læringsmål <input type=\"text\" name=\"textGoal1\" placeholder=\"Oppdater læringsmål\" value=\""+ getGoal + "\"><br>" +
 "Modul tekst <input type=\"text\" name=\"textModule1\" placeholder=\"Oppdater tekst på modulen\" value=\""+ getText + "\"><br>" +
+        "Modul status <input type=\"text\" name=\"textType1\" placeholder=\"Aktiv/inaktiv\" value=\""+ getType + "\"><br>" +
+
 "Modul status <input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/inaktiv\" value=\""+ getStatus + "\"><br>" +
 "Modul fristdato <input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\""+ getDate + "\"><br>" +
 "\n" +

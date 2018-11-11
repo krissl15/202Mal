@@ -84,33 +84,31 @@ public class ModulePageServlet extends HttpServlet {
             /*
             *Lever oppgave-knapp
              */
-            
-            if(request.isUserInRole("RegistrertStudent")){
-                
-           
-            out.println("<h3>Lever Modul</h3>");
+            if (request.isUserInRole("RegistrertStudent")) {
+                out.println("<h3>Lever Modul</h3>");
 
-            String moduleType = mT.getModulType(intModuleNr, out);
-            
-           if(moduleType.equals("Innlevering")){
-               DeliveryTools dt = new DeliveryTools();
-               String userName = request.getRemoteUser(); //navnet på brukeren
-               String moduleStatus = dt.checkIfDelivered(userName, intModuleNr, out);
+                String moduleType = mT.getType(intModuleNr, out);
 
-           if(moduleStatus == "Levert"){ 
-                //SHIT SOM SKAL SKJE OM DEN ER LEVERT
-            }else{
-            out.println("<form action=\"DeliveryServlet\" method=\"post\">\n"
-                    + "                <input type=\"text\" name=\"deliveryText\" placeholder=\"Youtube link/svartekst\"> <br><br>\n"
-                    + "					<input type=\"submit\" name=\"btnDeliver\"  value=\"Lever Modul " + intModuleNr + "\"><br>"
-                    + "            </form>  ");
-            }
-           }else{//om modulen er muntlig
-               out.println("Denne modulen er muntlig");
-           }
+                if (moduleType.equals("Innlevering")) {
+                    DeliveryTools dt = new DeliveryTools();
+                    String userName = request.getRemoteUser(); //navnet på brukeren
+                    String moduleStatus = dt.checkIfDelivered(userName, intModuleNr, out);
+                    out.println(moduleStatus);
+                    if (moduleStatus.equals("levert")) {
+                        out.println("dritten er levert");
+                        //SHIT SOM SKAL SKJE OM DEN ER LEVERT
+                    } else {
+                        out.println("<form action=\"DeliveryServlet\" method=\"post\">\n"
+                                + "                <input type=\"text\" name=\"deliveryText\" placeholder=\"Youtube link/svartekst\"> <br><br>\n"
+                                + "					<input type=\"submit\" name=\"btnDeliver\"  value=\"Lever Modul " + intModuleNr + "\"><br>"
+                                + "            </form>  ");
+                    }
+                } else {//om modulen er muntlig
+                    out.println("Denne modulen er muntlig");
+                }
 
-            out.println("</body>");
-            out.println("</html>");
+                out.println("</body>");
+                out.println("</html>");
             }//end student if
         }
     }

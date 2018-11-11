@@ -41,8 +41,9 @@
             <url-pattern>/ModuleMenuServlet</url-pattern>
             <url-pattern>/ModulePageServlet</url-pattern>
             <url-pattern>/MemberListServlet</url-pattern>
-            <url-pattern>/InnleveringServlet</url-pattern>
+            <url-pattern>/DeliveryServlet</url-pattern>
             <url-pattern>/DeleteModuleServlet</url-pattern>
+            <url-pattern>/StudentProgressServlet</url-pattern>
 
         </web-resource-collection>
         <!--  the user must have one of these roles  -->

@@ -46,6 +46,10 @@ public class DeliveryServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
 
+               out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
+"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
+"</form>");
+            
             String module = request.getParameter("btnDeliver");
             String sModuleID = module.substring(module.lastIndexOf(" ") + 1); //siste ordet i knappen er nr. på modulen. 
             
@@ -54,15 +58,25 @@ public class DeliveryServlet extends HttpServlet {
             
             
             
+                 
           
           String deliveryText = request.getParameter("deliveryText");
           String date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()); //kanskje denne blir needed
           
           String btnDeliver = request.getParameter("btnDeliver");
           if(btnDeliver.contains("Lever")){
+              DeliveryTools dt = new DeliveryTools();
+              dt.registerDelivery(deliveryText, date, userName, out);
+              
+              int deliveryID = dt.getLastDeliveryByUser(userName, out);
+              dt.setDeliveryToModulkanal(deliveryID, moduleID, userName, out);
+              
           response.sendRedirect("DeliveryServlet"); //Oppdaterer siden ved å directe brukeren til samme side
 
           }
+          out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
+"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
+"</form>");
           
         
 
