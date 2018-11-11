@@ -66,16 +66,16 @@ public class StudentProgressServlet extends HttpServlet {
                 ResultSet rsModules = st.executeQuery(moduleQ);
                 while (rsModules.next()) {
                     String modulID = rsModules.getString("modul_id");
+                    int intID = Integer.parseInt(modulID);
+                    out.println("Modul  Status  Poeng");
                     out.println("<form action=\"ModulePageServlet\" method=\"post\">"
-                            + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
-                    proT.listModulesByUsername(userName, out);
+                            + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
+                    proT.listModulesByUsername(userName, intID, out);
+                    out.println("</form>");
                     out.println("<br>");
-            
                 }//registrerte brukere slutt
             }
         }
-            proT.listModulesByUsername(userName, out);
-            
             
             
             out.println("<br>");
