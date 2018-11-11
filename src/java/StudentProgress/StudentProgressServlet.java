@@ -3,15 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Delivery;
+package StudentProgress;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Doffen
  */
-@WebServlet(name = "DeliveryServlet", urlPatterns = {"/DeliveryServlet"})
-public class DeliveryServlet extends HttpServlet {
+@WebServlet(name = "StudentProgressServlet", urlPatterns = {"/StudentProgressServlet"})
+public class StudentProgressServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,52 +30,17 @@ public class DeliveryServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeliveryVlet</title>");
+            out.println("<title>Servlet StudentProgressServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-
-               out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
-"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
-"</form>");
-            
-            String module = request.getParameter("btnDeliver");
-            String sModuleID = module.substring(module.lastIndexOf(" ") + 1); //siste ordet i knappen er nr. på modulen. 
-            
-            int moduleID = Integer.parseInt(sModuleID);
-            String userName = request.getRemoteUser(); //navnet på brukeren
-            
-            
-            
-                 
-          
-          String deliveryText = request.getParameter("deliveryText");
-          String date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()); //kanskje denne blir needed
-          
-          String btnDeliver = request.getParameter("btnDeliver");
-          if(btnDeliver.contains("Lever")){
-              DeliveryTools dt = new DeliveryTools();
-              dt.registerDelivery(deliveryText, date, userName, out);
-              
-              int deliveryID = dt.getLastDeliveryByUser(userName, out);
-              dt.setDeliveryToModulkanal(deliveryID, moduleID, userName, out);
-              
-          response.sendRedirect("DeliveryServlet"); //Oppdaterer siden ved å directe brukeren til samme side
-
-          }
-          out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
-"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
-"</form>");
-          
-        
-
-            
+            out.println("<h1>Servlet StudentProgressServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -98,11 +58,7 @@ public class DeliveryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(DeliveryServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -116,11 +72,7 @@ public class DeliveryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(DeliveryServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -79,5 +79,22 @@ public class DeliveryTools {
         }//end connection
         return deliveryStatus;
     }//method end 
+    
+    public void setDeliveryToModulkanal(int deliveryID, int modulID, String userName, PrintWriter out) throws SQLException{
+        
+        String qDeliveryModulKanal = ("update modulkanal set innlevering_id=?, mk_status=\"levert\" where modul_id=? and brukernavn=?");
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psDeliveryModulkanal = conn.prepareStatement(qDeliveryModulKanal)) {
+            psDeliveryModulkanal.setInt(1, deliveryID);
+            psDeliveryModulkanal.setInt(2, modulID);
+            psDeliveryModulkanal.setString(3, userName);
+
+            psDeliveryModulkanal.executeUpdate();
+        }
+        
+        
+    }
 
 }//class end 

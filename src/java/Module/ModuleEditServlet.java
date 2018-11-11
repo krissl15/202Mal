@@ -51,6 +51,7 @@ public class ModuleEditServlet extends HttpServlet {
             String modul_navn = request.getParameter("textmoduleName1");
             String modul_goal = request.getParameter("textGoal1");
             String modul_tekst = request.getParameter("textModule1");
+            String modul_innleveringstype = request.getParameter("textType1");
             String modul_status = request.getParameter("textStatus1");
             String modul_fristdato = request.getParameter("textDate1");
             
@@ -59,7 +60,7 @@ public class ModuleEditServlet extends HttpServlet {
             int intOldModuleId = Integer.parseInt(oldId);
             
             ModuleTools mt = new ModuleTools();
-            mt.updateModule(intModuleId, modul_navn, modul_goal, modul_tekst, modul_status, modul_fristdato, intOldModuleId, out);
+            mt.updateModule(intModuleId, modul_navn, modul_goal, modul_tekst, modul_innleveringstype, modul_status, modul_fristdato, intOldModuleId, out);
             out.println("Modulen er oppdatert");
             out.println("<form action=\"ModuleMenuServlet\" method=\"post\">\n"
                     + "                <input type=\"Submit\" name=\"btnBack\" value=\"Tilbake\"> <br>  \n"
