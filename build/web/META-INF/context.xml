@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/IS202Ny_2">
+  <Resource auth="Container" driverClassName="com.mysql.jdbc.Driver" name="jdbc/slit" password="555666" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/slit" username="randmin">
+</Resource>
+  <Realm className="org.apache.catalina.realm.DataSourceRealm" dataSourceName="jdbc/slit" localDataSource="true" roleNameCol="rolle" userCredCol="passord" userNameCol="brukernavn" userRoleTable="bruker_rolle" userTable="bruker"/>
+</Context>
