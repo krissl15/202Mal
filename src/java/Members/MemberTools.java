@@ -130,7 +130,7 @@ public class MemberTools {
     */
     public void addToModulKanal(String name, PrintWriter out) throws SQLException {
         String moduleQ = "select modul_id from modul";
-        String insertModulKanal = "insert into modulkanal (brukernavn, modul_id)\n"
+        String insertModulKanal = "insert into modulkanal (brukernavn, modul_id, mk_status)\n"
                 + "values(?, ?, ?);";
 
         DbConnector db = new DbConnector();
@@ -143,6 +143,7 @@ public class MemberTools {
                 int moduleId = rsModules.getInt("modul_id"); 
                 psInsert.setString(1, name);
                 psInsert.setInt(2, moduleId);
+                psInsert.setString(3, "Ikke levert");
                 psInsert.executeUpdate(); //kjør insert query med navn og modul_id
             }
         }
