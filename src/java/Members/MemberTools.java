@@ -144,6 +144,7 @@ public class MemberTools {
                 psInsert.setString(1, name);
                 psInsert.setInt(2, moduleId);
                 psInsert.setString(3, "Ikke levert");
+                psInsert.setString(4, "Ikke rettet");
                 psInsert.executeUpdate(); //kjør insert query med navn og modul_id
             }
         }
