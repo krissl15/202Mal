@@ -47,6 +47,19 @@ public class MemberListServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             MemberTools memt = new MemberTools();
+            /* Knapp som returnerer til hovedmenyen */
+            out.println("<form action=\"MainPage\" method=\"post\">\n" +
+            "<input type=\"Submit\" name=\"btnTilbake\" value=\"Tilbake\"> <br><br>  \n" +
+            "</form>  \n"
+                    
+            /* Søkefunksjon */
+            + "        <div>\n"
+            + "            <p><h2>Medlemsliste</h2></p>\n"
+            + "            <form action=\"MemberSearch\" method \"post\">\n"
+            + "              <input type=\"Text\"name=\"search\" placeholder=\"Søk etter medlemmer\"> \n"
+            + "              <input type=\"Submit\" value=\"Søk\">  <br><br> \n"
+            + "            </form>\n"
+            + "        </div>\n");
 
             if (request.isUserInRole("Foreleser")){ //Sjekk om brukeren er foreleser
             out.print("Forelesere <br><br>");
