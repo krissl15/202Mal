@@ -67,7 +67,7 @@ public class MemberTools {
         }
         }
     }//end printMembersByRole
-
+    
     /*
     *This function prints all users marked as "RegistrertStudent" in the database
      */
@@ -208,7 +208,7 @@ public class MemberTools {
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
             try (Statement psRegistered = conn.createStatement()) {
-                ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
+                 ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
                 while (rsRegistered.next()) {
                     String userName = rsRegistered.getString("brukernavn");
                     String firstName = rsRegistered.getString("fornavn");
