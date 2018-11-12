@@ -54,6 +54,9 @@ public class MemberTools {
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
                     }
+                    else if (rolle.equals("Foreleser")) {
+                        out.println(userName + " (" + firstName + " " + surName + ")");                    
+                    }
                 }
             }
         }
@@ -161,4 +164,26 @@ public class MemberTools {
             psDelete.execute();
         }
     }//end removeFromModulKanal
+    
+    public void printAssistants(PrintWriter out) throws SQLException, NamingException {
+        String selectUsers = "select bruker.brukernavn, bruker.fornavn, bruker.etternavn, bruker_rolle.rolle\n"
+                + "from bruker\n"
+                + "inner join bruker_rolle on bruker_rolle.brukernavn = bruker.brukernavn\n"
+                + "where rolle = \"Assistent\";";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+            try (Statement psRegistered = conn.createStatement()) {
+
+                ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
+                while (rsRegistered.next()) {
+                    String userName = rsRegistered.getString("brukernavn");
+                    String firstName = rsRegistered.getString("fornavn");
+                    String surName = rsRegistered.getString("etternavn");
+                    out.println(userName + " (" + firstName + " " + surName + ")<br>");
+                }
+            }
+        }
+    }
 }
+
+
