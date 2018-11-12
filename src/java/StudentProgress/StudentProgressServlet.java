@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,9 +37,10 @@ public class StudentProgressServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      * @throws java.sql.SQLException
+     * @throws javax.naming.NamingException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -48,19 +50,23 @@ public class StudentProgressServlet extends HttpServlet {
             out.println("<title>Servlet StudentProgress</title>");            
             out.println("</head>");
             out.println("<body>");
+             String userName = request.getRemoteUser(); //navnet på brukeren som er logget inn. brukes for studenter
+             String user = request.getParameter("userName"); //navnet på brukeren man vil se progresjon for. hentes fra URL, for foreleser
+              ProgressTools proT = new ProgressTools();
+              
+            if (request.isUserInRole("RegistrertStudent")){
+                out.println("Progresjon for " + userName + "<br>");
+                proT.printStudentInfo(userName, out);
+                out.println("<br>");
+                out.println("<br>");
+            } else if (request.isUserInRole("Foreleser")){
+                out.println("Progresjon for " + user);
+                proT.printStudentInfo(user, out);
+            }
             
-            String userName = request.getRemoteUser(); //navnet på brukeren
-            out.println("Progresjon for " + userName + "<br>");
-            
-            ProgressTools proT = new ProgressTools();
-            proT.printStudent(userName, out);
-            out.println("<br>");
-            out.println("<br>");
 
-                    DbConnector db = new DbConnector();
-        try (Connection conn = db.getConnection(out)) {
-
-            //modulnavn print start   
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) { 
             try (Statement st = conn.createStatement()) {
                  String moduleQ = "select modul_id from modul";
                 ResultSet rsModules = st.executeQuery(moduleQ);
@@ -70,19 +76,22 @@ public class StudentProgressServlet extends HttpServlet {
                     out.println("Modul  Status  Poeng");
                     out.println("<form action=\"ModulePageServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
-                    proT.listModulesByUsername(userName, intID, out);
+                    if (request.isUserInRole("RegistrertStudent")){
+                        proT.listModulesByUsername(userName, intID, out);
+                    }
+                    else if (request.isUserInRole("Foreleser")){
+                        proT.listModulesByUsername(user, intID, out);
+                    }
                     out.println("</form>");
                     out.println("<br>");
-                }//registrerte brukere slutt
+                }
             }
-        }
-            
-            
+        } 
             out.println("<br>");
             out.println("</body>");
             out.println("</html>");
         }
-}
+    }
 
 
 
@@ -100,7 +109,7 @@ public class StudentProgressServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException ex) {
+        } catch (SQLException | NamingException ex) {
             Logger.getLogger(StudentProgressServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -118,7 +127,7 @@ public class StudentProgressServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             processRequest(request, response);
-        } catch (SQLException ex) {
+        } catch (SQLException | NamingException ex) {
             Logger.getLogger(StudentProgressServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -132,6 +141,6 @@ public class StudentProgressServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+
 }
-
-
