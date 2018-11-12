@@ -65,6 +65,7 @@ public class MemberTools {
                 }
             }
         }
+        }
     }//end printMembersByRole
 
     /*
@@ -143,8 +144,6 @@ public class MemberTools {
             try (PreparedStatement ps = conn.prepareStatement(updateQ)) {
                 ps.setString(1, "UregistrertStudent");
                 ps.setString(2, name);
-                psInsert.setString(3, "Ikke levert");
-                psInsert.setString(4, "Ikke rettet");
                 ps.executeUpdate();
             }
         }
@@ -182,6 +181,7 @@ public class MemberTools {
                 psInsert.setString(1, name);
                 psInsert.setInt(2, moduleId);
                 psInsert.setString(3, "Ikke levert");
+                psInsert.setString(4, "Ikke rettet");
                 psInsert.executeUpdate(); //kjør insert query med navn og modul_id
             }
         }
@@ -208,7 +208,6 @@ public class MemberTools {
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
             try (Statement psRegistered = conn.createStatement()) {
-                
                 ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
                 while (rsRegistered.next()) {
                     String userName = rsRegistered.getString("brukernavn");
