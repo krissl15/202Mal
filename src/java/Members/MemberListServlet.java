@@ -48,13 +48,15 @@ public class MemberListServlet extends HttpServlet {
             out.println("<body>");
             MemberTools memt = new MemberTools();
 
-            if (request.isUserInRole("Foreleser")) { //Sjekk om brukeren er foreleser
-                out.println("Registrerte medlemmer<br>");
-                memt.printMembersByRole("RegistrertStudent", out); //priner registrerte studenter
-                out.println("<br>Ikke registrerte medlemmer<br>");
-                memt.printMembersByRole("UregistrertStudent", out); //printer uregistrerte
-                out.println("<br>Assistenter<br>");
-                  memt.printMembersByRole("Assistent",out);
+            if (request.isUserInRole("Foreleser")){ //Sjekk om brukeren er foreleser
+            out.print("Forelesere <br><br>");
+            memt.printMembersByRole("Foreleser", out);
+            out.println("<br><br>Registrerte brukere<br><br>");
+            memt.printMembersByRole("RegistrertStudent", out);
+            out.println("<br><br>Ikke registrerte brukere<br><br>");
+            memt.printMembersByRole("UregistrertStudent", out);
+            out.println("<br><br>Assistenter<br><br>");
+            memt.printMembersByRole("Assistent",out);
 
                 String change = request.getParameter("member"); //alle knappene heter det samme ("member")
                 String aCheck = request.getParameter("addCheck");
@@ -92,14 +94,22 @@ public class MemberListServlet extends HttpServlet {
                  response.sendRedirect("MemberListServlet");
             }
                 
-                
-                
-                
-                
-            } else if (request.isUserInRole("RegistrertStudent")) { //Studenter ser kun registrerte brukere
-                out.print("Registrerte brukere: <br><br>");
-                memt.printRegisteredMembers(out);
-
+            } else if(request.isUserInRole("RegistrertStudent")){ //Studenter ser kun registrerte brukere, assistenter og forelesere
+                out.print("Forelesere <br><br>");
+                 memt.printMembersByRole("Foreleser", out);
+                out.print("<br><br>Registrerte brukere <br><br>");
+                 memt.printRegisteredMembers(out);
+                out.println("<br><br>Assistenter<br><br>");
+                 memt.printAssistants(out);
+            }
+            
+            else if (request.isUserInRole("Assistent")) {
+                out.print("Forelesere <br><br>");
+                 memt.printMembersByRole("Foreleser", out);
+                out.print("<br><br>Registrerte brukere <br><br>");
+                 memt.printRegisteredMembers(out);
+                out.println("<br><br>Assistenter<br><br>");
+                 memt.printAssistants(out);
             }
 
             out.println("</body>");
