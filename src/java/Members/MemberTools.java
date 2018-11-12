@@ -161,4 +161,23 @@ public class MemberTools {
             psDelete.execute();
         }
     }//end removeFromModulKanal
+    
+    public void printAssistants(PrintWriter out) throws SQLException, NamingException {
+        String selectUsers = "select bruker.brukernavn, bruker.fornavn, bruker.etternavn, bruker_rolle.rolle\n"
+                + "from bruker\n"
+                + "inner join bruker_rolle on bruker_rolle.brukernavn = bruker.brukernavn\n"
+                + "where rolle = \"Assistent\";";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+            try (Statement psRegistered = conn.createStatement()) {
+                 ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
+                while (rsRegistered.next()) {
+                    String userName = rsRegistered.getString("brukernavn");
+                    String firstName = rsRegistered.getString("fornavn");
+                    String surName = rsRegistered.getString("etternavn");
+                    out.println(userName + " (" + firstName + " " + surName + ")<br>");
+                }
+            }
+        }
+    }
 }
