@@ -6,7 +6,12 @@
 package StudentProgress;
 
 import Utilities.DbConnector;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,9 +51,7 @@ public void listModulesByUsername(String userName, int modulID, PrintWriter out)
             }
 }
 
-
-
-public void printStudent(String userName, PrintWriter out){
+public void printStudentInfo(String userName, PrintWriter out){
     String selectUser = "SELECT fornavn, etternavn, epost FROM bruker WHERE brukernavn=?";
     DbConnector db = new DbConnector();
             try (Connection conn = db.getConnection(out);
@@ -73,6 +76,4 @@ public void printStudent(String userName, PrintWriter out){
     }
 }
 }
-
-
 
