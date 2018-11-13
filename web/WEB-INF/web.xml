@@ -44,6 +44,8 @@
             <url-pattern>/DeliveryServlet</url-pattern>
             <url-pattern>/DeleteModuleServlet</url-pattern>
             <url-pattern>/StudentProgressServlet</url-pattern>
+            <url-pattern>/GradingServlet</url-pattern>
+
 
         </web-resource-collection>
         <!--  the user must have one of these roles  -->

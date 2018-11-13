@@ -1,14 +1,14 @@
-package Module;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Correcting;
 
-import Utilities.DbConnector;
+import Delivery.DeliveryTools;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Doffen
  */
-@WebServlet(name = "ModuleMenuServlet", urlPatterns = {"/ModuleMenuServlet"})
-public class ModuleMenuServlet extends HttpServlet {
+@WebServlet(name = "UncorrectedServlet", urlPatterns = {"/UncorrectedServlet"})
+public class UncorrectedServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +32,6 @@ public class ModuleMenuServlet extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
@@ -42,44 +41,15 @@ public class ModuleMenuServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ModuleMenu</title>");            
+            out.println("<title>Servlet UncorrectedServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-  
-        DbConnector db = new DbConnector();
-        try (Connection conn = db.getConnection(out)) {
-
-            //modulnavn print start   
-            try (Statement st = conn.createStatement()) {
-                 String moduleQ = "select modul_id from modul";
-                ResultSet rsModules = st.executeQuery(moduleQ);
-                while (rsModules.next()) {
-                    String modulID = rsModules.getString("modul_id");
-                    out.println("<form action=\"ModulePageServlet\" method=\"post\">"
-                            + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
-                }//registrerte brukere slutt
-            }
-        }
             
-             if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br>  \n" +
-"            </form>");
-
-                out.println("<h3>Uregistrerte moduler</h3><br>");
-                out.print("<form action=\"UncorrectedServlet\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnUnC\" value=\"Moduler\"> <br><br>  \n" +
-"            </form>");
-                
-            } 
-             else if (request.isUserInRole("RegistrertStudent")){
-                 out.print("<form action =\"StudentProgressServlet\" method =\"POST\">\n" +
-"<input type =\"Submit\" name =\"btnProgress\" value =\"Få oversikt over progresjon\">\n" +
-"</form>");
-             }
+            DeliveryTools dt = new DeliveryTools();
+            dt.listUnCorrectedDeliveries(out);
             
-           
-             
+            
+
             out.println("</body>");
             out.println("</html>");
         }
@@ -100,7 +70,7 @@ public class ModuleMenuServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleMenuServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UncorrectedServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -118,7 +88,7 @@ public class ModuleMenuServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ModuleMenuServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UncorrectedServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
