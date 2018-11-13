@@ -62,7 +62,7 @@ public class MemberListServlet extends HttpServlet {
             + "        </div>\n");
 
             if (request.isUserInRole("Foreleser")){ //Sjekk om brukeren er foreleser
-            out.print("Forelesere <br><br>");
+            out.println("Forelesere <br><br>");
             memt.printMembersByRole("Foreleser", out);
             out.println("<br><br>Registrerte brukere<br><br>");
             memt.printMembersByRole("RegistrertStudent", out);
