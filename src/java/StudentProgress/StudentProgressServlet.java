@@ -58,14 +58,11 @@ public class StudentProgressServlet extends HttpServlet {
              /***
               * KONTAKTINFORMASJON
               */
-             //Registrert student ser sin egen profil
-             if (value.equals("registrertstudent") || (value.equals("assistent") || value.equals ("foreleser"))){
                  out.println("Informasjon om " + user);
                  out.println("<br>");
                  proT.printPerson(user, out);
                  out.println("<br>");
                  out.println("<br>");
-             }
 
             /***
              * PRINTER MODULER
