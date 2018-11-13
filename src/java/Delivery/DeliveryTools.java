@@ -115,32 +115,36 @@ public class DeliveryTools {
     }
 
     /**
-     * 
+     *
      * @param name
      * @param out
-     * @throws SQLException 
+     * @throws SQLException
      */
     public void listUnCorrectedDeliveries(PrintWriter out) throws SQLException {
-        String qUncorrected = "select bruker.fornavn, bruker.etternavn, bruker.brukernavn, modulkanal.mk_rettet_status, innlevering_id\n" +
-"from modulkanal\n" +
-"inner join bruker on bruker.brukernavn = modulkanal.brukernavn\n" +
-"where modulkanal.mk_rettet_status=\"Ikke rettet\"";
+        String qUncorrected = "select bruker.fornavn, bruker.etternavn, bruker.brukernavn, modulkanal.mk_rettet_status, innlevering_id, modul.modul_navn, modul.modul_id\n"
+                + "from modulkanal\n"
+                + "inner join bruker on bruker.brukernavn = modulkanal.brukernavn\n"
+                + "inner join modul on modul.modul_id = modulkanal.modul_id\n"
+                + "where modulkanal.mk_rettet_status=\"Ikke rettet\" \n"
+                + "order by modul_id;";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
                 PreparedStatement psUncorrected = conn.prepareStatement(qUncorrected)) {
- 
 
             try (ResultSet rsUncorrected = psUncorrected.executeQuery()) {
                 while (rsUncorrected.next()) {
                     String userName = rsUncorrected.getString("brukernavn");
                     String firstName = rsUncorrected.getString("fornavn");
-                   String surname = rsUncorrected.getString("etternavn");
-                   String mkStatus = rsUncorrected.getString("mk_rettet_status");
-                   int delivery_id = rsUncorrected.getInt("innlevering_id");
-                   
-                   out.println("<div id=\"unCorrected\">");
-                   out.println(userName + " (" + firstName + " " + surname + ") " + "Innlevering:" +delivery_id );
+                    String surname = rsUncorrected.getString("etternavn");
+                    String moduleName = rsUncorrected.getString("modul_navn");
+                    String mkStatus = rsUncorrected.getString("mk_rettet_status");
+                    int moduleID = rsUncorrected.getInt("modul_id");
+
+                    String chosenPerson  = "<li><a href='GradingServlet?moduleID=%s&userName=%s&firstName=%s&lastName=%s'>%s %s %s %s</a> </li>"; 
+                    out.format(chosenPerson, moduleID, userName,firstName,surname, moduleID, 
+                            userName, firstName, surname);
+                     out.println(" Modul:" + moduleName + ", " + mkStatus);
                 }
 
             }
