@@ -70,14 +70,13 @@ public class StudentProgressServlet extends HttpServlet {
             /***
              * PRINTER MODULER
              */
-            
-        DbConnector db = new DbConnector();
-        try (Connection conn = db.getConnection(out)) { 
-            try (Statement st = conn.createStatement()) {
-                 String moduleQ = "select modul_id from modul";
-                ResultSet rsModules = st.executeQuery(moduleQ);
+            DbConnector db = new DbConnector();
+            try (Connection conn = db.getConnection(out)) { 
+                try (Statement st = conn.createStatement()) {
+                    String moduleQ = "select modul_id from modul";
+                    ResultSet rsModules = st.executeQuery(moduleQ);
                 
-                //Generell start-tekst for progresjon
+                //Generell start-tekst for progresjon over en registrert student
                 if (userName.equalsIgnoreCase(user) && value.equals("registrertstudent") || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent")){
                     out.println("Oversikt over progresjon");
                     out.println("<br>");
@@ -95,7 +94,8 @@ public class StudentProgressServlet extends HttpServlet {
                         out.println("<form action=\"ModulePageServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
                      
-                    } else if(value.equals("foreleser") || value.equals("uregistrertstudent") || value.equals("assistent")){
+                    } // Gjemmer foreleser og assistent i progresjon
+                    else if(value.equals("foreleser") || value.equals("uregistrertstudent") || value.equals("assistent")){
                         out.println("");
                     }
                     //Foreleser og assistent får tilgang til studentenes progresjon
@@ -107,18 +107,14 @@ public class StudentProgressServlet extends HttpServlet {
                     out.println("</form>");
                     out.println("<br>");
                 }
-            }
-        } 
+                }
+            } 
             out.println("<br>");
             out.println("</body>");
             out.println("</html>");
         }
     }
     
-
-    
-    
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -137,8 +133,6 @@ public class StudentProgressServlet extends HttpServlet {
             Logger.getLogger(StudentProgressServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    
 
     /**
      * Handles the HTTP <code>POST</code> method.
