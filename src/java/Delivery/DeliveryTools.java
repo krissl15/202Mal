@@ -79,9 +79,9 @@ public class DeliveryTools {
         }//end connection
         return deliveryStatus;
     }//method end 
-    
-    public void setDeliveryToModulkanal(int deliveryID, int modulID, String userName, PrintWriter out) throws SQLException{
-        
+
+    public void setDeliveryToModulkanal(int deliveryID, int modulID, String userName, PrintWriter out) throws SQLException {
+
         String qDeliveryModulKanal = ("update modulkanal set innlevering_id=?, mk_status=\"levert\" where modul_id=? and brukernavn=?");
 
         DbConnector db = new DbConnector();
@@ -94,8 +94,8 @@ public class DeliveryTools {
             psDeliveryModulkanal.executeUpdate();
         }
     }
-    
-    public String checkIfDeliveryChecked(String name, int moduleID, PrintWriter out) throws SQLException{
+
+    public String checkIfDeliveryCorrected(String name, int moduleID, PrintWriter out) throws SQLException {
         String qStatus = "select mk_rettet_status from modulkanal where brukernavn=? and modul_id=?";
         String deliveryCheckedStatus = null;
 
@@ -113,12 +113,38 @@ public class DeliveryTools {
         }//end connection
         return deliveryCheckedStatus;
     }
-    
-    public void listUnCorrectedDeliveries(PrintWriter out){
-        
-        
-        
-        
-    }
 
+    /**
+     * 
+     * @param name
+     * @param out
+     * @throws SQLException 
+     */
+    public void listUnCorrectedDeliveries(PrintWriter out) throws SQLException {
+        String qUncorrected = "select bruker.fornavn, bruker.etternavn, bruker.brukernavn, modulkanal.mk_rettet_status, innlevering_id\n" +
+"from modulkanal\n" +
+"inner join bruker on bruker.brukernavn = modulkanal.brukernavn\n" +
+"where modulkanal.mk_rettet_status=\"Ikke rettet\"";
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psUncorrected = conn.prepareStatement(qUncorrected)) {
+ 
+
+            try (ResultSet rsUncorrected = psUncorrected.executeQuery()) {
+                while (rsUncorrected.next()) {
+                    String userName = rsUncorrected.getString("brukernavn");
+                    String firstName = rsUncorrected.getString("fornavn");
+                   String surname = rsUncorrected.getString("etternavn");
+                   String mkStatus = rsUncorrected.getString("mk_rettet_status");
+                   int delivery_id = rsUncorrected.getInt("innlevering_id");
+                   
+                   out.println("<div id=\"unCorrected\">");
+                   out.println(userName + " (" + firstName + " " + surname + ") " + "Innlevering:" +delivery_id );
+                }
+
+            }
+
+        }
+    }
 }//class end 
