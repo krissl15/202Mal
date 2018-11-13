@@ -39,7 +39,6 @@ public class MemberTools {
                     
                     String chosenPerson  = "<li><a href='StudentProgressServlet?userName=%s&firstName=%s&lastName=%s'>%s %s %s</a> </li>"; 
                     out.format(chosenPerson,userName,firstName,surName, userName, firstName, surName);
-                    if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
 
                     if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
                         out.println(userName + " (" + firstName + " " + surName + ")");
@@ -61,7 +60,7 @@ public class MemberTools {
                         
                     else if (rolle.equals("Foreleser")) {
                         out.println(userName + " (" + firstName + " " + surName + ")");                    
-                    }
+                    
                 }
             }
         }
