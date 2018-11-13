@@ -41,21 +41,30 @@ public class MemberTools {
                     out.format(chosenPerson,userName,firstName,surName, userName, firstName, surName);
                     if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
 
+                    if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
+                        out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\"><br>");
                          out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
                     } else if (rolle.equals("UregistrertStudent")) {
+                        out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"checkbox\" name=\"addCheck\" value=\"Add " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Registrer " + userName + "\"><br>");
                     }else if (rolle.equals("Assistent")) {
+                        out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
                     }
+                        
+                    else if (rolle.equals("Foreleser")) {
+                        out.println(userName + " (" + firstName + " " + surName + ")");                    
+                    }
                 }
             }
+        }
         }
     }//end printMembersByRole
     
@@ -78,6 +87,34 @@ public class MemberTools {
                     String surName = rsRegistered.getString("etternavn");
                     out.println(userName + " (" + firstName + " " + surName + ")<br>");
                 }
+            }
+        }
+    }
+    
+    public void searchUser(String name, PrintWriter out) throws SQLException, NamingException {
+        
+        String forSql = name+"%";
+        String searchQ = "SELECT bruker.brukernavn, bruker.fornavn, bruker.etternavn from bruker WHERE brukernavn LIKE ?\n" +
+        " OR fornavn LIKE ? OR etternavn LIKE ?;";
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+            try (PreparedStatement ps = conn.prepareStatement(searchQ)) {
+                ps.setString(1, forSql);
+                ps.setString(2, forSql);
+                ps.setString(3, forSql);
+                
+                ResultSet searchResult = ps.executeQuery(); //resultset er en "liste" av alt queryen selected
+                while (searchResult.next()) { //iterator'
+
+                    String userName = searchResult.getString("brukernavn");
+                    String firstName = searchResult.getString("fornavn");
+                    String surName = searchResult.getString("etternavn");
+
+                    out.println(surName + ", " + firstName + " (" + userName + ")" +"<br>");
+
+                }
+
             }
         }
     }
@@ -182,3 +219,5 @@ public class MemberTools {
         }
     }
 }
+
+
