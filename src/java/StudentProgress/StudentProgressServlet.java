@@ -62,9 +62,17 @@ public class StudentProgressServlet extends HttpServlet {
              /***
               * KONTAKTINFORMASJON
               */
+
+             if(user == null){
+                 out.println("Informasjon om " + userName);
+                 out.println("<br>");
+                 proT.printPerson(userName, out);
+             } else if (user != null){
                  out.println("Informasjon om " + user);
                  out.println("<br>");
                  proT.printPerson(user, out);
+             }
+                 out.println("<br>");
                  out.println("<br>");
                  out.println("<br>");
 
@@ -77,8 +85,9 @@ public class StudentProgressServlet extends HttpServlet {
                     String moduleQ = "select modul_id from modul";
                     ResultSet rsModules = st.executeQuery(moduleQ);
                 
+                    
                 //Generell start-tekst for progresjon over en registrert student
-                if (userName.equalsIgnoreCase(user) && value.equals("registrertstudent") || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent")){
+                if ((user == null) || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent")){
                     out.println("Oversikt over progresjon");
                     out.println("<br>");
                     out.println("<br>");
@@ -90,12 +99,16 @@ public class StudentProgressServlet extends HttpServlet {
                     int intID = Integer.parseInt(modulID);
                     out.println("<br>");
                     //Registrert student ser kun sin egen progresjon
-                    if (request.isUserInRole("RegistrertStudent") && userName.equalsIgnoreCase(user) && value.equals("registrertstudent")){
+                    if (request.isUserInRole("RegistrertStudent") && userName.equalsIgnoreCase(user) && value.equals("registrertstudent") && user !=null){
                         proT.listModulesByUsername(userName, intID, out);
                         out.println("<form action=\"ModulePageServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
-                     
-                    } // Gjemmer foreleser og assistent i progresjon
+                    } else if (request.isUserInRole("RegistrertStudent") && user==null){
+                        proT.listModulesByUsername(userName, intID, out);
+                         out.println("<form action=\"ModulePageServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
+                    }
+                    // Gjemmer foreleser og assistent i progresjon
                     else if(value.equals("foreleser") || value.equals("uregistrertstudent") || value.equals("assistent")){
                         out.println("");
                     }
