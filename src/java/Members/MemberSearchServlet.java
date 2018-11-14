@@ -116,7 +116,7 @@ public class MemberSearchServlet extends HttpServlet {
                 out.print("Forelesere <br><br>");
                  memt.printMembersByRole("Foreleser", out);
                 out.println("<br><br>Assistenter<br><br>");
-                 memt.      printAssistants(out);
+                 memt.printAssistants(out);
                 out.print("<br><br>Registrerte brukere <br><br>");
                  memt.printRegisteredMembers(out);
             
@@ -176,4 +176,3 @@ public class MemberSearchServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-}
