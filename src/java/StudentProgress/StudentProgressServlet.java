@@ -63,7 +63,6 @@ public class StudentProgressServlet extends HttpServlet {
               * KONTAKTINFORMASJON
               */
 
-
              if(user == null){
                  out.println("Informasjon om " + userName);
                  out.println("<br>");
