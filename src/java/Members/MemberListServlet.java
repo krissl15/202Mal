@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Doffen
+ * @author Doffen, Elias
  */
 @WebServlet(name = "MemberListServlet", urlPatterns = {"/MemberListServlet"})
 public class MemberListServlet extends HttpServlet {
@@ -43,7 +43,7 @@ public class MemberListServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MedlemsListeVlet</title>");
+            out.println("<title>MemberListServlet</title>");
             out.println("</head>");
             out.println("<body>");
             MemberTools memt = new MemberTools();
@@ -55,74 +55,74 @@ public class MemberListServlet extends HttpServlet {
             /* Søkefunksjon */
             + "        <div>\n"
             + "            <p><h2>Medlemsliste</h2></p>\n"
-            + "            <form action=\"MemberSearch\" method \"post\">\n"
+            + "            <form action=\"MemberSearchServlet\" method \"post\">\n"
             + "              <input type=\"Text\"name=\"search\" placeholder=\"Søk etter medlemmer\"> \n"
             + "              <input type=\"Submit\" value=\"Søk\">  <br><br> \n"
             + "            </form>\n"
             + "        </div>\n");
 
-            if (request.isUserInRole("Foreleser")){ //Sjekk om brukeren er foreleser
-            out.print("Forelesere <br><br>");
+            if (request.isUserInRole("Foreleser")) {
+            out.println("Forelesere <br><br>");
             memt.printMembersByRole("Foreleser", out);
+            out.println("<br><br>Assistenter<br><br>");
+            memt.printMembersByRole("Assistent",out);
             out.println("<br><br>Registrerte brukere<br><br>");
             memt.printMembersByRole("RegistrertStudent", out);
             out.println("<br><br>Ikke registrerte brukere<br><br>");
             memt.printMembersByRole("UregistrertStudent", out);
-            out.println("<br><br>Assistenter<br><br>");
-            memt.printMembersByRole("Assistent",out);
 
                 String change = request.getParameter("member"); //alle knappene heter det samme ("member")
-                String aCheck = request.getParameter("addCheck");
-                String rCheck = request.getParameter("removeCheck");
+                //String aCheck = request.getParameter("addCheck");
+                //String rCheck = request.getParameter("removeCheck");
 
                 if (change.contains("Registrer")) { //Sjekker om knappen er en "fjern" eller "Registrer
 
                     String name = change.substring(change.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change).
-                    if (aCheck.contains(name)) { //checkbox check
+                    //if (aCheck.contains(name)) { //checkbox check
                         memt.registerStudent(name, out); //registrert brukeren når knappen blir trykket
                         memt.addToModulKanal(name, out);
                         response.sendRedirect("MemberListServlet"); //Oppdaterer siden ved å directe brukeren til samme side
-                    }
+                    //}
                 }
 
                 if (change.contains("Fjern")) { //Sjekker om knappen er en "fjern" eller "Registrer
                     String name = change.substring(change.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change).
-                    if (rCheck.contains(name)) {
+                    //if (rCheck.contains(name)) {
                         memt.unRegister(name, out);
                         memt.removeFromModulKanal(name, out);
                         response.sendRedirect("MemberListServlet");
-                    }
+                    //}
                 }
                 
                  if(change.contains("Ta bort assistent")){ //Sjekker om knappen er en "fjern" eller "Registrer
                  String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
                  memt.unRegister(name, out);
-                 response.sendRedirect("MemberListServlet");
-                 
+                 response.sendRedirect("MemberListServlet");  
              }
              
              if(change.contains("Assistent")){
                  String name = change.substring(change.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
                  memt.registerAssistent(name, out);
                  response.sendRedirect("MemberListServlet");
-            }
-                
+             }
+             
             } else if(request.isUserInRole("RegistrertStudent")){ //Studenter ser kun registrerte brukere, assistenter og forelesere
                 out.print("Forelesere <br><br>");
                  memt.printMembersByRole("Foreleser", out);
-                out.print("<br><br>Registrerte brukere <br><br>");
-                 memt.printRegisteredMembers(out);
                 out.println("<br><br>Assistenter<br><br>");
                  memt.printAssistants(out);
+                out.print("<br><br>Registrerte brukere <br><br>");
+                 memt.printRegisteredMembers(out);
             }
             
             else if (request.isUserInRole("Assistent")) {
                 out.print("Forelesere <br><br>");
                  memt.printMembersByRole("Foreleser", out);
-                out.print("<br><br>Registrerte brukere <br><br>");
-                 memt.printRegisteredMembers(out);
                 out.println("<br><br>Assistenter<br><br>");
                  memt.printAssistants(out);
+                out.print("<br><br>Registrerte brukere <br><br>");
+                 memt.printRegisteredMembers(out);
+                
             }
 
             out.println("</body>");

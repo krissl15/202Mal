@@ -12,7 +12,7 @@ import javax.naming.NamingException;
 
 /**
  *
- * @author Doffen
+ * @author Doffen, Elias
  */
 public class MemberTools {
 
@@ -37,29 +37,33 @@ public class MemberTools {
                     String surName = rsRegistered.getString("etternavn");
                     String rolle = rsRegistered.getString("rolle");
                     
-                    String chosenPerson  = "<li><a href='StudentProgressServlet?userName=%s&firstName=%s&lastName=%s'>%s %s %s</a> </li>"; 
-                    out.format(chosenPerson,userName,firstName,surName, userName, firstName, surName);
+                    String chosenPerson  = "<li><a href='StudentProgressServlet?userName=%s&firstName=%s&lastName=%s&value=%s'>%s %s %s %s</a> </li>"; 
+
 
                     if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
-                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.format(chosenPerson, userName,firstName,surName, "registrertstudent", userName, firstName, surName, "registrertstudent");
+                        //out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
-                                + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
+                              // + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\"><br>");
                          out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
                     } else if (rolle.equals("UregistrertStudent")) {
-                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.format(chosenPerson, userName,firstName,surName, "uregistrertstudent", userName, firstName, surName, "uregistrertstudent");
+                        //out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
-                                + "<input type=\"checkbox\" name=\"addCheck\" value=\"Add " + userName + "\"><br>"
+                              // + "<input type=\"checkbox\" name=\"addCheck\" value=\"Add " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Registrer " + userName + "\"><br>");
                     }else if (rolle.equals("Assistent")) {
-                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.format(chosenPerson, userName,firstName,surName, "assistent", userName, firstName, surName, "assistent");
+                        //out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
                     }
                         
                     else if (rolle.equals("Foreleser")) {
-                        out.println(userName + " (" + firstName + " " + surName + ")");                    
+                        out.format(chosenPerson, userName,firstName,surName, "foreleser", userName, firstName, surName, "foreleser");
+                        //out.println(userName + " (" + firstName + " " + surName + ")");                    
                     
                 }
             }
@@ -81,25 +85,30 @@ public class MemberTools {
 
                 ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
                 while (rsRegistered.next()) {
+                    String chosenPerson  = "<li><a href='StudentProgressServlet?userName=%s&firstName=%s&lastName=%s&value=%s'>%s %s %s %s</a> </li>";
                     String userName = rsRegistered.getString("brukernavn");
                     String firstName = rsRegistered.getString("fornavn");
                     String surName = rsRegistered.getString("etternavn");
-                    out.println(userName + " (" + firstName + " " + surName + ")<br>");
+                    out.format(chosenPerson, userName,firstName,surName, "registrertstudent", userName, firstName, surName, "registrertstudent");
+                    //out.println(userName + " (" + firstName + " " + surName + ")<br>");
                 }
             }
         }
     }
     
-    public void searchUser(String name, PrintWriter out) throws SQLException, NamingException {
+    public void searchUser(String name, String roleName, PrintWriter out) throws SQLException, NamingException {
         
         String forSql = name+"%";
-        String searchQ = "SELECT bruker.brukernavn, bruker.fornavn, bruker.etternavn from bruker WHERE brukernavn LIKE ?\n" +
-        " OR fornavn LIKE ? OR etternavn LIKE ?;";
+        String searchQ = "SELECT bruker.brukernavn, bruker.fornavn, bruker.etternavn, bruker_rolle.rolle\n" +
+                         "FROM bruker\n" +
+                         "INNER JOIN bruker_rolle\n" +
+                         "ON bruker_rolle.brukernavn = bruker.brukernavn\n" +
+                         "WHERE rolle = ? AND (fornavn LIKE ? OR etternavn LIKE ?);";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
             try (PreparedStatement ps = conn.prepareStatement(searchQ)) {
-                ps.setString(1, forSql);
+                ps.setString(1, roleName);
                 ps.setString(2, forSql);
                 ps.setString(3, forSql);
                 
@@ -109,13 +118,36 @@ public class MemberTools {
                     String userName = searchResult.getString("brukernavn");
                     String firstName = searchResult.getString("fornavn");
                     String surName = searchResult.getString("etternavn");
+                    
 
-                    out.println(surName + ", " + firstName + " (" + userName + ")" +"<br>");
+                   
+
+                    if (roleName.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
+                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"
+                               // + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
+                                + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\"><br>");
+                         out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"
+                                + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
+                    } else if (roleName.equals("UregistrertStudent")) {
+                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"
+                               // + "<input type=\"checkbox\" name=\"addCheck\" value=\"Add " + userName + "\"><br>"
+                                + "<input type=\"Submit\" name=\"member\" value=\"Registrer " + userName + "\"><br>");
+                    }else if (roleName.equals("Assistent")) {
+                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"
+                                + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
+                    }
+                        
+                    else if (roleName.equals("Foreleser")) {
+                        out.println(userName + " (" + firstName + " " + surName + ")");   
 
                 }
 
             }
         }
+    }
     }
 
     /*
@@ -209,14 +241,15 @@ public class MemberTools {
             try (Statement psRegistered = conn.createStatement()) {
                  ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
                 while (rsRegistered.next()) {
+                    String chosenPerson  = "<li><a href='StudentProgressServlet?userName=%s&firstName=%s&lastName=%s&value=%s'>%s %s %s %s</a> </li>"; 
                     String userName = rsRegistered.getString("brukernavn");
                     String firstName = rsRegistered.getString("fornavn");
                     String surName = rsRegistered.getString("etternavn");
-                    out.println(userName + " (" + firstName + " " + surName + ")<br>");
+                    out.format(chosenPerson, userName,firstName,surName, "assistent", userName, firstName, surName, "assistent");
+                    
+                    //out.println(userName + " (" + firstName + " " + surName + ")<br>");
                 }
             }
         }
     }
 }
-
-

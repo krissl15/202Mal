@@ -37,43 +37,36 @@ public void listModulesByUsername(String userName, int modulID, PrintWriter out)
             DbConnector db = new DbConnector();
             try (Connection conn = db.getConnection(out);
                 PreparedStatement psListModules = conn.prepareStatement(selectModule)) {
-            psListModules.setString(1, userName);
+                psListModules.setString(1, userName);
                 psListModules.setInt(2, modulID);
-            ResultSet rsModulKanal = psListModules.executeQuery();
-            while (rsModulKanal.next()) {
-
-                //String moduleID = rsModulKanal.getString("modul_id");
-                String modulName = rsModulKanal.getString("modul_navn");
-                String modulStatus = rsModulKanal.getString("mk_status");
-                //int intID = Integer.parseInt(moduleID);
-                out.println(modulName + " " + modulStatus + " " + "{Poeng}" + "<br>");
-            }
+                ResultSet rsModulKanal = psListModules.executeQuery();
+                    while (rsModulKanal.next()) {
+                        String modulName = rsModulKanal.getString("modul_navn");
+                        String modulStatus = rsModulKanal.getString("mk_status");
+                        out.println(modulName + " " + modulStatus + " " + "{Poeng}" + "<br>");
+                    }
             }
 }
 
-public void printStudentInfo(String userName, PrintWriter out){
+public void printPerson(String userName, PrintWriter out){
     String selectUser = "SELECT fornavn, etternavn, epost FROM bruker WHERE brukernavn=?";
     DbConnector db = new DbConnector();
             try (Connection conn = db.getConnection(out);
                 PreparedStatement psListModules = conn.prepareStatement(selectUser)) {
-            psListModules.setString(1, userName);
-
-            ResultSet rsUser = psListModules.executeQuery();
-            while (rsUser.next()) {
-
-                String firstName = rsUser.getString("fornavn");
-                String lastName = rsUser.getString("etternavn");
-                String mail = rsUser.getString("epost");
-                out.println("Fornavn: " + firstName);
-                out.println("<br>");
-                out.println("Etternavn: " + lastName);
-                out.println("<br>");
-                out.println("E-post adresse: " + mail);
-
-            }
+                psListModules.setString(1, userName);
+                ResultSet rsUser = psListModules.executeQuery();
+                    while (rsUser.next()) {
+                        String firstName = rsUser.getString("fornavn");
+                        String lastName = rsUser.getString("etternavn");
+                        String mail = rsUser.getString("epost");
+                        out.println("Fornavn: " + firstName);
+                        out.println("<br>");
+                        out.println("Etternavn: " + lastName);
+                        out.println("<br>");
+                        out.println("E-post adresse: " + mail);
+                    }
             } catch (SQLException ex) {
         Logger.getLogger(ProgressTools.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
 }
-

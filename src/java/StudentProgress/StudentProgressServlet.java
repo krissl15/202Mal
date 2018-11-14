@@ -52,49 +52,66 @@ public class StudentProgressServlet extends HttpServlet {
             out.println("<body>");
              String userName = request.getRemoteUser(); //navnet på brukeren som er logget inn. brukes for studenter
              String user = request.getParameter("userName"); //navnet på brukeren man vil se progresjon for. hentes fra URL, for foreleser
-              ProgressTools proT = new ProgressTools();
+             String value = request.getParameter("value");
+             ProgressTools proT = new ProgressTools();
               
-            if (request.isUserInRole("RegistrertStudent")){
-                out.println("Progresjon for " + userName + "<br>");
-                proT.printStudentInfo(userName, out);
-                out.println("<br>");
-                out.println("<br>");
-            } else if (request.isUserInRole("Foreleser")){
-                out.println("Progresjon for " + user);
-                proT.printStudentInfo(user, out);
-            }
-            
+             /***
+              * KONTAKTINFORMASJON
+              */
+                 out.println("Informasjon om " + user);
+                 out.println("<br>");
+                 proT.printPerson(user, out);
+                 out.println("<br>");
+                 out.println("<br>");
 
-        DbConnector db = new DbConnector();
-        try (Connection conn = db.getConnection(out)) { 
-            try (Statement st = conn.createStatement()) {
-                 String moduleQ = "select modul_id from modul";
-                ResultSet rsModules = st.executeQuery(moduleQ);
+            /***
+             * PRINTER MODULER
+             */
+            DbConnector db = new DbConnector();
+            try (Connection conn = db.getConnection(out)) { 
+                try (Statement st = conn.createStatement()) {
+                    String moduleQ = "select modul_id from modul";
+                    ResultSet rsModules = st.executeQuery(moduleQ);
+                
+                //Generell start-tekst for progresjon over en registrert student
+                if (userName.equalsIgnoreCase(user) && value.equals("registrertstudent") || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent")){
+                    out.println("Oversikt over progresjon");
+                    out.println("<br>");
+                    out.println("<br>");
+                    out.println("Modul  Status  Poeng");
+                }
+
                 while (rsModules.next()) {
                     String modulID = rsModules.getString("modul_id");
                     int intID = Integer.parseInt(modulID);
-                    out.println("Modul  Status  Poeng");
-                    out.println("<form action=\"ModulePageServlet\" method=\"post\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
-                    if (request.isUserInRole("RegistrertStudent")){
+                    out.println("<br>");
+                    //Registrert student ser kun sin egen progresjon
+                    if (request.isUserInRole("RegistrertStudent") && userName.equalsIgnoreCase(user) && value.equals("registrertstudent")){
                         proT.listModulesByUsername(userName, intID, out);
+                        out.println("<form action=\"ModulePageServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
+                     
+                    } // Gjemmer foreleser og assistent i progresjon
+                    else if(value.equals("foreleser") || value.equals("uregistrertstudent") || value.equals("assistent")){
+                        out.println("");
                     }
-                    else if (request.isUserInRole("Foreleser")){
+                    //Foreleser og assistent får tilgang til studentenes progresjon
+                    else if (request.isUserInRole("Foreleser") || request.isUserInRole("Assistent")){
                         proT.listModulesByUsername(user, intID, out);
+                         out.println("<form action=\"ModulePageServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
                     }
                     out.println("</form>");
                     out.println("<br>");
                 }
-            }
-        } 
+                }
+            } 
             out.println("<br>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-
-
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -130,8 +147,8 @@ public class StudentProgressServlet extends HttpServlet {
         } catch (SQLException | NamingException ex) {
             Logger.getLogger(StudentProgressServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
     }
-
     /**
      * Returns a short description of the servlet.
      *
@@ -141,6 +158,4 @@ public class StudentProgressServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-
 }

@@ -75,6 +75,7 @@ public class GradingServlet extends HttpServlet {
                 out.println("txtteacher: " + teacher + "<br>");
 
                 ct.setGrade(comment, points, teacher, txtStudent, txtModuleID, out);
+                ct.setRettetAndLevert(txtStudent, txtModuleID, out);
                 response.sendRedirect("ModuleMenuServlet");
             }
 
