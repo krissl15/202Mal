@@ -5,6 +5,7 @@
  */
 package Module;
 
+import Members.MemberTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -61,6 +62,10 @@ public class ModuleEditServlet extends HttpServlet {
             
             ModuleTools mt = new ModuleTools();
             mt.updateModule(intModuleId, modul_navn, modul_goal, modul_tekst, modul_innleveringstype, modul_status, modul_fristdato, intOldModuleId, out);
+            
+            MemberTools memt = new MemberTools();
+            memt.addAllToNewModulekanal(modul_id, out);
+            
             out.println("Modulen er oppdatert");
             out.println("<form action=\"ModuleMenuServlet\" method=\"post\">\n"
                     + "                <input type=\"Submit\" name=\"btnBack\" value=\"Tilbake\"> <br>  \n"

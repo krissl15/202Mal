@@ -219,6 +219,27 @@ public class MemberTools {
 
     } //end addToModulKanal 
     
+   public void addAllToNewModulekanal(String moduleID, PrintWriter out) throws SQLException{
+       String qUsers ="select brukernavn from bruker_rolle where rolle=\"registrertstudent\";";
+       String qInsert="insert into modulkanal (brukernavn, modul_id, mk_status, mk_rettet_status)\n" +
+"values(?, ?, \"Ikke levert\", \"Ikke rettet\");";
+       DbConnector db = new DbConnector();
+       try(Connection conn = db.getConnection(out);
+       PreparedStatement psUsers = conn.prepareStatement(qUsers);
+       PreparedStatement psInsert = conn.prepareCall(qInsert)){
+           
+           ResultSet rsUsers = psUsers.executeQuery();
+           while(rsUsers.next()){
+               String userName = rsUsers.getString("brukernavn");
+               
+               psInsert.setString(1, userName);
+               psInsert.setString(2, moduleID);
+               psInsert.executeUpdate();
+           }
+           
+       }
+   }
+    
     public void removeFromModulKanal(String name, PrintWriter out) throws SQLException{
         String deleteQ = "delete from modulkanal\n" +
 "where brukernavn = ?";
