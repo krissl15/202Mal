@@ -6,6 +6,7 @@
 package StudentProgress;
 
 import Utilities.DbConnector;
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -50,6 +51,9 @@ public class StudentProgressServlet extends HttpServlet {
             out.println("<title>Servlet StudentProgress</title>");            
             out.println("</head>");
             out.println("<body>");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            
              String userName = request.getRemoteUser(); //navnet på brukeren som er logget inn. brukes for studenter
              String user = request.getParameter("userName"); //navnet på brukeren man vil se progresjon for. hentes fra URL, for foreleser
              String value = request.getParameter("value");

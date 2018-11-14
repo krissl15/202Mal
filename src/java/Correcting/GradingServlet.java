@@ -5,6 +5,7 @@
  */
 package Correcting;
 
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -43,7 +44,11 @@ public class GradingServlet extends HttpServlet {
             out.println("<title>Servlet GradingServlet</title>");
             out.println("</head>");
             out.println("<body>");
-
+            
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            
+            
             String student = request.getParameter("userName");
             String firstName = request.getParameter("firstName");
             String surname = request.getParameter("lastName");
@@ -78,6 +83,7 @@ public class GradingServlet extends HttpServlet {
                 ct.setRettetAndLevert(txtStudent, txtModuleID, out);
                 response.sendRedirect("ModuleMenuServlet");
             }
+            
 
             out.println("</body>");
             out.println("</html>");

@@ -1,6 +1,7 @@
 package Module;
 
 import Utilities.DbConnector;
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -45,6 +46,8 @@ public class ModuleMenuServlet extends HttpServlet {
             out.println("<title>Servlet ModuleMenu</title>");            
             out.println("</head>");
             out.println("<body>");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
   
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
@@ -71,7 +74,7 @@ public class ModuleMenuServlet extends HttpServlet {
 "                <input type=\"Submit\" name=\"btnUnC\" value=\"Moduler\"> <br><br>  \n" +
 "            </form>");
                 
-            } 
+            }   
              else if (request.isUserInRole("RegistrertStudent")){
                  out.print("<form action =\"StudentProgressServlet\" method =\"POST\">\n" +
 "<input type =\"Submit\" name =\"btnProgress\" value =\"Få oversikt over progresjon\">\n" +

@@ -5,6 +5,7 @@
  */
 package Members;
 
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -46,14 +47,12 @@ public class MemberListServlet extends HttpServlet {
             out.println("<title>MemberListServlet</title>");
             out.println("</head>");
             out.println("<body>");
+            
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
             MemberTools memt = new MemberTools();
-            /* Knapp som returnerer til hovedmenyen */
-            out.println("<form action=\"MainPage\" method=\"post\">\n" +
-            "<input type=\"Submit\" name=\"btnTilbake\" value=\"Tilbake\"> <br><br>  \n" +
-            "</form>  \n"
-                    
-            /* Søkefunksjon */
-            + "        <div>\n"
+            
+            out.println("<div>\n"
             + "            <p><h2>Medlemsliste</h2></p>\n"
             + "            <form action=\"MemberSearchServlet\" method \"post\">\n"
             + "              <input type=\"Text\"name=\"search\" placeholder=\"Søk etter medlemmer\"> \n"
