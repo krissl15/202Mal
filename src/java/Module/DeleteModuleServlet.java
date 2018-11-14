@@ -6,6 +6,7 @@
 package Module;
 
 import Module.ModuleTools;
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -44,6 +45,9 @@ public class DeleteModuleServlet extends HttpServlet {
             out.println("<title>Servlet DeleteModuleVlet</title>");
             out.println("</head>");
             out.println("<body>");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            
             String btnDelete = request.getParameter("btnDelete");
             String moduleNr = btnDelete.substring(btnDelete.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change).
             int intModuleNr = Integer.parseInt(moduleNr);
@@ -53,9 +57,7 @@ public class DeleteModuleServlet extends HttpServlet {
             mt.deleteModule(intModuleNr, out);
             out.println("modulen er slettet");
 
-            out.print("<form action=\"ModuleMenuServlet\" method=\"post\">\n"
-                    + "                <input type=\"Submit\" name=\"btnBack\" value=\"Til Menyen\"> <br>  \n"
-                    + "               </form>");
+            
             out.println("</body>");
             out.println("</html>");
         }

@@ -5,6 +5,7 @@
  */
 package Delivery;
 
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -46,9 +47,8 @@ public class DeliveryServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
 
-               out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
-"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
-"</form>");
+               MenuTools men = new MenuTools();
+            men.menuButtons(out);
             
             String module = request.getParameter("btnDeliver");
             String sModuleID = module.substring(module.lastIndexOf(" ") + 1); //siste ordet i knappen er nr. på modulen. 
@@ -74,9 +74,7 @@ public class DeliveryServlet extends HttpServlet {
           response.sendRedirect("DeliveryServlet"); //Oppdaterer siden ved å directe brukeren til samme side
 
           }
-          out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
-"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
-"</form>");
+          
           
         
 

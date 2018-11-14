@@ -6,6 +6,7 @@
 package Correcting;
 
 import Delivery.DeliveryTools;
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -44,6 +45,9 @@ public class UncorrectedServlet extends HttpServlet {
             out.println("<title>Servlet UncorrectedServlet</title>");            
             out.println("</head>");
             out.println("<body>");
+            
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
             
             DeliveryTools dt = new DeliveryTools();
             dt.listUnCorrectedDeliveries(out);

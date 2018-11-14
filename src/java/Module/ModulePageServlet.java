@@ -7,6 +7,7 @@ package Module;
 
 import Delivery.DeliveryTools;
 import Utilities.DbConnector;
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -49,6 +50,9 @@ public class ModulePageServlet extends HttpServlet {
             out.println("<title>Servlet ModulePage</title>");
             out.println("</head>");
             out.println("<body>");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            
             ModuleTools mT = new ModuleTools();
             String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
             int intModuleNr = Integer.parseInt(moduleNr);
