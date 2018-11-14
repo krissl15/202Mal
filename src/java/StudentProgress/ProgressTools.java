@@ -28,11 +28,13 @@ public class ProgressTools {
     
 public void listModulesByUsername(String userName, int modulID, PrintWriter out) throws SQLException{
                 
-    String selectModule = "SELECT modulkanal.modul_id, mk_status, innlevering_id, modul_navn\n" +
+    String selectModule = "SELECT modulkanal.modul_id, mk_status, mk_rettet_status, modul_navn, tilbakemelding_poeng\n" +
 "FROM modulkanal\n" +
+"INNER JOIN tilbakemelding ON tilbakemelding.modul_id = modulkanal.modul_id\n" +
 "INNER JOIN modul ON modul.modul_id = modulkanal.modul_id\n" +
-"WHERE brukernavn = ?" +
-"AND modulkanal.modul_id = ?;";    
+"WHERE modulkanal.brukernavn= ?\n" +
+"AND modulkanal.modul_id= ?\n" +
+"ORDER BY tilbakemelding_id DESC LIMIT 1;";    
 
             DbConnector db = new DbConnector();
             try (Connection conn = db.getConnection(out);
@@ -40,11 +42,12 @@ public void listModulesByUsername(String userName, int modulID, PrintWriter out)
                 psListModules.setString(1, userName);
                 psListModules.setInt(2, modulID);
                 ResultSet rsModulKanal = psListModules.executeQuery();
-                    while (rsModulKanal.next()) {
+                        String modulRettet = rsModulKanal.getString("mk_rettet_status");
+                        String modulPoeng = rsModulKanal.getString("tilbakemelding_poeng");
                         String modulName = rsModulKanal.getString("modul_navn");
                         String modulStatus = rsModulKanal.getString("mk_status");
-                        out.println(modulName + " " + modulStatus + " " + "{Poeng}" + "<br>");
-                    }
+                        out.println(modulName + " " + modulStatus + " " + modulRettet + " " + modulPoeng + "<br>");
+                    
             }
 }
 
