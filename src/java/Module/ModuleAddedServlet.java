@@ -5,6 +5,7 @@
  */
 package Module;
 
+import Members.MemberTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -81,8 +82,11 @@ public class ModuleAddedServlet extends HttpServlet {
             int intDato = Integer.parseInt(modul_fristdato);
 
             ModuleTools mt = new ModuleTools();
+            MemberTools mem = new MemberTools();
 
             mt.insertModule(intModuleId, modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
+            mem.addAllToNewModulekanal(module_id, out);
+            
         }
         
         

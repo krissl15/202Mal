@@ -69,7 +69,7 @@ public class ModuleMenuServlet extends HttpServlet {
 "                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br>  \n" +
 "            </form>");
 
-                out.println("<h3>Uregistrerte moduler</h3><br>");
+                out.println("<h3>Urettede moduler</h3><br>");
                 out.print("<form action=\"UncorrectedServlet\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnUnC\" value=\"Moduler\"> <br><br>  \n" +
 "            </form>");

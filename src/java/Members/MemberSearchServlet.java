@@ -5,6 +5,7 @@
  */
 package Members;
 
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -51,9 +52,8 @@ public class MemberSearchServlet extends HttpServlet {
             MemberTools memt = new MemberTools();
             String searchCheck = request.getParameter("search");
             /* Knapp som returnerer til hovedmenyen */
-            out.println("<form action=\"MemberListServlet\" method=\"post\">\n" +
-            "<input type=\"Submit\" name=\"btnTilbake\" value=\"Tilbake\"> <br><br>  \n" +
-            "</form>  \n");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
             
             if (request.isUserInRole("Foreleser")) {
                 out.println("Forelesere: <br><br>");
