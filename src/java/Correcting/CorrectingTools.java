@@ -42,4 +42,22 @@ public class CorrectingTools {
                 
         }  
     }
+       
+       
+       
+       public void setRettetAndLevert(String userName, String moduleID, PrintWriter out) throws SQLException{
+           
+           String qGradedDelivered = "update modulkanal set mk_status=\"Levert\",mk_rettet_status=\"Rettet\"  where modul_id=? and brukernavn=?;";
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psGradedDelivered = conn.prepareStatement(qGradedDelivered)) {
+            psGradedDelivered.setString(1, moduleID);
+            psGradedDelivered.setString(2, userName);
+
+            psGradedDelivered.executeUpdate();
+        }
+           
+           
+       }
 }//class end

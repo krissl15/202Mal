@@ -176,4 +176,3 @@ public class MemberSearchServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-}
