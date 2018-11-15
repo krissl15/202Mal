@@ -63,12 +63,17 @@ public class StudentProgressServlet extends HttpServlet {
              /***
               * KONTAKTINFORMASJON
               */
-
+            String profilePic = "https://www.itutor-et.com/images/account.png";
+            
              if(user == null){
                  out.println("<h2>Informasjon om " + userName + "</h2>");
+                 out.println("<img src=" + profilePic +" height=\"42\" width=\"42\">");
+                 out.println("<br>");
                  proT.printPerson(userName, out);
              } else if (user != null){
                  out.println("<h2>Informasjon om " + user + "</h2>");
+                 out.println("<img src=" + profilePic +" height=\"42\" width=\"42\">");
+                 out.println("<br>");
                  proT.printPerson(user, out);
              }
                  out.println("<br>");
