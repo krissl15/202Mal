@@ -37,11 +37,11 @@ public class MemberTools {
                     String surName = rsRegistered.getString("etternavn");
                     String rolle = rsRegistered.getString("rolle");
                     
-                    String chosenPerson  = "<li><a href='StudentProgressServlet?userName=%s&firstName=%s&lastName=%s&value=%s'>%s %s %s %s</a> </li>"; 
-
+                    //deklarerer URL hvor valgte person blir lagret, slik at en kan hente ut kontaktinformasjon.
+                    String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>"; 
 
                     if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
-                        out.format(chosenPerson, userName,firstName,surName, "registrertstudent", userName, firstName, surName, "registrertstudent");
+                        out.format(chosenPerson, firstName, surName, userName, "registrertstudent", firstName, surName, userName,"registrertstudent");
                         //out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                               // + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
@@ -49,25 +49,22 @@ public class MemberTools {
                          out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
                     } else if (rolle.equals("UregistrertStudent")) {
-                        out.format(chosenPerson, userName,firstName,surName, "uregistrertstudent", userName, firstName, surName, "uregistrertstudent");
+                        out.format(chosenPerson, firstName, surName, userName, "uregistrertstudent", firstName, surName, userName,"uregistrertstudent");
                         //out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                               // + "<input type=\"checkbox\" name=\"addCheck\" value=\"Add " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Registrer " + userName + "\"><br>");
                     }else if (rolle.equals("Assistent")) {
-                        out.format(chosenPerson, userName,firstName,surName, "assistent", userName, firstName, surName, "assistent");
+                        out.format(chosenPerson, firstName, surName, userName, "assistent", firstName, surName, userName,"assistent");
                         //out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
-                    }
-                        
-                    else if (rolle.equals("Foreleser")) {
-                        out.format(chosenPerson, userName,firstName,surName, "foreleser", userName, firstName, surName, "foreleser");
+                    }else if (rolle.equals("Foreleser")) {
+                        out.format(chosenPerson, firstName, surName, userName, "foreleser", firstName, surName, userName,"foreleser");
                         //out.println(userName + " (" + firstName + " " + surName + ")");                    
-                    
+                    }
                 }
             }
-        }
         }
     }//end printMembersByRole
     
@@ -119,9 +116,6 @@ public class MemberTools {
                     String firstName = searchResult.getString("fornavn");
                     String surName = searchResult.getString("etternavn");
                     
-
-                   
-
                     if (roleName.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
                         out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"

@@ -48,7 +48,8 @@ public class StudentProgressServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StudentProgress</title>");            
+            out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
+            out.println("<title>Oversikt over progresjon</title>");            
             out.println("</head>");
             out.println("<body>");
             MenuTools men = new MenuTools();
@@ -64,16 +65,12 @@ public class StudentProgressServlet extends HttpServlet {
               */
 
              if(user == null){
-                 out.println("Informasjon om " + userName);
-                 out.println("<br>");
+                 out.println("<h2>Informasjon om " + userName + "</h2>");
                  proT.printPerson(userName, out);
              } else if (user != null){
-                 out.println("Informasjon om " + user);
-                 out.println("<br>");
+                 out.println("<h2>Informasjon om " + user + "</h2>");
                  proT.printPerson(user, out);
              }
-                 out.println("<br>");
-                 out.println("<br>");
                  out.println("<br>");
 
             /***
@@ -88,10 +85,11 @@ public class StudentProgressServlet extends HttpServlet {
                     
                 //Generell start-tekst for progresjon over en registrert student
                 if ((user == null) || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent")){
-                    out.println("Oversikt over progresjon");
+                    out.println("<h3>Oversikt over progresjon</h3>");
+                    out.println("Her står det status om hvordan du ligger an i modulene dine. Trykk på knappene for å få mer informasjon om modulene.");
                     out.println("<br>");
                     out.println("<br>");
-                    out.println("Modul  Status  Poeng");
+                    out.println("<b>Modul  Status  Poeng/maxPoeng</b>");
                 }
 
                 while (rsModules.next()) {
@@ -100,11 +98,11 @@ public class StudentProgressServlet extends HttpServlet {
                     out.println("<br>");
                     //Registrert student ser kun sin egen progresjon
                     if (request.isUserInRole("RegistrertStudent") && userName.equalsIgnoreCase(user) && value.equals("registrertstudent") && user !=null){
-                        proT.listModulesByUsername(userName, intID, out);
+                        proT.printModulesByUsername(userName, intID, out);
                         out.println("<form action=\"ModulePageServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
                     } else if (request.isUserInRole("RegistrertStudent") && user==null){
-                        proT.listModulesByUsername(userName, intID, out);
+                        proT.printModulesByUsername(userName, intID, out);
                          out.println("<form action=\"ModulePageServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
                     }
@@ -114,9 +112,9 @@ public class StudentProgressServlet extends HttpServlet {
                     }
                     //Foreleser og assistent får tilgang til studentenes progresjon
                     else if (request.isUserInRole("Foreleser") || request.isUserInRole("Assistent")){
-                        proT.listModulesByUsername(user, intID, out);
+                        proT.printModulesByUsername(user, intID, out);
                          out.println("<form action=\"ModulePageServlet\" method=\"post\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
+                            + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">" + "</form>" + " ");
                     }
                     out.println("</form>");
                     out.println("<br>");
