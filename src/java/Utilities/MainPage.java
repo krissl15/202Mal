@@ -45,7 +45,9 @@ public class MainPage extends HttpServlet {
             out.println("Du er ikke registrert i dette faget.<br>"
                     + "Få en foreleser til å registrere deg");
             }else{
-             out.println("<form action=\"ModuleMenuServlet\" method=\"post\">\n" +
+             out.println("<form action=\"StudentProgressServlet\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"btnStudentProgresjon\" value=\"Profil\"> <br><br>  \n" +
+"            </form>" + "<form action=\"ModuleMenuServlet\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnModuler\" value=\"Moduler\"> <br><br>  \n" +
 "            </form>  \n" + "<form action=\"MemberListServlet\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnMedlemsListe\" value=\"Medlemsliste\"> <br><br>  \n" +
