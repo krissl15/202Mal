@@ -41,6 +41,7 @@ public class ModuleStoreServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet ModuleStore</title>");            
             out.println("</head>");        
             out.println("<body>");

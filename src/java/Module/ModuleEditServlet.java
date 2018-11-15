@@ -42,6 +42,7 @@ public class ModuleEditServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet ModuleEdit</title>");            
             out.println("</head>");
             
