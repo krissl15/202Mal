@@ -82,11 +82,11 @@ public class MemberTools {
 
                 ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
                 while (rsRegistered.next()) {
-                    String chosenPerson  = "<li><a href='StudentProgressServlet?userName=%s&firstName=%s&lastName=%s&value=%s'>%s %s %s %s</a> </li>";
+                    String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>";
                     String userName = rsRegistered.getString("brukernavn");
                     String firstName = rsRegistered.getString("fornavn");
                     String surName = rsRegistered.getString("etternavn");
-                    out.format(chosenPerson, userName,firstName,surName, "registrertstudent", userName, firstName, surName, "registrertstudent");
+                    out.format(chosenPerson, firstName, surName, userName, "registrertstudent", firstName, surName, userName,"registrertstudent");
                     //out.println(userName + " (" + firstName + " " + surName + ")<br>");
                 }
             }
@@ -256,11 +256,11 @@ public class MemberTools {
             try (Statement psRegistered = conn.createStatement()) {
                  ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
                 while (rsRegistered.next()) {
-                    String chosenPerson  = "<li><a href='StudentProgressServlet?userName=%s&firstName=%s&lastName=%s&value=%s'>%s %s %s %s</a> </li>"; 
+                    String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>"; 
                     String userName = rsRegistered.getString("brukernavn");
                     String firstName = rsRegistered.getString("fornavn");
                     String surName = rsRegistered.getString("etternavn");
-                    out.format(chosenPerson, userName,firstName,surName, "assistent", userName, firstName, surName, "assistent");
+                    out.format(chosenPerson, firstName, surName, userName, "assistent", firstName, surName, userName,"assistent");
                     
                     //out.println(userName + " (" + firstName + " " + surName + ")<br>");
                 }
