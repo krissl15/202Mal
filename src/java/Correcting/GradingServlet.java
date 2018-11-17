@@ -61,7 +61,8 @@ public class GradingServlet extends HttpServlet {
                     + "Etternavn " + "<input type=\"text\" name=\"txtSurname\" value=\"" + surname + "\"readonly>\n<br>"
                     + "Modul ID " + "<input type=\"text\" name=\"txtModuleId\" value=\"" + moduleID + "\"readonly>\n<br>"
                     + "<input type=\"text\" name=\"txtComment\" placeholder=\"kommentar\">\n<br>"
-                    + "<input type=\"text\" name=\"txtPoints\" placeholder=\"poeng (punktum ved desimal\">\n<br>"
+                    + "<input type=\"text\" name=\"txtPoints1\" placeholder=\"poeng (punktum ved desimal\">\n" + "."
+                    + "<input type=\"text\" name=\"txtPoints2\" placeholder=\"poeng (punktum ved desimal\">\n<br>"
                     + "<input type=\"submit\" name=\"btnGrade\" value=\"Registrer karakter\">\n<br>"
                     + "</form>");
 
@@ -69,7 +70,9 @@ public class GradingServlet extends HttpServlet {
 
             if (btn.contains("Registrer")) {
                 CorrectingTools ct = new CorrectingTools();
-                String points = request.getParameter("txtPoints");
+                String points1 = request.getParameter("txtPoints1");
+                String points2 = request.getParameter("txtPoints2");
+                String points = points1 + "." + points2;
                 String comment = request.getParameter("txtComment");
                 String txtStudent = request.getParameter("txtStudent");
                 String txtModuleID = request.getParameter("txtModuleId");
