@@ -82,7 +82,7 @@ public class DeliveryTools {
 
     public void setDeliveryToModulkanal(int deliveryID, int modulID, String userName, PrintWriter out) throws SQLException {
 
-        String qDeliveryModulKanal = ("update modulkanal set innlevering_id=?, mk_status=\"levert\" where modul_id=? and brukernavn=?");
+        String qDeliveryModulKanal = ("update modulkanal set innlevering_id=?, mk_status=\"Levert\" where modul_id=? and brukernavn=?");
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
@@ -121,12 +121,12 @@ public class DeliveryTools {
      * @throws SQLException
      */
     public void listUnCorrectedDeliveries(PrintWriter out) throws SQLException {
-        String qUncorrected = "select bruker.fornavn, bruker.etternavn, bruker.brukernavn, modulkanal.mk_rettet_status, innlevering_id, modul.modul_navn, modul.modul_id\n"
-                + "from modulkanal\n"
-                + "inner join bruker on bruker.brukernavn = modulkanal.brukernavn\n"
-                + "inner join modul on modul.modul_id = modulkanal.modul_id\n"
-                + "where modulkanal.mk_rettet_status=\"Ikke rettet\" \n"
-                + "order by modul_id;";
+        String qUncorrected = "select bruker.fornavn, bruker.etternavn, modul_innleveringstype, bruker.brukernavn, modulkanal.mk_status, modulkanal.mk_rettet_status, innlevering_id, modul.modul_navn, modul.modul_id\n" +
+"from modulkanal\n" +
+"inner join bruker on bruker.brukernavn = modulkanal.brukernavn\n" +
+"inner join modul on modul.modul_id = modulkanal.modul_id\n" +
+"where modulkanal.mk_rettet_status=\"Ikke rettet\" \n" +
+"order by modul_id;";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
@@ -138,13 +138,17 @@ public class DeliveryTools {
                     String firstName = rsUncorrected.getString("fornavn");
                     String surname = rsUncorrected.getString("etternavn");
                     String moduleName = rsUncorrected.getString("modul_navn");
-                    String mkStatus = rsUncorrected.getString("mk_rettet_status");
+                    String mkCorrectedStatus = rsUncorrected.getString("mk_rettet_status");
+                    String mkDeliveredStatus = rsUncorrected.getString("mk_status");
+                    String mkType = rsUncorrected.getString("modul_innleveringstype");
                     int moduleID = rsUncorrected.getInt("modul_id");
 
+                    if((mkType.contains("Muntlig") && mkCorrectedStatus.contains("Ikke")) || (mkType.contains("Innlevering") && mkDeliveredStatus.equals("Levert") && mkCorrectedStatus.contains("Ikke"))){
                     String chosenPerson  = "<li><a href='GradingServlet?moduleID=%s&userName=%s&firstName=%s&lastName=%s'>%s %s %s %s</a> </li>"; 
                     out.format(chosenPerson, moduleID, userName,firstName,surname, moduleID, 
                             userName, firstName, surname);
-                     out.println(" Modul:" + moduleName + ", " + mkStatus);
+                     out.println(" Modul:" + moduleName + ", " + mkCorrectedStatus);
+                    }
                 }
 
             }
