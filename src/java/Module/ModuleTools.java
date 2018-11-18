@@ -21,20 +21,22 @@ public class ModuleTools {
      * @param out
      * @throws SQLException
      */
-    public void insertModule(int modulID, String modul_navn, String modul_goal,
-            String modul_tekst, String modul_status, int modul_fristdato, PrintWriter out) throws SQLException {
-        String sql = "INSERT INTO slit.modul(modul_id, modul_navn, modul_goal, modul_tekst, "
-                + "modul_status, modul_fristdato) VALUES(?,?,?,?,?,?)";
+    public void insertModule(int moduleID, String moduleName, String moduleGoal,
+            String moduleText, String modulePoints, String moduleDeliveryType, String moduleStatus, int moduleDate, PrintWriter out) throws SQLException {
+        String sql = "insert into modul (modul_id, modul_navn, modul_goal, modul_tekst, modul_max_poeng, modul_innleveringstype, modul_status, modul_fristdato)\n" +
+"values (?, ?, ?, ?, ?, ?, ?, ?);";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, modulID);
-                pstmt.setString(2, modul_navn);
-                pstmt.setString(3, modul_goal);
-                pstmt.setString(4, modul_tekst);
-                pstmt.setString(5, modul_status);
-                pstmt.setInt(6, modul_fristdato);
+                pstmt.setInt(1, moduleID);
+                pstmt.setString(2, moduleName);
+                pstmt.setString(3, moduleGoal);
+                pstmt.setString(4, moduleText);
+                pstmt.setString(5, modulePoints);
+                pstmt.setString(6, moduleDeliveryType);
+                pstmt.setString(7, moduleStatus);
+                pstmt.setInt(8, moduleDate);
 
                 pstmt.executeUpdate();
             } catch (SQLException ex) {
