@@ -94,14 +94,14 @@ public class ModulePageServlet extends HttpServlet {
 
                 String moduleType = mT.getType(intModuleNr, out);
 
-                if (moduleType.equals("Innlevering")) {
+                if (moduleType.equals("Skriftlig")) {
                     DeliveryTools dt = new DeliveryTools();
                     String userName = request.getRemoteUser(); //navnet på brukeren
                     String moduleStatus = dt.checkIfDelivered(userName, intModuleNr, out);
                     
                     String isModuleCorrected = dt.checkIfDeliveryCorrected(userName, intModuleNr, out);
                     
-                    if (moduleStatus.equals("levert")) {
+                    if (moduleStatus.equals("Levert")) {
                         out.println("Modulen er levert" + "<br><br>");
                         out.println("Modulen er " + isModuleCorrected);
                     } else {

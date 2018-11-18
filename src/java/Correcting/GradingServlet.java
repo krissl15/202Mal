@@ -5,6 +5,8 @@
  */
 package Correcting;
 
+import Delivery.DeliveryTools;
+import Module.ModuleTools;
 import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,6 +56,7 @@ public class GradingServlet extends HttpServlet {
             String firstName = request.getParameter("firstName");
             String surname = request.getParameter("lastName");
             String moduleID = request.getParameter("moduleID");
+            int intModuleID = Integer.parseInt(moduleID);
 
             out.println("<form>\n"
                     + " Brukernavn " + "<input type=\"text\" name=\"txtStudent\" value=\"" + student + "\"readonly>\n<br>"
@@ -66,6 +69,22 @@ public class GradingServlet extends HttpServlet {
                     + "<input type=\"submit\" name=\"btnGrade\" value=\"Registrer karakter\">\n<br>"
                     + "</form>");
 
+                    ModuleTools mt = new ModuleTools();
+                   String type = mt.getType(intModuleID, out);
+                   out.println("Læringsmål for denne modulen: " + "<br>");
+                   out.println(mt.getGoal(intModuleID, out) + "<br>");
+                   
+                   if(type.contains("Skriftlig")){
+                       out.println("Studentens svar: " + "<br><br>");
+                       DeliveryTools dt = new DeliveryTools();
+                       out.println(dt.getDeliveryTextByModuleUser(moduleID, student, out));
+                       
+                       
+                   }else{
+                       out.println("Denne modulen er muntlig");
+                   }
+                    
+            
             String btn = request.getParameter("btnGrade");
 
             if (btn.contains("Registrer")) {

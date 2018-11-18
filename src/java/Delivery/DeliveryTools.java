@@ -126,7 +126,7 @@ public class DeliveryTools {
 "inner join bruker on bruker.brukernavn = modulkanal.brukernavn\n" +
 "inner join modul on modul.modul_id = modulkanal.modul_id\n" +
 "where modulkanal.mk_rettet_status=\"Ikke rettet\" \n" +
-"order by modul_id;";
+"order by brukernavn";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
@@ -143,7 +143,7 @@ public class DeliveryTools {
                     String mkType = rsUncorrected.getString("modul_innleveringstype");
                     int moduleID = rsUncorrected.getInt("modul_id");
 
-                    if((mkType.contains("Muntlig") && mkCorrectedStatus.contains("Ikke")) || (mkType.contains("Innlevering") && mkDeliveredStatus.equals("Levert") && mkCorrectedStatus.contains("Ikke"))){
+                    if((mkType.contains("Muntlig") && mkCorrectedStatus.contains("Ikke")) || (mkType.contains("Skriftlig") && mkDeliveredStatus.equals("Levert") && mkCorrectedStatus.contains("Ikke"))){
                     String chosenPerson  = "<li><a href='GradingServlet?moduleID=%s&userName=%s&firstName=%s&lastName=%s'>%s %s %s %s</a> </li>"; 
                     out.format(chosenPerson, moduleID, userName,firstName,surname, moduleID, 
                             userName, firstName, surname);
@@ -155,4 +155,28 @@ public class DeliveryTools {
 
         }
     }
+
+    public String getDeliveryTextByModuleUser(String moduleID, String user, PrintWriter out) throws SQLException{
+         String qDeliveryText = "select innlevering_tekst \n" +
+"from innlevering\n" +
+"inner join modulkanal on modulkanal.innlevering_id = innlevering.innlevering_id\n" +
+"where modulkanal.brukernavn=? and modulkanal.modul_id=?;";
+        String deliveryText = null;
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psDeliveryText = conn.prepareStatement(qDeliveryText)) {
+            psDeliveryText.setString(1, user);
+            psDeliveryText.setString(2, moduleID);
+
+            try (ResultSet rsDeliveryText = psDeliveryText.executeQuery()) {
+                while (rsDeliveryText.next()) {
+                    deliveryText = rsDeliveryText.getString("innlevering_tekst");
+                }
+            }
+        }//end connection
+        return deliveryText;
+        
+    }
+            
 }//class end 
