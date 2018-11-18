@@ -46,6 +46,10 @@
             <url-pattern>/StudentProgressServlet</url-pattern>
             <url-pattern>/GradingServlet</url-pattern>
             <url-pattern>/MemberSearchServlet</url-pattern>
+            <url-pattern>/NewMessageServlet</url-pattern>
+            <url-pattern>/InboxServlet</url-pattern>
+            <url-pattern>/OutboxServlet</url-pattern>
+            
 
 
         </web-resource-collection>
