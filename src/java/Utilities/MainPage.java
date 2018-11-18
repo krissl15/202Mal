@@ -51,7 +51,9 @@ public class MainPage extends HttpServlet {
 "                <input type=\"Submit\" name=\"btnModuler\" value=\"Moduler\"> <br><br>  \n" +
 "            </form>  \n" + "<form action=\"MemberListServlet\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnMedlemsListe\" value=\"Medlemsliste\"> <br><br>  \n" +
-"            </form>");   
+"            </form>" + "<form action=\"InboxServlet\" method=\"post\">\n" +
+"                <input type=\"Submit\" name=\"btnInbox\" value=\"Innboks\"> <br><br>  \n" +
+"                </form>");   
             }
                     
             out.println("</body>");
