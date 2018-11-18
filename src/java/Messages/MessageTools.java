@@ -17,7 +17,8 @@ import java.sql.SQLException;
  * @author Elias
  */
 public class MessageTools {
-    Boolean messageSent = null;
+    String brukernavn;
+    String emne;
     public void insertMessage(String date, String messageRecipient, String messageTitle,
             String messageContent, String messageSender, PrintWriter out) throws SQLException {
             
@@ -54,18 +55,20 @@ public class MessageTools {
                          String emne = rsRegistered.getString("melding_emne");
                          String brukernavn = rsRegistered.getString("brukernavn");
                          String melding = rsRegistered.getString("melding_innhold");
-                         
                          out.format("<br>" + dato + "<br> Fra: " + brukernavn + "<br> Emne: " + emne + "<br> Innhold: " + melding + "<br>");
-                         out.println("<form action=\"NewMessageServlet\" method=\"post\">\n" +
+                         out.println("<form action=\"ReplyServlet\" method=\"post\">\n" + 
+                            "<input type=\"hidden\" name=\"hdnName\" Value=\" " + brukernavn + "\">" + 
+                            "<input type=\"hidden\" name=\"hdnEmne\" Value=\"" + emne + "\">" + 
                             "<input type=\"Submit\" name=\"btnReplyMessage\" value=\"Svar\"> <br> \n" +
                             "</form>  \n");
+                         
                         }
                     } catch (SQLException ex) {
                         System.out.println(ex.getMessage());
                     }
                 }
     }
-    
+
     public void showSendt(String avsender, PrintWriter out) throws SQLException{
         String utboks = "SELECT melding_dato, melding_emne, melding_innhold, melding_mottaker FROM melding WHERE brukernavn = ?;";
         DbConnector db = new DbConnector();
