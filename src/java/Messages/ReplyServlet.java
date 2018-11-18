@@ -38,20 +38,24 @@ public class ReplyServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             MessageTools msg = new MessageTools();
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet ReplyServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<form><h1>Ny melding</h1><b><b>Mottaker</b><input type=\"text\" name=\"messageRecipient\" placeholder=\"Mottaker av meldingen...\"> <br><br>  \n"
-                + "<b>Emne</b><input type=\"text\" name=\"messageTitle\" placeholder=\"Emne på meldingen...\"> <br><br>  \n"
+            String recipientField = request.getParameter("hdnName");
+            String titleField = request.getParameter("hdnEmne");
+            
+            out.println("<form><h2>Svar på melding</h2><b><b>Mottaker</b><input type=\"text\" name=\"messageRecipient\" value=\"" + recipientField + "\"> <br><br>  \n"
+                + "<b>Emne</b><input type=\"text\" name=\"messageTitle\" value=\"" + "RE: " + titleField + "\"> <br><br>  \n"
                 + "<b>Melding</b> <input type=\"text\" name=\"messageContent\" placeholder=\"Skriv din melding her...\"> <br><br> </div> \n"
                 + "<input type=\"Submit\" name=\"btnSendMessage\" value=\"Send\"> \n"
                 + "</form>  ");
             
-            String btnSend = request.getParameter("btnSendMessage");
-            if(btnSend.contains("Send")){
+            String btnSendMessage = request.getParameter("btnSendMessage");
+            if(btnSendMessage.contains("Send")){
                 
             LocalDate date = LocalDate.now();
             String recipient = request.getParameter("messageRecipient");
