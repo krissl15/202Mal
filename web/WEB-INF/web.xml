@@ -49,6 +49,7 @@
             <url-pattern>/NewMessageServlet</url-pattern>
             <url-pattern>/InboxServlet</url-pattern>
             <url-pattern>/OutboxServlet</url-pattern>
+	    <url-pattern>/ReplyServlet</url-pattern>
             
 
 
