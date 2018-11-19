@@ -52,24 +52,22 @@ public class ModuleEditServlet extends HttpServlet {
             out.println("</div>");
             
             out.println("<body>");
-            String modul_id = request.getParameter("textmoduleId1");
-            int intModuleId = Integer.parseInt(modul_id);
-            String modul_navn = request.getParameter("textmoduleName1");
-            String modul_goal = request.getParameter("textGoal1");
-            String modul_tekst = request.getParameter("textModule1");
-            String modul_innleveringstype = request.getParameter("textType1");
-            String modul_status = request.getParameter("textStatus1");
-            String modul_fristdato = request.getParameter("textDate1");
+            String moduleID = request.getParameter("textmoduleId1");
+            int intModuleId = Integer.parseInt(moduleID);
+            String moduleName = request.getParameter("textmoduleName1");
+            String moduleGoal = request.getParameter("textGoal1");
+            String moduleText = request.getParameter("textModule1");
+            String moduleDeliveryType = request.getParameter("textType1");
+            String moduleStatus = request.getParameter("textStatus1");
+            String moduleDate = request.getParameter("textDate1");
+            String moduleMaxPoints = request.getParameter("textPoints1");
             
             String oldModuleId = request.getParameter("btnAdd");
             String oldId = oldModuleId.substring(oldModuleId.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change).
             int intOldModuleId = Integer.parseInt(oldId);
             
             ModuleTools mt = new ModuleTools();
-            mt.updateModule(intModuleId, modul_navn, modul_goal, modul_tekst, modul_innleveringstype, modul_status, modul_fristdato, intOldModuleId, out);
-            
-            MemberTools memt = new MemberTools();
-            memt.addAllToNewModulekanal(modul_id, out);
+            mt.updateModule(intModuleId, moduleName, moduleGoal, moduleText, moduleDeliveryType, moduleStatus, moduleDate, intOldModuleId, moduleMaxPoints, out);
             
             out.println("Modulen er oppdatert");
             out.println("<form action=\"ModuleMenuServlet\" method=\"post\">\n"

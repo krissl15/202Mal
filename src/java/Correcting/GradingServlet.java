@@ -5,6 +5,8 @@
  */
 package Correcting;
 
+import Delivery.DeliveryTools;
+import Module.ModuleTools;
 import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,6 +56,7 @@ public class GradingServlet extends HttpServlet {
             String firstName = request.getParameter("firstName");
             String surname = request.getParameter("lastName");
             String moduleID = request.getParameter("moduleID");
+            int intModuleID = Integer.parseInt(moduleID);
 
             out.println("<form>\n"
                     + " Brukernavn " + "<input type=\"text\" name=\"txtStudent\" value=\"" + student + "\"readonly>\n<br>"
@@ -61,15 +64,34 @@ public class GradingServlet extends HttpServlet {
                     + "Etternavn " + "<input type=\"text\" name=\"txtSurname\" value=\"" + surname + "\"readonly>\n<br>"
                     + "Modul ID " + "<input type=\"text\" name=\"txtModuleId\" value=\"" + moduleID + "\"readonly>\n<br>"
                     + "<input type=\"text\" name=\"txtComment\" placeholder=\"kommentar\">\n<br>"
-                    + "<input type=\"text\" name=\"txtPoints\" placeholder=\"poeng (punktum ved desimal\">\n<br>"
+                    + "<input type=\"text\" name=\"txtPoints1\" placeholder=\"poeng (punktum ved desimal\">\n" + "."
+                    + "<input type=\"text\" name=\"txtPoints2\" placeholder=\"poeng (punktum ved desimal\">\n<br>"
                     + "<input type=\"submit\" name=\"btnGrade\" value=\"Registrer karakter\">\n<br>"
                     + "</form>");
 
+                    ModuleTools mt = new ModuleTools();
+                   String type = mt.getType(intModuleID, out);
+                   out.println("Læringsmål for denne modulen: " + "<br>");
+                   out.println(mt.getGoal(intModuleID, out) + "<br>");
+                   
+                   if(type.contains("Skriftlig")){
+                       out.println("Studentens svar: " + "<br><br>");
+                       DeliveryTools dt = new DeliveryTools();
+                       out.println(dt.getDeliveryTextByModuleUser(moduleID, student, out));
+                       
+                       
+                   }else{
+                       out.println("Denne modulen er muntlig");
+                   }
+                    
+            
             String btn = request.getParameter("btnGrade");
 
             if (btn.contains("Registrer")) {
                 CorrectingTools ct = new CorrectingTools();
-                String points = request.getParameter("txtPoints");
+                String points1 = request.getParameter("txtPoints1");
+                String points2 = request.getParameter("txtPoints2");
+                String points = points1 + "." + points2;
                 String comment = request.getParameter("txtComment");
                 String txtStudent = request.getParameter("txtStudent");
                 String txtModuleID = request.getParameter("txtModuleId");

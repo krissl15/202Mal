@@ -42,48 +42,46 @@ public class ModuleStoreServlet extends HttpServlet {
             out.println("<html>");
             out.println("<head>");
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
-            out.println("<title>Servlet ModuleStore</title>");            
-            out.println("</head>");        
+            out.println("<title>Servlet ModuleStore</title>");
+            out.println("</head>");
             out.println("<body>");
-            
+
             ModuleTools mT = new ModuleTools();
-            
-            
+
             String btnEdit = request.getParameter("btnEdit");
-            String moduleNr = btnEdit.substring(btnEdit.lastIndexOf(" ")+1); // "name" blir siste ordet i valuen av knappen (change
+            String moduleNr = btnEdit.substring(btnEdit.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change
             int modulID = Integer.parseInt(moduleNr);
-            
+
             String getName = mT.getModuleName(modulID, out);
             String getGoal = mT.getGoal(modulID, out);
             String getText = mT.getText(modulID, out);
             String getStatus = mT.getStatus(modulID, out);
             String getDate = mT.getDate(modulID, out);
             String getType = mT.getType(modulID, out);
-
+            String getPoints = mT.getMaxPoints(modulID, out);
 
             out.println("Registrer modul " + modulID);
-            out.println("<form action=\"ModuleEditServlet\" method=\"POST\">\n" +
-            "Modul ID <input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modulnavn\" value=\""+ modulID + "\"><br>" +
-            "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\""+ getName + "\"><br>" +
-            "Modul læringsmål <input type=\"text\" name=\"textGoal1\" placeholder=\"Oppdater læringsmål\" value=\""+ getGoal + "\"><br>" +
-"Modul tekst <input type=\"text\" name=\"textModule1\" placeholder=\"Oppdater tekst på modulen\" value=\""+ getText + "\"><br>" +
-        "Modul status <input type=\"text\" name=\"textType1\" placeholder=\"Aktiv/inaktiv\" value=\""+ getType + "\"><br>" +
-
-"Modul status <input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/inaktiv\" value=\""+ getStatus + "\"><br>" +
-"Modul fristdato <input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\""+ getDate + "\"><br>" +
-"\n" +
-"<input type=\"Submit\" name=\"btnAdd\" value=\"Oppdater modul " + modulID +"\">\n" +
-"</form>\n" +
-"<br>");
-            out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
-"<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n" +
-"</form>");
+            out.println("<form action=\"ModuleEditServlet\" method=\"POST\">\n"
+                    + "Modul ID <input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modulnavn\" value=\"" + modulID + "\" readonly><br>"
+                    + "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\"" + getName + "\"><br>"
+                    + "Modul læringsmål <input type=\"text\" name=\"textGoal1\" placeholder=\"Oppdater læringsmål\" value=\"" + getGoal + "\"><br>"
+                    + "Modul tekst <input type=\"text\" name=\"textModule1\" placeholder=\"Oppdater tekst på modulen\" value=\"" + getText + "\"><br>"
+                    + "Modul innleveringstype <input type=\"text\" name=\"textType1\" placeholder=\"Aktiv/inaktiv\" value=\"" + getType + "\"><br>"
+                    + "Modul max poeng <input type=\"text\" name=\"textPoints1\" placeholder=\"Aktiv/inaktiv\" value=\"" + getPoints + "\"><br>"
+                    + "Modul status <input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/inaktiv\" value=\"" + getStatus + "\"><br>"
+                    + "Modul fristdato <input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\"" + getDate + "\"><br>"
+                    + "\n"
+                    + "<input type=\"Submit\" name=\"btnAdd\" value=\"Oppdater modul " + modulID + "\">\n"
+                    + "</form>\n"
+                    + "<br>");
+            out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n"
+                    + "<input type=\"Submit\" name=\"backBtn\" value=\"Tilbake\">\n"
+                    + "</form>");
 
             out.println("</body>");
             out.println("</html>");
         }
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -132,4 +130,4 @@ public class ModuleStoreServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    }
+}

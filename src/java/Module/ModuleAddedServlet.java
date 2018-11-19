@@ -62,7 +62,11 @@ public class ModuleAddedServlet extends HttpServlet {
                     + "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n"
                     + "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n"
                     + "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n"
-                    + "                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/inaktiv\"> <br><br>  \n"
+                     + "                <b>Modul Max poeng</b> <input type=\"text\" name=\"textPoints\" placeholder=\"Max poeng\"> <br><br>  \n"
+                    + "                <b>Muntlig</b> <input type=\"checkbox\" name=\"textType\" value=\"Muntlig\">  \n"
+                    + "                <b>Skriftlig</b> <input type=\"checkbox\" name=\"textType\" value=\"Skriftlig\"><br><br>  \n"
+
+                    + "                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/Inaktiv\"> <br><br>  \n"
                     + "                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n"
                     + "\n"
                     + "\n"
@@ -75,14 +79,15 @@ public class ModuleAddedServlet extends HttpServlet {
 "<input type=\"Submit\" name=\"btnHome\" value=\"Hovedmeny\"> \n" +
 "</form>  ");
             
-           String modul_navn = request.getParameter("textmoduleName");
+           String moduleName = request.getParameter("textmoduleName");
             String module_id = request.getParameter("moduleID");
             int intModuleId = Integer.parseInt(module_id);
-            String modul_læringsmål = request.getParameter("textGoal");
-            String modul_tekst = request.getParameter("textModule");
-            String modul_status;
-            modul_status = request.getParameter("textStatus");
+            String modulGoal = request.getParameter("textGoal");
+            String moduleText = request.getParameter("textModule");
+            String moduleStatus = request.getParameter("textStatus");
             String modul_fristdato = request.getParameter("textDate");
+            String modulPoints = request.getParameter("textPoints");
+            String moduleType = request.getParameter("textType");
 
             
             int intDato = Integer.parseInt(modul_fristdato);
@@ -90,7 +95,7 @@ public class ModuleAddedServlet extends HttpServlet {
             ModuleTools mt = new ModuleTools();
             MemberTools mem = new MemberTools();
 
-            mt.insertModule(intModuleId, modul_navn, modul_læringsmål, modul_tekst, modul_status, intDato, out);
+            mt.insertModule(intModuleId, moduleName, modulGoal, moduleText, modulPoints, moduleType, moduleStatus, intDato, out);
             mem.addAllToNewModulekanal(module_id, out);
             
         }
