@@ -97,3 +97,48 @@ button:active{
     margin-left: 50px;
 }
 
+.moduleCol{
+    width: 300px;
+    text-align: left;
+    float: left;
+}
+
+.moduleCol.title{
+    border-bottom: 1px solid black;
+}
+
+.deadlineCol{
+    width: 150px;
+    float: left;
+}
+
+.deadlineCol.title{
+    border-bottom: 1px solid black;
+}
+
+.deliveredCol{
+    width: 100px;
+    float: left;
+}
+
+.deliveredCol.title{
+    border-bottom: 1px solid black;
+}
+
+.totalCol{
+    width: 100px;
+    float: left;
+}
+
+.totalCol.title{
+    border-bottom: 1px solid black;
+}
+
+.evaluatedCol{
+    width: 100px;
+    float: left;
+}
+
+.evaluatedCol.title{
+    border-bottom: 1px solid black;
+}

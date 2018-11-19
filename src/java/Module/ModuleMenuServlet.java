@@ -64,12 +64,55 @@ public class ModuleMenuServlet extends HttpServlet {
             try (Statement st = conn.createStatement()) {
                  String moduleQ = "select modul_id from modul";
                 ResultSet rsModules = st.executeQuery(moduleQ);
+                    out.println("<div class=\"moduleCol title\">"
+                            + "<b>Modul</b>"
+                            + "</div>");
+                    out.println("<div class=\"deadlineCol title\">"
+                            + "<b>Frist</b>"
+                            + "</div>");
+                    out.println("<div class=\"deliveredCol title\">"
+                            + "<b>Levert</b>"
+                            + "</div>");
+                    out.println("<div class=\"totalCol title\">"
+                            + "<b>Totalt</b>"
+                            + "</div>");
+                    out.println("<div class=\"evaluatedCol title\">"
+                            + "<b>Evaluert</b>"
+                            + "</div>");
+                    out.println("<br>");
+                    out.println("<br>");
                 while (rsModules.next()) {
                     String modulID = rsModules.getString("modul_id");
                     int intID = Integer.parseInt(modulID);
                     out.println("<form action=\"ModulePageServlet\" method=\"post\">"
-                            + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
-                    mt.viewModules(intID, out);
+                            + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">"
+                                    + "</form>");
+                    out.println("<div class=\"moduleCol\">"
+                            + mt.getModuleName(intID, out)
+                            + "</div>");
+                    out.println("<div class=\"deadlineCol\">"
+                            + mt.getDate(intID, out)
+                            + "</div>");
+                    out.println("<div class=\"deliveredCol\">"
+                            + mt.getDelivered(intID, out)
+                            + "</div>");
+                    out.println("<div class=\"totalCol\">"
+                            + mt.getTotalRegistered(out)
+                            + "</div>");
+                    out.println("<div class=\"evaluatedCol\">"
+                            + mt.getEvaluated(intID, out)
+                            + "</div>");
+                       
+                    out.println("<form action=\"ModuleStoreServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\"Endre\">");
+    
+                    /*out.println("<form action=\"DeleteModuleServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
+                            + "</form>"*/
+                    out.println("<a href=\"DeleteModuleServlet\" onclick=\"return confirm('Trykk OK for å slette hele prosjektet');\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
+                            + "</a>");
+                    out.println("</form>");
                 }
             }
         }

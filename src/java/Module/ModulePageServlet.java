@@ -58,7 +58,7 @@ public class ModulePageServlet extends HttpServlet {
             ModuleTools mT = new ModuleTools();
             String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
             int intModuleNr = Integer.parseInt(moduleNr);
-
+            out.println("<h2>Modul  " + intModuleNr +"</h2>");
             DbConnector db = new DbConnector();
             try (Connection conn = db.getConnection(out)) {
                 try (Statement st = conn.createStatement()) {

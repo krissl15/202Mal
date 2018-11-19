@@ -60,7 +60,7 @@ public class ModuleStoreServlet extends HttpServlet {
             String getType = mT.getType(modulID, out);
             String getPoints = mT.getMaxPoints(modulID, out);
 
-            out.println("Registrer modul " + modulID);
+            out.println("Rediger modul " + modulID);
             out.println("<form action=\"ModuleEditServlet\" method=\"POST\">\n"
                     + "Modul ID <input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modulnavn\" value=\"" + modulID + "\" readonly><br>"
                     + "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\"" + getName + "\"><br>"
