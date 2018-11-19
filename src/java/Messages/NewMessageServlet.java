@@ -5,6 +5,7 @@
  */
 package Messages;
 
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -42,8 +43,12 @@ public class NewMessageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewMessage</title>");            
+            out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");           
             out.println("</head>");
+            out.println("<div id=\"header\">");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            out.println("</div>");
             out.println("<body>");
             out.println("<div>");
             out.println("<form><h2>Ny melding</h2><b><b>Mottaker</b><input type=\"text\" name=\"messageRecipient\" placeholder=\"Mottaker av meldingen...\"> <br><br>  \n"

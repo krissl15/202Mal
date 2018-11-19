@@ -25,7 +25,7 @@ public class MenuTools {
         out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
                     "    <button id=\"btnModuleMenu\" style=\"border:none\">Moduler</button>\n" +
                     "    </form>");
-        out.println("  <form action=\"\" method=\"POST\">\n" +
+        out.println("  <form action=\"InboxServlet\" method=\"POST\">\n" +
                     "    <button id=\"btnInbox\" style=\"border:none\">Innboks</button>\n" +
                     "    </form>");
         out.println("  <form action=\"MemberListServlet\" method=\"POST\">\n" +
