@@ -61,25 +61,120 @@ public class ModuleTools {
         out.println("Status: " + getStatus(moduleID, out) + "<br><br>");
         out.println("Fristdato: " + getDate(moduleID, out) + "<br><br>");
     }//try en
-
-    //try end
-    //showmodule end
-    public String getModuleName(int moduleID, PrintWriter out) throws SQLException {
-        String psModulNavn = "select modul_navn from modul where modul_id=?";
-        String modulNavn = null;
+    
+    /**
+     * 
+     * @param moduleID
+     * @param out
+     * @throws SQLException 
+     */
+    public void viewModules(int moduleID, PrintWriter out) throws SQLException{
+       
+                out.println("Modul: " + getModuleName(moduleID, out) + "<br>");
+                out.format("Frist: " + getDate(moduleID, out) + 
+                           " Levert: " + getDelivered(moduleID, out) +
+                           " Totalt registrerte: " + getTotalRegistered(out) +
+                           " Evaluert: " + getEvaluated(moduleID, out) + "<br>");
+            
+        
+    }
+    
+    /**
+     * 
+     * @param moduleID
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
+    public String getDelivered(int moduleID, PrintWriter out) throws SQLException{
+        String checkDelivered = "SELECT COUNT(mk_status), modul_id FROM modulkanal WHERE mk_status =\"levert\" AND modul_id = ? GROUP BY modul_id;";
+        String antall = null;
+        String ifNull = "0";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psDelivered = conn.prepareStatement(checkDelivered)) {
+                psDelivered.setInt(1, moduleID);
+            try (ResultSet rsModulNavn = psDelivered.executeQuery()) {
+                while (rsModulNavn.next()) {
+                    antall = rsModulNavn.getString("COUNT(mk_status)");
+                }
+            }
+        }
+        if (antall ==null){
+            return ifNull;
+        }
+        return antall;   
+    }
+    
+    /**
+     * 
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
+    public String getTotalRegistered(PrintWriter out) throws SQLException{
+        String countRegistered ="SELECT COUNT(rolle) FROM bruker_rolle WHERE rolle =\"RegistrertStudent\";";
+        String antall = null;
+        String ifNull = "0";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psTotal = conn.prepareStatement(countRegistered)) {
+                //psTotal.setInt(1, moduleID);
+        try (ResultSet rsModulNavn = psTotal.executeQuery()) {
+                while (rsModulNavn.next()) {
+                    antall = rsModulNavn.getString("COUNT(rolle)");
+                }
+            }
+        }
+        if (antall==null){
+            return ifNull;
+        }
+        return antall;
+    }
+        
+    /**
+     * 
+     * @param moduleID
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
+    public String getEvaluated(int moduleID, PrintWriter out) throws SQLException {
+        String countEvaluated = "SELECT COUNT(mk_rettet_status), modul_id FROM modulkanal WHERE mk_rettet_status=\"Rettet\" AND modul_id = ? GROUP BY modul_id;";
+        String antall = null;
+        String ifNull = "0";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+                PreparedStatement psEvaluate = conn.prepareStatement(countEvaluated)) {
+                psEvaluate.setInt(1, moduleID);
+            try (ResultSet rsModulNavn = psEvaluate.executeQuery()) {
+                while (rsModulNavn.next()) {
+                    antall = rsModulNavn.getString("COUNT(mk_rettet_status");
+                }
+            }
+        }
+        if (antall==null){
+            return ifNull;
+        }
+        return antall;
+    }
+    
+        public String getModuleName(int moduleID, PrintWriter out) throws SQLException {
+        String psModuleName = "select modul_navn from modul where modul_id=?";
+        String moduleName = null;
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
-                PreparedStatement psStatus = conn.prepareStatement(psModulNavn)) {
+                PreparedStatement psStatus = conn.prepareStatement(psModuleName)) {
             psStatus.setInt(1, moduleID);
 
-            try (ResultSet rsModulNavn = psStatus.executeQuery()) {
-                while (rsModulNavn.next()) {
-                    modulNavn = rsModulNavn.getString("modul_navn");
+            try (ResultSet rsModuleGoal = psStatus.executeQuery()) {
+                while (rsModuleGoal.next()) {
+                    moduleName = rsModuleGoal.getString("modul_navn");
                 }
             }
         }//end connection
-        return modulNavn;
+        return moduleName;
     }
 
     public String getGoal(int moduleID, PrintWriter out) throws SQLException {

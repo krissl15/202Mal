@@ -6,6 +6,7 @@
 package Module;
 
 import Members.MemberTools;
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -46,6 +47,10 @@ public class ModuleAddedServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet ModuleAdded</title>");
             out.println("</head>");
+            out.println("<div id=\"header\">");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            out.println("</div>");
             out.println("<body>");
             out.println("<body>\n"
                     + "        <div>\n"

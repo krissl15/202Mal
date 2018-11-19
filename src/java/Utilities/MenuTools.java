@@ -12,15 +12,26 @@ import java.io.PrintWriter;
  * @author Doffen
  */
 public class MenuTools {
-    
     public void menuButtons(PrintWriter out){
-        out.println("<div id=\"meny\">");
-        out.println("<form action=\"MainPage\" method=\"post\">\n" +
-            "<input type=\"Submit\" name=\"btnMainPage\" value=\"Hovedside\">  \n" +
-            "</form>  \n");
-        out.println("<form action=\"ModuleMenuServlet\" method=\"post\">\n" +
-            "<input type=\"Submit\" name=\"btnModuleMenu\" value=\"Modulmeny\"> <br><br>  \n" +
-            "</form>  \n");
+        out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
+        out.println("<div id=\"sideMenu\">");
+        out.println("<button id=\"logo\" style=\"border:none\"></button>");
+        out.println("<form action=\"MainPage\" method=\"POST\">\n" +
+                    "  <button id=\"btnMainPage\" style=\"border:none\">Hovedside</button>\n" +
+                    "  </form>");
+        out.println("  <form action=\"StudentProgressServlet\" method=\"POST\">\n" +
+                    "    <button id=\"btnProfile\" style=\"border:none\">Profil</button>\n" +
+                    "    </form>");
+        out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
+                    "    <button id=\"btnModuleMenu\" style=\"border:none\">Moduler</button>\n" +
+                    "    </form>");
+        out.println("  <form action=\"\" method=\"POST\">\n" +
+                    "    <button id=\"btnInbox\" style=\"border:none\">Innboks</button>\n" +
+                    "    </form>");
+        out.println("  <form action=\"MemberListServlet\" method=\"POST\">\n" +
+                    "    <button id=\"btnMemberList\" style=\"border:none\">Medlemmer</button>\n" +
+                    "    </form>");
+        out.println("<button id=\"btnSignOut\" style=\"border:none\">Logg ut</button>");
         out.println("</div>");
     }
     

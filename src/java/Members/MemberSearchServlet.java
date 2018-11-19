@@ -49,12 +49,13 @@ public class MemberSearchServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>MemberSearchServlet</title>");
             out.println("</head>");
+            out.println("<div id=\"header\">");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            out.println("</div>");
             out.println("<body>");
             MemberTools memt = new MemberTools();
             String searchCheck = request.getParameter("search");
-            /* Knapp som returnerer til hovedmenyen */
-            MenuTools men = new MenuTools();
-            men.menuButtons(out);
             
             if (request.isUserInRole("Foreleser")) {
                 out.println("Forelesere: <br><br>");

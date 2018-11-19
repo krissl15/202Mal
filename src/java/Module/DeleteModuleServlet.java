@@ -45,9 +45,11 @@ public class DeleteModuleServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet DeleteModuleVlet</title>");
             out.println("</head>");
-            out.println("<body>");
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
+            out.println("</div>");
+            out.println("<body>");
             
             String btnDelete = request.getParameter("btnDelete");
             String moduleNr = btnDelete.substring(btnDelete.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change).

@@ -46,44 +46,45 @@ public class ModuleMenuServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet ModuleMenu</title>");            
             out.println("</head>");
-            out.println("<body>");
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
-  
+            out.println("</div>");
+            out.println("<body>");
+            out.println("<div id=\"content\">");
+            out.println("<h2>Moduler</h2>");
+            if (request.isUserInRole("Foreleser")) {
+                out.print("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
+                          "<input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br>  \n" +
+                          "</form>");
+        ModuleTools mt = new ModuleTools();
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
-
             //modulnavn print start   
             try (Statement st = conn.createStatement()) {
                  String moduleQ = "select modul_id from modul";
                 ResultSet rsModules = st.executeQuery(moduleQ);
                 while (rsModules.next()) {
                     String modulID = rsModules.getString("modul_id");
+                    int intID = Integer.parseInt(modulID);
                     out.println("<form action=\"ModulePageServlet\" method=\"post\">"
                             + "Modul " + modulID + " " + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">" + "</form>" + " ");
-                }//registrerte brukere slutt
+                    mt.viewModules(intID, out);
+                }
             }
         }
-            
-             if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnAdd\" value=\"Registrer modul\"> <br>  \n" +
-"            </form>");
-
                 out.println("<h3>Urettede moduler</h3><br>");
                 out.print("<form action=\"UncorrectedServlet\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnUnC\" value=\"Moduler\"> <br><br>  \n" +
-"            </form>");
+                          "<input type=\"Submit\" name=\"btnUnC\" value=\"Moduler\"> <br><br>  \n" +
+                          "</form>");
                 
             }   
              else if (request.isUserInRole("RegistrertStudent")){
                  out.print("<form action =\"StudentProgressServlet\" method =\"POST\">\n" +
-"<input type =\"Submit\" name =\"btnProgress\" value =\"Få oversikt over progresjon\">\n" +
-"</form>");
+                           "<input type =\"Submit\" name =\"btnProgress\" value =\"Få oversikt over progresjon\">\n" +
+                           "</form>");
              }
-            
-           
-             
+             out.println("</div>");
             out.println("</body>");
             out.println("</html>");
         }
