@@ -7,6 +7,93 @@ and open the template in the editor.
     Created on : 15.nov.2018, 19:27:48
     Author     : phuonghapham
 */
-body{
-    font-family: 'Arial', serif;
+#header{
+    top: 0;
+    width: 100%;
+    height: 100px;
 }
+body{
+    top: 150px;
+    font-family: 'Arial', serif;
+    margin-left: 150px;
+}
+
+#sideMenu{
+    left: 0;
+    height: 100px;
+    width: 100%;
+    background-color: rgb(119,136,153);
+    position: fixed;
+}
+
+#logo{
+    background-image: url("https://www.grimstad-nf.no/wp-content/uploads/2018/04/universitetet-agder.png");
+    background-size: 100px;
+}
+
+button{
+    padding-top: 68px;
+    background-color: rgb(119,136,153);
+    position: absolute;
+    margin: auto;
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    height: 100px;
+    width: 100px;
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+button:hover{
+    background-color: #9fabb7;
+    color: white;
+    cursor: pointer;
+}
+
+button:active{
+    background-color: #FFFFFF;
+    color: black;
+}
+
+#btnMainPage{
+    background-image: url("https://image.ibb.co/ezznjf/free-home-button-png-1.png");
+    left: 450px;
+}
+
+#btnProfile{
+    background-image: url("https://image.ibb.co/exKzEf/843605-200.png");
+    left: 575px;
+}
+
+#btnModuleMenu{
+    background-image: url("https://image.ibb.co/kdKALL/book-icon-2.png");
+    left: 700px;
+}
+
+#btnInbox{
+    background-image: url("https://image.ibb.co/mxJZEf/E-mail-512.png");
+    left: 825px;
+}
+
+#btnMemberList{
+    background-image: url("https://image.ibb.co/etTgS0/88-512.png");
+    left: 950px;
+}
+
+#btnSignOut{
+    background-image: url("https://image.ibb.co/gOtqn0/img-79605.png");
+    position: absolute;
+    right: 0;
+}
+
+.pbDiv{
+    width: 100px;
+    float: left;
+}
+
+.pbText{
+    margin-left: 50px;
+}
+

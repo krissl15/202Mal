@@ -5,8 +5,13 @@
  */
 package Utilities;
 
+import Members.MemberTools;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,33 +33,51 @@ public class MainPage extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
+     * @throws javax.naming.NamingException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, NamingException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            out.println(" <link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet MainPage</title>");            
             out.println("</head>");
+            out.println("<div id=\"header\">");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            out.println("</div>");
             out.println("<body>");
+            out.println("<div id=\"content\">");
+            
+            MemberTools memT = new MemberTools();
+            String user = request.getRemoteUser();
             
             if(request.isUserInRole("UregistrertStudent")){
             out.println("Du er ikke registrert i dette faget.<br>"
                     + "Få en foreleser til å registrere deg");
             }else{
-             out.println("<form action=\"StudentProgressServlet\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnStudentProgresjon\" value=\"Profil\"> <br><br>  \n" +
-"            </form>" + "<form action=\"ModuleMenuServlet\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnModuler\" value=\"Moduler\"> <br><br>  \n" +
-"            </form>  \n" + "<form action=\"MemberListServlet\" method=\"post\">\n" +
-"                <input type=\"Submit\" name=\"btnMedlemsListe\" value=\"Medlemsliste\"> <br><br>  \n" +
-"            </form>");   
+             out.println("<h2> Velkommen, " + user + "</h2>");
+             out.println("<h3>IS-109 Objektorientert Programmering</h3>"); 
+             out.println("<p>Forelesere: Hallgeir Nilsen og Even Åby Larsen</p>");
+             out.println("<p>Hjelpelærere: </p>");
+             memT.printAssistants(out);
+             
+             out.println("<h4>Læringsutbytte:</h4>");
+             out.println("<li>Kjenne hovedelementene i et objektorientert programmeringsspråk, og kunne bruke det til å skrive enkle programmer som bruker klasser uten arv </li>"
+                     + "<li>Kunne skrive metoder med og uten parametere, med returverdier</li>"
+                     + "<li>Kunne bruke if-setninger, løkker og tilordning</li>"
+                     + "<li>Kunne bruke lister og arrayer</li>"
+                     + "<li>Kjenne til og følge god programmeringsskikk (f.eks. dokumentasjon, testing og kodestandarder)</li>");
             }
-                    
+            out.println("</div>");
             out.println("</body>");
+                    
+            
             out.println("</html>");
         }
     }
@@ -71,7 +94,13 @@ public class MainPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -85,7 +114,13 @@ public class MainPage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NamingException ex) {
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

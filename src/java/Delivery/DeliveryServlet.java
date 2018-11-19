@@ -46,10 +46,12 @@ public class DeliveryServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet DeliveryVlet</title>");
             out.println("</head>");
+            out.println("<div id=\"header\">");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            out.println("</div>");
             out.println("<body>");
 
-               MenuTools men = new MenuTools();
-            men.menuButtons(out);
             
             String module = request.getParameter("btnDeliver");
             String sModuleID = module.substring(module.lastIndexOf(" ") + 1); //siste ordet i knappen er nr. på modulen. 

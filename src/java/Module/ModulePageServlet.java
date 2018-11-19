@@ -50,10 +50,11 @@ public class ModulePageServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet ModulePage</title>");
             out.println("</head>");
-            out.println("<body>");
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
-            
+            out.println("</div>");
+            out.println("<body>");
             ModuleTools mT = new ModuleTools();
             String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
             int intModuleNr = Integer.parseInt(moduleNr);

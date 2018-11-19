@@ -51,9 +51,12 @@ public class StudentProgressServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Oversikt over progresjon</title>");            
             out.println("</head>");
-            out.println("<body>");
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
+            out.println("</div>");
+            out.println("<body>");
+            
             
              String userName = request.getRemoteUser(); //navnet på brukeren som er logget inn. brukes for studenter
              String user = request.getParameter("userName"); //navnet på brukeren man vil se progresjon for. hentes fra URL, for foreleser
@@ -67,14 +70,25 @@ public class StudentProgressServlet extends HttpServlet {
             
              if(user == null){
                  out.println("<h2>Informasjon om " + userName + "</h2>");
-                 out.println("<img src=" + profilePic +" height=\"42\" width=\"42\">");
-                 out.println("<br>");
+                 out.println("<div class=\"infoBox\">");
+                 out.println("<div class=\"pbDiv\">");
+                 out.println("<img src=" + profilePic +" height=\"100\" width=\"100\">");
+                 out.println("</div>");
+                 out.println("<div class=\"pbText\">");
                  proT.printPerson(userName, out);
+                 out.println("</div>");
+                 out.println("</div");
              } else if (user != null){
                  out.println("<h2>Informasjon om " + user + "</h2>");
-                 out.println("<img src=" + profilePic +" height=\"42\" width=\"42\">");
-                 out.println("<br>");
+                 out.println("<div class=\"infoBox\">");
+                 out.println("<div class=\"pbDiv\">");
+                 out.println("<img src=" + profilePic +" height=\"100\" width=\"100\">");
+                 out.println("</div");
+                 out.println("<div class=\"pbText\">");
                  proT.printPerson(user, out);
+                 out.println("</div");
+                 out.println("</div");
+                 out.println("<br>");
              }
                  out.println("<br>");
 
@@ -89,7 +103,7 @@ public class StudentProgressServlet extends HttpServlet {
                 
                     
                 //Generell start-tekst for progresjon over en registrert student
-                if ((user == null) || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent")){
+                if ((user == null) || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent") ||request.isUserInRole("RegistrertStudent") && userName.equalsIgnoreCase(user) && value.equals("registrertstudent") ){
                     out.println("<h3>Oversikt over progresjon</h3>");
                     out.println("Her står det status om hvordan du ligger an i modulene dine. Trykk på knappene for å få mer informasjon om modulene.");
                     out.println("<br>");
@@ -103,7 +117,9 @@ public class StudentProgressServlet extends HttpServlet {
                     out.println("<br>");
                     //Registrert student ser kun sin egen progresjon
                     if (request.isUserInRole("RegistrertStudent") && userName.equalsIgnoreCase(user) && value.equals("registrertstudent") && user !=null){
+                        out.println("<td>");
                         proT.printModulesByUsername(userName, intID, out);
+                        out.println("</td>");
                         out.println("<form action=\"ModulePageServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\""+ intID + "\">");
                     } else if (request.isUserInRole("RegistrertStudent") && user==null){

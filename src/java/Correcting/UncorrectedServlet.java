@@ -45,10 +45,12 @@ public class UncorrectedServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet UncorrectedServlet</title>");            
             out.println("</head>");
-            out.println("<body>");
-            
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
+            out.println("</div>");
+            out.println("<body>");
+            
             
             DeliveryTools dt = new DeliveryTools();
             dt.listUnCorrectedDeliveries(out);

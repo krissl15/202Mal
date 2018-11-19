@@ -47,10 +47,12 @@ public class MemberListServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>MemberListServlet</title>");
             out.println("</head>");
-            out.println("<body>");
-            
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
+            out.println("</div>");
+            out.println("<body>");
+
             MemberTools memt = new MemberTools();
             
             out.println("<div>\n"
