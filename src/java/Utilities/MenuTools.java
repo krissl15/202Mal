@@ -15,8 +15,8 @@ public class MenuTools {
     public void menuButtons(PrintWriter out){
         out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
         out.println("<div id=\"sideMenu\">");
-        out.println("<button id=\"logo\" style=\"border:none\"></button>");
         out.println("<form action=\"MainPage\" method=\"POST\">\n" +
+                    "<button id=\"logo\" style=\"border:none\"></button>" +
                     "  <button id=\"btnMainPage\" style=\"border:none\">Hovedside</button>\n" +
                     "  </form>");
         out.println("  <form action=\"StudentProgressServlet\" method=\"POST\">\n" +
@@ -31,7 +31,9 @@ public class MenuTools {
         out.println("  <form action=\"MemberListServlet\" method=\"POST\">\n" +
                     "    <button id=\"btnMemberList\" style=\"border:none\">Medlemmer</button>\n" +
                     "    </form>");
-        out.println("<button id=\"btnSignOut\" style=\"border:none\">Logg ut</button>");
+        out.println("<form action=\"index.html\" method=\"POST\">"
+                + "<button id=\"btnSignOut\" style=\"border:none\">Logg ut</button>"
+                + "</form>");
         out.println("</div>");
     }
     

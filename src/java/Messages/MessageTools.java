@@ -70,7 +70,7 @@ public class MessageTools {
     }
 
     public void showSendt(String avsender, PrintWriter out) throws SQLException{
-        String utboks = "SELECT melding_dato, melding_emne, melding_innhold, melding_mottaker FROM melding WHERE brukernavn = ?;";
+        String utboks = "SELECT melding_dato, melding_emne, melding_innhold, melding_mottaker FROM melding WHERE brukernavn = ? ORDER BY melding_dato DESC;";
         DbConnector db = new DbConnector();
                 try (Connection conn = db.getConnection(out)) {
                     try (PreparedStatement pstmt = conn.prepareStatement(utboks)) {

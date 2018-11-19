@@ -68,15 +68,8 @@ public class ModuleTools {
      * @param out
      * @throws SQLException 
      */
-    public void viewModules(int moduleID, PrintWriter out) throws SQLException{
-       
-                out.println("Modul: " + getModuleName(moduleID, out) + "<br>");
-                out.format("Frist: " + getDate(moduleID, out) + 
-                           " Levert: " + getDelivered(moduleID, out) +
-                           " Totalt registrerte: " + getTotalRegistered(out) +
-                           " Evaluert: " + getEvaluated(moduleID, out) + "<br>");
-            
-        
+    public void viewAllModules(int moduleID, PrintWriter out) throws SQLException{
+                out.println(getModuleName(moduleID, out) + " " + getDate(moduleID, out) + " " + getDelivered(moduleID, out) + " " + getTotalRegistered(out) + " " + getEvaluated(moduleID, out));
     }
     
     /**
