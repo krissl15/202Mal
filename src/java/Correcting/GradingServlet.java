@@ -88,7 +88,6 @@ public class GradingServlet extends HttpServlet {
             String btn = request.getParameter("btnGrade");
 
             if (btn.contains("Registrer")) {
-                out.println("hello");
                 CorrectingTools ct = new CorrectingTools();
                 String points1 = request.getParameter("txtPoints1");
                 String points2 = request.getParameter("txtPoints2");
