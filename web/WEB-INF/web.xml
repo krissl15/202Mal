@@ -50,6 +50,9 @@
             <url-pattern>/InboxServlet</url-pattern>
             <url-pattern>/OutboxServlet</url-pattern>
 	    <url-pattern>/ReplyServlet</url-pattern>
+	    <url-pattern>/AnnouncementOverviewServlet</url-pattern>
+            <url-pattern>/NewAnnouncementServlet</url-pattern>
+            <url-pattern>/AnnouncementPageServlet</url-pattern>
             
 
 
