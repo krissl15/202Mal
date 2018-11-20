@@ -100,7 +100,7 @@ public class MemberTools {
                          "FROM bruker\n" +
                          "INNER JOIN bruker_rolle\n" +
                          "ON bruker_rolle.brukernavn = bruker.brukernavn\n" +
-                         "WHERE rolle = ? AND (fornavn LIKE ? OR etternavn LIKE ?);";
+                         "WHERE rolle = ? AND (fornavn LIKE ? OR etternavn LIKE ?) ORDER BY bruker.etternavn;";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
@@ -142,6 +142,34 @@ public class MemberTools {
             }
         }
     }
+    }
+    
+    public void searchUserStudent(String name, String roleName, PrintWriter out) throws SQLException, NamingException {
+        
+        String forSql = name+"%";
+        String searchQ = "SELECT bruker.brukernavn, bruker.fornavn, bruker.etternavn, bruker_rolle.rolle\n" +
+                         "FROM bruker\n" +
+                         "INNER JOIN bruker_rolle\n" +
+                         "ON bruker_rolle.brukernavn = bruker.brukernavn\n" +
+                         "WHERE rolle = ? AND (fornavn LIKE ? OR etternavn LIKE ?) ORDER BY bruker.etternavn;";
+
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+            try (PreparedStatement ps = conn.prepareStatement(searchQ)) {
+                ps.setString(1, roleName);
+                ps.setString(2, forSql);
+                ps.setString(3, forSql);
+                
+                ResultSet searchResult = ps.executeQuery(); //resultset er en "liste" av alt queryen selected
+                while (searchResult.next()) { //iterator'
+
+                    String userName = searchResult.getString("brukernavn");
+                    String firstName = searchResult.getString("fornavn");
+                    String surName = searchResult.getString("etternavn");
+                    out.println(userName + " (" + firstName + " " + surName + ")<br>");
+                 }
+             }
+        }
     }
 
     /*

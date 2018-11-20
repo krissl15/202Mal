@@ -106,21 +106,21 @@ public class MemberSearchServlet extends HttpServlet {
         }
                 
             else if(request.isUserInRole("RegistrertStudent")){ //Studenter ser kun registrerte brukere, assistenter og forelesere
-                out.print("Forelesere <br><br>");
-                 memt.printMembersByRole("Foreleser", out);
-                out.println("<br><br>Assistenter<br><br>");
-                 memt.printAssistants(out);
-                out.print("<br><br>Registrerte brukere <br><br>");
-                 memt.printRegisteredMembers(out);
+                out.println("Forelesere: <br><br>");
+                memt.searchUserStudent(searchCheck, "Foreleser", out);
+                out.println("<br><br>Assistenter:<br><br>");
+                memt.searchUserStudent(searchCheck, "Assistent",out);
+                out.print("<br><br>Registrerte studenter: <br><br>");
+                memt.searchUserStudent(searchCheck, "RegistrertStudent", out);
             }
             
             else if (request.isUserInRole("Assistent")) {
-                out.print("Forelesere <br><br>");
-                 memt.printMembersByRole("Foreleser", out);
-                out.println("<br><br>Assistenter<br><br>");
-                 memt.printAssistants(out);
-                out.print("<br><br>Registrerte brukere <br><br>");
-                 memt.printRegisteredMembers(out);
+                out.println("Forelesere: <br><br>");
+                memt.searchUserStudent(searchCheck, "Foreleser", out);
+                out.println("<br><br>Assistenter:<br><br>");
+                memt.searchUserStudent(searchCheck, "Assistent",out);
+                out.print("<br><br>Registrerte studenter: <br><br>");
+                memt.searchUserStudent(searchCheck, "RegistrertStudent", out);
             
             
 
