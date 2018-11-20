@@ -44,7 +44,6 @@ public class CorrectingTools {
     }
        
        
-       
        public void setRettetAndLevert(String userName, String moduleID, PrintWriter out) throws SQLException{
            
            String qGradedDelivered = "update modulkanal set mk_status=\"Levert\",mk_rettet_status=\"Rettet\"  where modul_id=? and brukernavn=?;";
