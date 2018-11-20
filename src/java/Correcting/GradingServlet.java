@@ -58,7 +58,7 @@ public class GradingServlet extends HttpServlet {
             String moduleID = request.getParameter("moduleID");
             int intModuleID = Integer.parseInt(moduleID);
 
-            out.println("<form>\n"
+            out.println("<form method=\"post\">\n"
                     + " Brukernavn " + "<input type=\"text\" name=\"txtStudent\" value=\"" + student + "\"readonly>\n<br>"
                     + "Fornavn " + "<input type=\"text\" name=\"txtFirstName\" value=\"" + firstName + "\"readonly>\n<br>"
                     + "Etternavn " + "<input type=\"text\" name=\"txtSurname\" value=\"" + surname + "\"readonly>\n<br>"
