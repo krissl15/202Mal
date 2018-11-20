@@ -144,10 +144,12 @@ public class DeliveryTools {
                     int moduleID = rsUncorrected.getInt("modul_id");
 
                     if((mkType.contains("Muntlig") && mkCorrectedStatus.contains("Ikke")) || (mkType.contains("Skriftlig") && mkDeliveredStatus.equals("Levert") && mkCorrectedStatus.contains("Ikke"))){
-                    String chosenPerson  = "<li><a href='GradingServlet?moduleID=%s&userName=%s&firstName=%s&lastName=%s'>%s %s %s %s</a> </li>"; 
+                   out.println("<div class=\"unCorrected\">");
+                        String chosenPerson  = "<li><a href='GradingServlet?moduleID=%s&userName=%s&firstName=%s&lastName=%s'>%s %s %s %s</a> </li>"; 
                     out.format(chosenPerson, moduleID, userName,firstName,surname, moduleID, 
                             userName, firstName, surname);
                      out.println(" Modul:" + moduleName + ", " + mkCorrectedStatus);
+                     out.println("</div>");
                     }
                 }
 

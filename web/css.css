@@ -142,3 +142,13 @@ button:active{
 .evaluatedCol.title{
     border-bottom: 1px solid black;
 }
+
+.unCorrected{
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    float: none;
+    border-color: black;
+    border-width: 1px;
+    margin: 20px;
+    border-radius: 1px;
+}
