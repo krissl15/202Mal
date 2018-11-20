@@ -54,9 +54,23 @@ public class ModuleMenuServlet extends HttpServlet {
             out.println("<div id=\"content\">");
             out.println("<h2>Moduler</h2>");
             if (request.isUserInRole("Foreleser")) {
-                out.print("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
+                out.println("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
                           "<input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br>  \n" +
                           "</form>");
+                out.println("<form action=\"ModuleStoreServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\"Endre\">");
+    
+                    /*out.println("<form action=\"DeleteModuleServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
+                            + "</form>"*/
+                out.println("<a href=\"DeleteModuleServlet\" onclick=\"return confirm('Trykk OK for å slette hele prosjektet');\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
+                            + "</a>");
+                out.println("<h3>Urettede moduler</h3><br>");
+                out.print("<form action=\"UncorrectedServlet\" method=\"post\">\n" +
+                          "<input type=\"Submit\" name=\"btnUnC\" value=\"Moduler\"> <br><br>  \n" +
+                          "</form>");
+            }
         ModuleTools mt = new ModuleTools();
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
@@ -103,26 +117,15 @@ public class ModuleMenuServlet extends HttpServlet {
                             + mt.getEvaluated(intID, out)
                             + "</div>");
                        
-                    out.println("<form action=\"ModuleStoreServlet\" method=\"post\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\"Endre\">");
-    
-                    /*out.println("<form action=\"DeleteModuleServlet\" method=\"post\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
-                            + "</form>"*/
-                    out.println("<a href=\"DeleteModuleServlet\" onclick=\"return confirm('Trykk OK for å slette hele prosjektet');\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
-                            + "</a>");
+
                     out.println("</form>");
                 }
             }
         }
-                out.println("<h3>Urettede moduler</h3><br>");
-                out.print("<form action=\"UncorrectedServlet\" method=\"post\">\n" +
-                          "<input type=\"Submit\" name=\"btnUnC\" value=\"Moduler\"> <br><br>  \n" +
-                          "</form>");
+
                 
             }   
-             else if (request.isUserInRole("RegistrertStudent")){
+             if (request.isUserInRole("RegistrertStudent")){
                  out.print("<form action =\"StudentProgressServlet\" method =\"POST\">\n" +
                            "<input type =\"Submit\" name =\"btnProgress\" value =\"Få oversikt over progresjon\">\n" +
                            "</form>");
@@ -131,7 +134,7 @@ public class ModuleMenuServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
