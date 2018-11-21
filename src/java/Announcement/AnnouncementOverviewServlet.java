@@ -5,14 +5,10 @@
  */
 package Announcement;
 
-import Utilities.DbConnector;
 import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -49,8 +45,12 @@ public class AnnouncementOverviewServlet extends HttpServlet {
             out.println("<title>Servlet AnnouncementOverview</title>");
             out.println("</head>");
             out.println("<body>");
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
+            out.println("</div>");
+            out.println("<h2>Kunngjøringer</h2>");
+
             
             AnnouncementTools aT = new AnnouncementTools();
             aT.showAllAnnouncement(out);

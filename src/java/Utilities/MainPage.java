@@ -5,6 +5,7 @@
  */
 package Utilities;
 
+import Announcement.AnnouncementTools;
 import Members.MemberTools;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -74,6 +75,9 @@ public class MainPage extends HttpServlet {
                      + "<li>Kunne bruke lister og arrayer</li>"
                      + "<li>Kjenne til og følge god programmeringsskikk (f.eks. dokumentasjon, testing og kodestandarder)</li>");
             }
+            out.println("<h3>Siste kunngjøringer</h3>");
+            AnnouncementTools aT = new AnnouncementTools();
+            aT.show3Announcement(out);
             out.println("</div>");
             out.println("</body>");
                     

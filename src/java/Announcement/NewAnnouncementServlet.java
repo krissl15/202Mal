@@ -7,6 +7,7 @@ package Announcement;
 
 
 import Announcement.AnnouncementTools;
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
@@ -48,6 +49,11 @@ public class NewAnnouncementServlet extends HttpServlet {
             out.println("<head>");
             out.println("<title>Servlet NewAnnouncement</title>");            
             out.println("</head>");
+            out.println("<div id=\"header\">");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            out.println("</div>");
+            out.println("<h2>Ny kunngjøring</h2>");
             out.println("<body>");
             out.println("<div>");
             out.println("<form><p>Ny beskjed</p>\n"
