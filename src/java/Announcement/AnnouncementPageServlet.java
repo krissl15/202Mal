@@ -51,9 +51,12 @@ public class AnnouncementPageServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet AnnouncementPage</title>");
             out.println("</head>");
-            out.println("<body>");
-             MenuTools men = new MenuTools();
+            out.println("<div id=\"header\">");
+            MenuTools men = new MenuTools();
             men.menuButtons(out);
+            out.println("</div>");
+            out.println("<h2>her er tittel</h2>");
+            out.println("<body>");
             String IDString = request.getParameter("hdnID");
            
             AnnouncementTools at = new AnnouncementTools();

@@ -22,6 +22,9 @@ public class MenuTools {
         out.println("  <form action=\"StudentProgressServlet\" method=\"POST\">\n" +
                     "    <button id=\"btnProfile\" style=\"border:none\">Profil</button>\n" +
                     "    </form>");
+        out.println("<form action=\"AnnouncementOverviewServlet\" method=\"POST\">"
+                    + "<button id=\"btnBeskjeder\">Kunngjøringer</button>"
+                    + "</form>");
         out.println("<form action=\"ModuleMenuServlet\" method=\"POST\">\n" +
                     "    <button id=\"btnModuleMenu\" style=\"border:none\">Moduler</button>\n" +
                     "    </form>");
