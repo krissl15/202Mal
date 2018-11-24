@@ -66,8 +66,6 @@ public class ReplyServlet extends HttpServlet {
                 + "<b>Melding</b> <input type=\"text\" name=\"messageContent\" placeholder=\"Skriv din melding her...\"> <br><br> </div> \n"
                 + "<input type=\"Submit\" name=\"btnSendMessage\" value=\"Send\"> \n"
                 + "</form>  ");
-            out.println("|");
-            out.println(recipientField);
             }
             
             String btnSendMessage = request.getParameter("btnSendMessage");
