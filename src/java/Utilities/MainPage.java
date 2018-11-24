@@ -77,7 +77,7 @@ public class MainPage extends HttpServlet {
             }
             out.println("<h3>Siste kunngjøringer</h3>");
             AnnouncementTools aT = new AnnouncementTools();
-            aT.show3Announcement(out);
+            aT.showLastThreeAnnouncements(out);
             out.println("</div>");
             out.println("</body>");
                     
