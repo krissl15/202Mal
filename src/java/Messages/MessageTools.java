@@ -41,7 +41,7 @@ public class MessageTools {
     }
     
     public void showRecieved(String recipient, PrintWriter out) throws SQLException{
-        String qInbox = "SELECT melding_dato, melding_emne, melding_innhold, brukernavn FROM melding WHERE melding_mottaker = ?;";
+        String qInbox = "SELECT melding_id, melding_dato, melding_emne, melding_innhold, brukernavn FROM melding WHERE melding_mottaker = ? ORDER BY melding_id DESC;";
         
         DbConnector db = new DbConnector();
                 try (Connection conn = db.getConnection(out)) {
@@ -69,7 +69,7 @@ public class MessageTools {
     }
 
     public void showSendt(String sender, PrintWriter out) throws SQLException{
-        String qOutBox = "SELECT melding_dato, melding_emne, melding_innhold, melding_mottaker FROM melding WHERE brukernavn = ? ORDER BY melding_dato DESC;";
+        String qOutBox = "SELECT melding_id, melding_dato, melding_emne, melding_innhold, melding_mottaker FROM melding WHERE brukernavn = ? ORDER BY melding_id DESC;";
         DbConnector db = new DbConnector();
                 try (Connection conn = db.getConnection(out)) {
                     try (PreparedStatement pstmt = conn.prepareStatement(qOutBox)) {
