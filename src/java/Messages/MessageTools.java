@@ -17,6 +17,7 @@ import java.sql.SQLException;
  * @author Elias
  */
 public class MessageTools {
+  
     public void insertMessage(String date, String messageRecipient, String messageTitle,
             String messageContent, String messageSender, PrintWriter out) throws SQLException {
             
@@ -39,24 +40,24 @@ public class MessageTools {
                 }
     }
     
-    public void showMottatt(String mottaker, PrintWriter out) throws SQLException{
-        String innboks = "SELECT melding_dato, melding_emne, melding_innhold, brukernavn FROM melding WHERE melding_mottaker = ?;";
+    public void showRecieved(String recipient, PrintWriter out) throws SQLException{
+        String qInbox = "SELECT melding_dato, melding_emne, melding_innhold, brukernavn FROM melding WHERE melding_mottaker = ?;";
         
         DbConnector db = new DbConnector();
                 try (Connection conn = db.getConnection(out)) {
-                    try (PreparedStatement pstmt = conn.prepareStatement(innboks)) {
-                        pstmt.setString(1, mottaker);
+                    try (PreparedStatement psInbox = conn.prepareStatement(qInbox)) {
+                        psInbox.setString(1, recipient);
                         
-                        ResultSet rsRegistered = pstmt.executeQuery();
-                        while (rsRegistered.next()) { //iterator
-                         String dato = rsRegistered.getString("melding_dato");
-                         String emne = rsRegistered.getString("melding_emne");
-                         String brukernavn = rsRegistered.getString("brukernavn");
-                         String melding = rsRegistered.getString("melding_innhold");
-                         out.format("<br>" + dato + "<br> Fra: " + brukernavn + "<br> Emne: " + emne + "<br> Innhold: " + melding + "<br>");
+                        ResultSet rsInbox = psInbox.executeQuery();
+                        while (rsInbox.next()) { //iterator
+                         String date = rsInbox.getString("melding_dato");
+                         String topic = rsInbox.getString("melding_emne");
+                         String userName = rsInbox.getString("brukernavn");
+                         String message = rsInbox.getString("melding_innhold");
+                         out.format("<br>" + date + "<br> Fra: " + userName + "<br> Emne: " + topic + "<br> Innhold: " + message + "<br>");
                          out.println("<form action=\"ReplyServlet\" method=\"post\">\n" + 
-                            "<input type=\"hidden\" name=\"hdnName\" Value=\" " + brukernavn + "\">" + 
-                            "<input type=\"hidden\" name=\"hdnEmne\" Value=\"" + emne + "\">" + 
+                            "<input type=\"hidden\" name=\"hdnName\" Value=\" " + userName + "\">" + 
+                            "<input type=\"hidden\" name=\"hdnEmne\" Value=\"" + topic + "\">" + 
                             "<input type=\"Submit\" name=\"btnReplyMessage\" value=\"Svar\"> <br> \n" +
                             "</form>  \n");
                          
@@ -67,21 +68,21 @@ public class MessageTools {
                 }
     }
 
-    public void showSendt(String avsender, PrintWriter out) throws SQLException{
-        String utboks = "SELECT melding_dato, melding_emne, melding_innhold, melding_mottaker FROM melding WHERE brukernavn = ? ORDER BY melding_dato DESC;";
+    public void showSendt(String sender, PrintWriter out) throws SQLException{
+        String qOutBox = "SELECT melding_dato, melding_emne, melding_innhold, melding_mottaker FROM melding WHERE brukernavn = ? ORDER BY melding_dato DESC;";
         DbConnector db = new DbConnector();
                 try (Connection conn = db.getConnection(out)) {
-                    try (PreparedStatement pstmt = conn.prepareStatement(utboks)) {
-                        pstmt.setString(1, avsender);
+                    try (PreparedStatement pstmt = conn.prepareStatement(qOutBox)) {
+                        pstmt.setString(1, sender);
                         
                         ResultSet rsRegistered = pstmt.executeQuery();
                         while (rsRegistered.next()) { //iterator
-                         String dato = rsRegistered.getString("melding_dato");
-                         String emne = rsRegistered.getString("melding_emne");
-                         String brukernavn = rsRegistered.getString("melding_mottaker");
-                         String melding = rsRegistered.getString("melding_innhold");
+                         String messageDate = rsRegistered.getString("melding_dato");
+                         String topic = rsRegistered.getString("melding_emne");
+                         String userName = rsRegistered.getString("melding_mottaker");
+                         String message = rsRegistered.getString("melding_innhold");
                         
-                         out.format("<br>" + dato + "<br> Til: " + brukernavn + "<br> Emne: " + emne + "<br> Innhold: " + melding + "<br>");
+                         out.format("<br>" + messageDate + "<br> Til: " + userName + "<br> Emne: " + topic + "<br> Innhold: " + message + "<br>");
                         
                     }
                     }catch (SQLException ex) {

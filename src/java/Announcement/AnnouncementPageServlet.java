@@ -57,10 +57,10 @@ public class AnnouncementPageServlet extends HttpServlet {
             out.println("</div>");
             out.println("<h2>her er tittel</h2>");
             out.println("<body>");
-            String IDString = request.getParameter("hdnID");
+            String announcementID = request.getParameter("hdnID");
            
             AnnouncementTools at = new AnnouncementTools();
-            at.showAnnouncement(IDString, out);
+            at.showAnnouncement(announcementID, out);
             
             //AnnouncementTools aT = new AnnouncementTools();
             //aT.showAnnouncement(out);

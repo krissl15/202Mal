@@ -18,41 +18,41 @@ import java.sql.SQLException;
  */
 public class AnnouncementTools {
     
-    public void showAnnouncement(String StringID, PrintWriter out) throws SQLException {
-        String sql = "select beskjed_tittel, beskjed_innhold, beskjed_dato, brukernavn from beskjeder where beskjed_id = ?;";
+    public void showAnnouncement(String announcementID, PrintWriter out) throws SQLException {
+        String qAnnounce = "select beskjed_tittel, beskjed_innhold, beskjed_dato, brukernavn from beskjeder where beskjed_id = ?;";
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, StringID);
+            try (PreparedStatement psAnnounce = conn.prepareStatement(qAnnounce)) {
+                psAnnounce.setString(1, announcementID);
                 
-                ResultSet rsRegistered = pstmt.executeQuery();
-                while (rsRegistered.next()) { //iterator
-                String beskjedTittel = rsRegistered.getString("beskjed_tittel");
-                String beskjedText = rsRegistered.getString("beskjed_innhold");
-                String brukernavn = rsRegistered.getString("brukernavn");
-                String beskjed_dato = rsRegistered.getString("beskjed_dato");
-                out.println("<br> " + beskjedTittel + "<br>" + beskjedText + "<br><br>" + brukernavn + "<br>" + beskjed_dato);
+                ResultSet rsAnnounce = psAnnounce.executeQuery();
+                while (rsAnnounce.next()) { //iterator
+                String announceTitle = rsAnnounce.getString("beskjed_tittel");
+                String announceText = rsAnnounce.getString("beskjed_innhold");
+                String userName = rsAnnounce.getString("brukernavn");
+                String announceDate = rsAnnounce.getString("beskjed_dato");
+                out.println("<br> " + announceTitle + "<br>" + announceText + "<br><br>" + userName + "<br>" + announceDate);
                 }
     }
         }
     }
     
     public void showAllAnnouncement(PrintWriter out) throws SQLException {
-        String sql = "select beskjed_id, beskjed_tittel, beskjed_innhold, beskjed_dato, brukernavn from beskjeder order by beskjed_id desc";
+        String qAllAnnounce = "select beskjed_id, beskjed_tittel, beskjed_innhold, beskjed_dato, brukernavn from beskjeder order by beskjed_id desc";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (PreparedStatement psAllAnnounce = conn.prepareStatement(qAllAnnounce)) {
 
-                ResultSet rsRegistered = pstmt.executeQuery();
-                while (rsRegistered.next()) { //iterator
-                    String beskjedID = rsRegistered.getString("beskjed_id");
-                    String beskjedTittel = rsRegistered.getString("beskjed_tittel");
-                    String brukernavn = rsRegistered.getString("brukernavn");
-                    String beskjed_dato = rsRegistered.getString("beskjed_dato");
-                    out.format("<h3>" + beskjedTittel + "</h3>"+ "Publisert av: " + brukernavn + "<br>" + beskjed_dato + "<br>");
+                ResultSet rsAllAnnounce = psAllAnnounce.executeQuery();
+                while (rsAllAnnounce.next()) { //iterator
+                    String announceID = rsAllAnnounce.getString("beskjed_id");
+                    String announceTitle = rsAllAnnounce.getString("beskjed_tittel");
+                    String userName = rsAllAnnounce.getString("brukernavn");
+                    String announceDate = rsAllAnnounce.getString("beskjed_dato");
+                    out.format("<h3>" + announceTitle + "</h3>"+ "Publisert av: " + userName + "<br>" + announceDate + "<br>");
                     out.println("<form action=\"AnnouncementPageServlet\" method=\"post\">\n" + 
-                            "<input type=\"hidden\" name=\"hdnID\" Value=\" " +beskjedID+ "\">" + 
+                            "<input type=\"hidden\" name=\"hdnID\" Value=\" " +announceID+ "\">" + 
                             "<input type=\"Submit\" name=\"btnButtonBeskjed\" value=\"se mer\"> <br><br>\n" +
                             "</form>  \n");
                    
@@ -62,20 +62,20 @@ public class AnnouncementTools {
         }
     }
 
-    public void show3Announcement(PrintWriter out) throws SQLException {
-        String sql = "select beskjed_id, beskjed_tittel, beskjed_innhold, beskjed_dato, brukernavn from beskjeder order by beskjed_id desc limit 3;";
+    public void showLastThreeAnnouncements(PrintWriter out) throws SQLException {
+        String qThreeAnnounce = "select beskjed_id, beskjed_tittel, beskjed_innhold, beskjed_dato, brukernavn from beskjeder order by beskjed_id desc limit 3;";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (PreparedStatement psLastThree = conn.prepareStatement(qThreeAnnounce)) {
 
-                ResultSet rsRegistered = pstmt.executeQuery();
-                while (rsRegistered.next()) { //iterator
-                    String beskjedTittel = rsRegistered.getString("beskjed_tittel");
-                    String beskjedText = rsRegistered.getString("beskjed_innhold");
-                    String brukernavn = rsRegistered.getString("brukernavn");
-                    String beskjed_dato = rsRegistered.getString("beskjed_dato");
-                    out.format("<h3>" + beskjedTittel + "</h3>" + beskjedText + "<br> Publisert av: " + brukernavn + "<br>" + beskjed_dato + "<br> <br>");
+                ResultSet rsLastThree = psLastThree.executeQuery();
+                while (rsLastThree.next()) { //iterator
+                    String announceTitle = rsLastThree.getString("beskjed_tittel");
+                    String announceText = rsLastThree.getString("beskjed_innhold");
+                    String userName = rsLastThree.getString("brukernavn");
+                    String announceDate = rsLastThree.getString("beskjed_dato");
+                    out.format("<h3>" + announceTitle + "</h3>" + announceText + "<br> Publisert av: " + userName + "<br>" + announceDate + "<br> <br>");
                     
                 }
             }
@@ -83,27 +83,27 @@ public class AnnouncementTools {
     }
 
     /**
-     *
-     * @param beskjed_tittel
-     * @param beskjed_innhold
-     * @param beskjed_dato
-     * @param brukernavn
+     * 
+     * @param announceTitle
+     * @param announceText
+     * @param announceDate
+     * @param userName
      * @param out
-     * @throws SQLException
+     * @throws SQLException 
      */
-    public void insertAnnouncement(String beskjed_tittel, String beskjed_innhold,
-            String beskjed_dato, String brukernavn, PrintWriter out) throws SQLException {
-        String sql = "INSERT INTO beskjeder(beskjed_tittel, beskjed_innhold, beskjed_dato, brukernavn) VALUES(?, ?, ?, ?);";
+    public void insertAnnouncement(String announceTitle, String announceText,
+            String announceDate, String userName, PrintWriter out) throws SQLException {
+        String qInsert = "INSERT INTO beskjeder(beskjed_tittel, beskjed_innhold, beskjed_dato, brukernavn) VALUES(?, ?, ?, ?);";
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, beskjed_tittel);
-                pstmt.setString(2, beskjed_innhold);
-                pstmt.setString(3, beskjed_dato);
-                pstmt.setString(4, brukernavn);
+            try (PreparedStatement psInsert = conn.prepareStatement(qInsert)) {
+                psInsert.setString(1, announceTitle);
+                psInsert.setString(2, announceText);
+                psInsert.setString(3, announceDate);
+                psInsert.setString(4, userName);
 
-                pstmt.executeUpdate();
+                psInsert.executeUpdate();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -113,15 +113,15 @@ public class AnnouncementTools {
     }
 
     public String getTitle(int AnnouncementID, PrintWriter out) throws SQLException {
-        String psAnnouncementTitle = "select beskjed_tittel from beskjeder where beskjed_id=?";
+        String qAnnouncementTitle = "select beskjed_tittel from beskjeder where beskjed_id=?";
         String announcementTitle = null;
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
-                PreparedStatement psStatus = conn.prepareStatement(psAnnouncementTitle)) {
-            psStatus.setInt(1, AnnouncementID);
+                PreparedStatement psAnnouncementTitle = conn.prepareStatement(qAnnouncementTitle)) {
+            psAnnouncementTitle.setInt(1, AnnouncementID);
 
-            try (ResultSet rsAnnouncementTitle = psStatus.executeQuery()) {
+            try (ResultSet rsAnnouncementTitle = psAnnouncementTitle.executeQuery()) {
                 while (rsAnnouncementTitle.next()) {
                     announcementTitle = rsAnnouncementTitle.getString("beskjed_tittel");
                 }
@@ -131,15 +131,15 @@ public class AnnouncementTools {
     }
 
     public String getText(int AnnouncementID, PrintWriter out) throws SQLException {
-        String psAnnouncementText = "select beskjed_innhold from beskjeder where beskjed_id=?";
+        String qAnnouncementText = "select beskjed_innhold from beskjeder where beskjed_id=?";
         String announcementText = null;
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
-                PreparedStatement psStatus = conn.prepareStatement(psAnnouncementText)) {
-            psStatus.setInt(1, AnnouncementID);
+                PreparedStatement psAnnouncementText = conn.prepareStatement(qAnnouncementText)) {
+            psAnnouncementText.setInt(1, AnnouncementID);
 
-            try (ResultSet rsAnnouncementText = psStatus.executeQuery()) {
+            try (ResultSet rsAnnouncementText = psAnnouncementText.executeQuery()) {
                 while (rsAnnouncementText.next()) {
                     announcementText = rsAnnouncementText.getString("beskjed_innhold");
                 }
@@ -148,15 +148,15 @@ public class AnnouncementTools {
         return announcementText;
     }
     public String getDate(int AnnouncementID, PrintWriter out) throws SQLException {
-        String psAnnouncementDate = "select beskjed_dato from modul where modul_id=?";
+        String qAnnouncementDate = "select beskjed_dato from modul where modul_id=?";
         String AnnouncementDate = null;
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
-                PreparedStatement psStatus = conn.prepareStatement(psAnnouncementDate)) {
-            psStatus.setInt(1, AnnouncementID);
+                PreparedStatement psAccouncementDate = conn.prepareStatement(qAnnouncementDate)) {
+            psAccouncementDate.setInt(1, AnnouncementID);
 
-            try (ResultSet rsAnnouncementDate = psStatus.executeQuery()) {
+            try (ResultSet rsAnnouncementDate = psAccouncementDate.executeQuery()) {
                 while (rsAnnouncementDate.next()) {
                     AnnouncementDate = rsAnnouncementDate.getString("beskjed_dato");
                 }

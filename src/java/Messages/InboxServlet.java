@@ -58,8 +58,8 @@ public class InboxServlet extends HttpServlet {
             out.println("<h2>Innboks</h2>");
             
             
-            String mottaker = request.getRemoteUser();
-            msg.showMottatt(mottaker, out);
+            String recipient = request.getRemoteUser();
+            msg.showRecieved(recipient, out);
             
             
             out.println("</body>");

@@ -70,13 +70,13 @@ public class NewAnnouncementServlet extends HttpServlet {
             String btnSend = request.getParameter("btnSendMessage");
             if(btnSend.contains("Publiser")){
                 
-            String beskjed_tittel = request.getParameter("AnnouncementTitle");
-            String beskjed_innhold = request.getParameter("AnnouncementText");
-            LocalDate beskjed_dato = LocalDate.now();
-            String stringDato = beskjed_dato.toString();
-            String brukernavn = request.getRemoteUser();
+            String announceTitle = request.getParameter("AnnouncementTitle");
+            String announceText = request.getParameter("AnnouncementText");
+            LocalDate announceDate = LocalDate.now();
+            String strAnnounceDate = announceDate.toString();
+            String userName = request.getRemoteUser();
             
-            at.insertAnnouncement(beskjed_tittel, beskjed_innhold, stringDato, brukernavn, out);
+            at.insertAnnouncement(announceTitle, announceText, strAnnounceDate, userName, out);
             response.sendRedirect("AnnouncementOverviewServlet");
             
             
