@@ -53,11 +53,22 @@ public class ReplyServlet extends HttpServlet {
             String recipientField = request.getParameter("hdnName");
             String titleField = request.getParameter("hdnEmne");
             
-            out.println("<form><h2>Svar på melding</h2><b><b>Mottaker</b><input type=\"text\" name=\"messageRecipient\" value=\"" + recipientField + "\"> <br><br>  \n"
-                + "<b>Emne</b><input type=\"text\" name=\"messageTitle\" value=\"" + "RE: " + titleField + "\"> <br><br>  \n"
+            if(titleField != null){
+            out.println("<form><h2>Svar på melding</h2><b><b>Mottaker</b><input type=\"text\" name=\"messageRecipient\" value="+recipientField+"> <br><br>  \n"
+                + "<b>Emne</b><input type=\"text\" name=\"messageTitle\" value=\"" + "RE: "+titleField+"\"> <br><br>  \n"
                 + "<b>Melding</b> <input type=\"text\" name=\"messageContent\" placeholder=\"Skriv din melding her...\"> <br><br> </div> \n"
                 + "<input type=\"Submit\" name=\"btnSendMessage\" value=\"Send\"> \n"
                 + "</form>  ");
+            }
+            else {
+            out.println("<form><h2>Ny melding til " + recipientField + "</h2><b><b>Mottaker</b><input type=\"text\" name=\"messageRecipient\" value="+recipientField+"> <br><br>  \n"
+                + "<b>Emne</b><input type=\"text\" name=\"messageTitle\" placeholder =\"Emne...\"><br><br> \n"
+                + "<b>Melding</b> <input type=\"text\" name=\"messageContent\" placeholder=\"Skriv din melding her...\"> <br><br> </div> \n"
+                + "<input type=\"Submit\" name=\"btnSendMessage\" value=\"Send\"> \n"
+                + "</form>  ");
+            out.println("|");
+            out.println(recipientField);
+            }
             
             String btnSendMessage = request.getParameter("btnSendMessage");
             if(btnSendMessage.contains("Send")){
