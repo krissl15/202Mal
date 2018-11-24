@@ -82,6 +82,10 @@ public void printPerson(String userName, PrintWriter out){
             out.println("<b>E-post: </b>" + mail);
             out.println("<br>");
             out.println("<b>Telefon: </b>" + tlf);
+            out.println("<form action=\"ReplyServlet\" method=\"post\">\n" + 
+                            "<input type=\"hidden\" name=\"hdnName\" Value=\" " + userName + "\">" + 
+                            "<input type=\"Submit\" name=\"btnReplyMessage\" value=\"Send melding\"> <br> \n" +
+                            "</form>  \n");
         }
     } catch (SQLException ex) {
         Logger.getLogger(ProgressTools.class.getName()).log(Level.SEVERE, null, ex);

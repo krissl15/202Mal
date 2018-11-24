@@ -17,8 +17,6 @@ import java.sql.SQLException;
  * @author Elias
  */
 public class MessageTools {
-    String brukernavn;
-    String emne;
     public void insertMessage(String date, String messageRecipient, String messageTitle,
             String messageContent, String messageSender, PrintWriter out) throws SQLException {
             
