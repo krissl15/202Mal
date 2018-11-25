@@ -69,14 +69,14 @@ public class ModuleStoreServlet extends HttpServlet {
             out.println("<form action=\"ModuleEditServlet\" method=\"POST\">\n"
 
                     + "<b>Modul ID</b><br><input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modul ID\" value=\"" + modulID + "\" readonly> <br><br>  \n"
-                    + "		 <b>Modulnavn</b><br><input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\"" + getName + "\"><br><br>  \n"
-                    + "                <b>Læringsmål</b><br><textarea type=\"text\" name=\"textGoal1\" rows=\"5\" cols=\"50\" placeholder=\"Læringsmål\">" + getGoal + "</textarea><br><br>  \n"
-                    + "                <b>Beskrivelse</b><br><textarea name=\"textModule1\" rows=\"5\" cols=\"50\" placeholder=\"Beskrivelse\">" + getText + "</textarea> <br><br>  \n"
-                     + "                <b>Makspoeng</b><br><input type=\"text\" name=\"textPoints1\" placeholder=\"Makspoeng\" value =\"" + getPoints + "\"> <br><br>  \n"
-                    + "                <b>Innleveringstype</b><br><input type=\"text\" name=\"textType1\" value=\"" + getType + "\"><br><br>  \n"
+                    + "		 <b>Modulnavn</b><br><input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\"" + getName + "\" required><br><br>  \n"
+                    + "                <b>Læringsmål</b><br><textarea type=\"text\" name=\"textGoal1\" rows=\"5\" cols=\"50\" placeholder=\"Læringsmål\" required>" + getGoal + "</textarea><br><br>  \n"
+                    + "                <b>Beskrivelse</b><br><textarea name=\"textModule1\" rows=\"5\" cols=\"50\" placeholder=\"Beskrivelse\" required>" + getText + "</textarea> <br><br>  \n"
+                     + "                <b>Makspoeng</b><br><input type=\"text\" name=\"textPoints1\" placeholder=\"Makspoeng\" value =\"" + getPoints + "\" required> <br><br>  \n"
+                    + "                <b>Innleveringstype</b><br><input type=\"text\" name=\"textType1\" value=\"" + getType + "\" required><br><br>  \n"
 
-                    + "                <b>Status</b><br><input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/Inaktiv\" value=\"" + getStatus + "\"> <br><br>  \n"
-                    + "                <b>Fristdato</b><br><input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\"" + getDate + "\"> <br><br>  \n"
+                    + "                <b>Status</b><br><input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/Inaktiv\" value=\"" + getStatus + "\" required> <br><br>  \n"
+                    + "                <b>Fristdato</b><br><input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\"" + getDate + "\" required> <br><br>  \n"
                     + "<input type=\"Submit\" name=\"btnAdd\" value=\"Oppdater modul " + modulID + "\">\n"
                     + "</form>\n"
                     + "<br>");

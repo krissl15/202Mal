@@ -23,10 +23,12 @@ body{
     height: 100px;
     width: 100%;
     background-color: rgb(119,136,153);
-    position: fixed;
+   position: fixed;
+   text-align: center;
 }
 
 #logo{
+    left: 0;
     background-image: url("https://www.grimstad-nf.no/wp-content/uploads/2018/04/universitetet-agder.png");
     background-size: 100px;
 }
@@ -59,7 +61,7 @@ button:active{
 
 #btnMainPage{
     background-image: url("https://image.ibb.co/ezznjf/free-home-button-png-1.png");
-    left: 450px;
+    left: 450px
 }
 
 #btnProfile{
@@ -67,19 +69,23 @@ button:active{
     left: 575px;
 }
 
+#btnAnnouncement{
+    left: 700px;
+}
+
 #btnModuleMenu{
     background-image: url("https://image.ibb.co/kdKALL/book-icon-2.png");
-    left: 700px;
+    left: 825px;
 }
 
 #btnInbox{
     background-image: url("https://image.ibb.co/mxJZEf/E-mail-512.png");
-    left: 825px;
+    left: 950px;
 }
 
 #btnMemberList{
     background-image: url("https://image.ibb.co/etTgS0/88-512.png");
-    left: 950px;
+    left: 1075px;
 }
 
 #btnSignOut{
