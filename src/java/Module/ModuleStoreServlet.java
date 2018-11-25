@@ -5,6 +5,7 @@
  */
 package Module;
 
+import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -44,6 +45,10 @@ public class ModuleStoreServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet ModuleStore</title>");
             out.println("</head>");
+            out.println("<div id=\"header\">");
+            MenuTools men = new MenuTools();
+            men.menuButtons(out);
+            out.println("</div>");
             out.println("<body>");
 
             ModuleTools mT = new ModuleTools();
@@ -60,17 +65,18 @@ public class ModuleStoreServlet extends HttpServlet {
             String getType = mT.getType(modulID, out);
             String getPoints = mT.getMaxPoints(modulID, out);
 
-            out.println("Rediger modul " + modulID);
+            out.println("<h2>Rediger modul " + modulID + "</h2>");
             out.println("<form action=\"ModuleEditServlet\" method=\"POST\">\n"
-                    + "Modul ID <input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modulnavn\" value=\"" + modulID + "\" readonly><br>"
-                    + "Modul navn <input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\"" + getName + "\"><br>"
-                    + "Modul læringsmål <input type=\"text\" name=\"textGoal1\" placeholder=\"Oppdater læringsmål\" value=\"" + getGoal + "\"><br>"
-                    + "Modul tekst <input type=\"text\" name=\"textModule1\" placeholder=\"Oppdater tekst på modulen\" value=\"" + getText + "\"><br>"
-                    + "Modul innleveringstype <input type=\"text\" name=\"textType1\" placeholder=\"Aktiv/inaktiv\" value=\"" + getType + "\"><br>"
-                    + "Modul max poeng <input type=\"text\" name=\"textPoints1\" placeholder=\"Aktiv/inaktiv\" value=\"" + getPoints + "\"><br>"
-                    + "Modul status <input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/inaktiv\" value=\"" + getStatus + "\"><br>"
-                    + "Modul fristdato <input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\"" + getDate + "\"><br>"
-                    + "\n"
+
+                    + "<b>Modul ID</b><br><input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modul ID\" value=\"" + modulID + "\" readonly> <br><br>  \n"
+                    + "		 <b>Modulnavn</b><br><input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\"" + getName + "\"><br><br>  \n"
+                    + "                <b>Læringsmål</b><br><textarea type=\"text\" name=\"textGoal1\" rows=\"5\" cols=\"50\" placeholder=\"Læringsmål\">" + getGoal + "</textarea><br><br>  \n"
+                    + "                <b>Beskrivelse</b><br><textarea name=\"textModule1\" rows=\"5\" cols=\"50\" placeholder=\"Beskrivelse\">" + getText + "</textarea> <br><br>  \n"
+                     + "                <b>Makspoeng</b><br><input type=\"text\" name=\"textPoints1\" placeholder=\"Makspoeng\" value =\"" + getPoints + "\"> <br><br>  \n"
+                    + "                <b>Innleveringstype</b><br><input type=\"text\" name=\"textType1\" value=\"" + getType + "\"><br><br>  \n"
+
+                    + "                <b>Status</b><br><input type=\"text\" name=\"textStatus1\" placeholder=\"Aktiv/Inaktiv\" value=\"" + getStatus + "\"> <br><br>  \n"
+                    + "                <b>Fristdato</b><br><input type=\"text\" name=\"textDate1\" placeholder=\"YYYYMMDD\" value=\"" + getDate + "\"> <br><br>  \n"
                     + "<input type=\"Submit\" name=\"btnAdd\" value=\"Oppdater modul " + modulID + "\">\n"
                     + "</form>\n"
                     + "<br>");
