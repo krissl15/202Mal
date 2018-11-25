@@ -58,7 +58,8 @@ public class ModuleMenuServlet extends HttpServlet {
                           "<input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br>  \n" +
                           "</form>");
                 out.println("<form action=\"ModuleStoreServlet\" method=\"post\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\"Endre\">");
+                            + "<input type=\"Submit\" name=\"module\" value=\"Endre\">"
+                        + "</form>");
     
                     /*out.println("<form action=\"DeleteModuleServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"

@@ -51,9 +51,10 @@ public class NewMessageServlet extends HttpServlet {
             out.println("</div>");
             out.println("<body>");
             out.println("<div>");
-            out.println("<form><h2>Ny melding</h2><b><b>Mottaker</b><input type=\"text\" name=\"messageRecipient\" placeholder=\"Mottaker av meldingen...\"> <br><br>  \n"
-                + "<b>Emne</b><input type=\"text\" name=\"messageTitle\" placeholder=\"Emne på meldingen...\"> <br><br>  \n"
-                + "<b>Melding</b> <input type=\"text\" name=\"messageContent\" placeholder=\"Skriv din melding her...\"> <br><br> </div> \n"
+            out.println("<form><h2>Ny melding</h2>"
+                    + "<b><b>Mottaker</b><br><input type=\"text\" name=\"messageRecipient\" placeholder=\"Mottaker av meldingen...\"> <br><br>  \n"
+                + "<b>Emne</b><br><input type=\"text\" name=\"messageTitle\" placeholder=\"Emne på meldingen...\"> <br><br>  \n"
+                + "<b>Melding</b><br><textarea name=\"messageContent\" rows=\"5\" cols=\"50\" placeholder=\"Skriv din melding her..\"></textarea> <br><br> </div> \n"
                 + "<input type=\"Submit\" name=\"btnSendMessage\" value=\"Send\"> \n"
                 + "</form>  ");
             

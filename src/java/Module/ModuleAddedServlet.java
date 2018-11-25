@@ -54,30 +54,25 @@ public class ModuleAddedServlet extends HttpServlet {
             out.println("<body>");
             out.println("<body>\n"
                     + "        <div>\n"
-                    + "            <p>Registrer modul</p>\n"
+                    + "            <h2>Opprett ny modul</h2>\n"
                     + "\n"
                     + "            <form>\n"
-                    + "		 <b>Modul ID</b><input type=\"text\" name=\"moduleID\" placeholder=\"Modul ID\"> <br><br>  \n"
+                    + "		 <b>Modul ID</b><br><input type=\"text\" name=\"moduleID\" placeholder=\"Modul ID\"> <br><br>  \n"
+                    + "		 <b>Modulnavn</b><br><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modulnavn\"> <br><br>  \n"
+                    + "                <b>Læringsmål</b><br><textarea name=\"textGoal\" rows=\"5\" cols=\"50\" placeholder=\"Legg til læringsmål\"></textarea><br><br>  \n"
+                    + "                <b>Beskrivelse</b><br><textarea name=\"textModule\" rows=\"5\" cols=\"50\" placeholder=\"Legg til beskrivelse av modulen\"></textarea> <br><br>  \n"
+                     + "                <b>Makspoeng</b><br><input type=\"text\" name=\"textPoints\" placeholder=\"Makspoeng\"> <br><br>  \n"
+                    + "                <b>Muntlig</b><input type=\"checkbox\" name=\"textType\" value=\"Muntlig\">  \n"
+                    + "                <b>Skriftlig</b><input type=\"checkbox\" name=\"textType\" value=\"Skriftlig\"><br><br>  \n"
 
-                    + "		 <b>Modul navn</b><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modul Navn\"> <br><br>  \n"
-                    + "                <b>Modul læringsmål</b> <input type=\"text\" name=\"textGoal\" placeholder=\"Legg til læringsmål\"> <br><br>  \n"
-                    + "                <b>Modul tekst</b> <input type=\"text\" name=\"textModule\" placeholder=\"Legg til tekst\"> <br><br>  \n"
-                     + "                <b>Modul Max poeng</b> <input type=\"text\" name=\"textPoints\" placeholder=\"Max poeng\"> <br><br>  \n"
-                    + "                <b>Muntlig</b> <input type=\"checkbox\" name=\"textType\" value=\"Muntlig\">  \n"
-                    + "                <b>Skriftlig</b> <input type=\"checkbox\" name=\"textType\" value=\"Skriftlig\"><br><br>  \n"
-
-                    + "                <b>Modul status</b> <input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/Inaktiv\"> <br><br>  \n"
-                    + "                <b>Modul fristdato</b> <input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n"
+                    + "                <b>Status</b><br><input type=\"text\" name=\"textStatus\" placeholder=\"Aktiv/Inaktiv\"> <br><br>  \n"
+                    + "                <b>Fristdato</b><br><input type=\"text\" name=\"textDate\" placeholder=\"YYYYMMDD\"> <br><br>  \n"
                     + "\n"
                     + "\n"
                     + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n"
                     + "            </form>\n"
                     + "        </div>\n"
                     + "        <div>\n");
-
-            out.println("<form action=\"MainPage\" >\n" +
-"<input type=\"Submit\" name=\"btnHome\" value=\"Hovedmeny\"> \n" +
-"</form>  ");
             
            String moduleName = request.getParameter("textmoduleName");
             String module_id = request.getParameter("moduleID");
