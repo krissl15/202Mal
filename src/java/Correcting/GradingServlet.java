@@ -46,44 +46,56 @@ public class GradingServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet GradingServlet</title>");
             out.println("</head>");
-            out.println("<body>");
-            
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
-            
-            
+            out.println("</div>");
+            out.println("<body>");
+            out.println("<div id=\"grading\">"); //hele boksen 
+
             String student = request.getParameter("userName");
             String firstName = request.getParameter("firstName");
             String surname = request.getParameter("lastName");
             String moduleID = request.getParameter("moduleID");
             int intModuleID = Integer.parseInt(moduleID);
 
-            out.println("<form method=\"post\">\n"
-                    + " Brukernavn " + "<input type=\"text\" name=\"txtStudent\" value=\"" + student + "\"readonly>\n<br>"
-                    + "Fornavn " + "<input type=\"text\" name=\"txtFirstName\" value=\"" + firstName + "\"readonly>\n<br>"
-                    + "Etternavn " + "<input type=\"text\" name=\"txtSurname\" value=\"" + surname + "\"readonly>\n<br>"
-                    + "Modul ID " + "<input type=\"text\" name=\"txtModuleId\" value=\"" + moduleID + "\"readonly>\n<br>"
-                    + "<input type=\"text\" name=\"txtComment\" placeholder=\"kommentar\">\n<br>"
-                    + "<input type=\"text\" name=\"txtPoints1\" placeholder=\"poeng (punktum ved desimal\">\n" + "."
-                    + "<input type=\"text\" name=\"txtPoints2\" placeholder=\"poeng (punktum ved desimal\">\n<br>"
+            out.println("<div id=\"gradingPersonal\">"//personlig info 
+                    + "<form method=\"post\">\n"
+                    + " Brukernavn <br>" + "<input type=\"text\" name=\"txtStudent\" value=\"" + student + "\"readonly>\n<br><br>"
+                    + "Fornavn <br>" + "<input type=\"text\" name=\"txtFirstName\" value=\"" + firstName + "\"readonly>\n<br><br>"
+                    + "Etternavn <br>" + "<input type=\"text\" name=\"txtSurname\" value=\"" + surname + "\"readonly>\n<br><br>"
+                    + "Modul ID <br> " + "<input type=\"text\" name=\"txtModuleId\" value=\"" + moduleID + "\"readonly>\n<br><br>"
+                    + "</div>"//end personlig info 
+                    + "<div id=\"gradingComments\">"
+                    + "Kommentar <br>" + "<textarea name=\"txtComment\" rows=\"8\" cols=\"50\" placeholder=\"kommentar\"></textarea><br><br>"
+                    + "poeng <br>" + "<input type=\"text\" name=\"txtPoints1\" placeholder=\"poeng (punktum ved desimal\">\n" + "."
+                    + "<input type=\"text\" name=\"txtPoints2\" placeholder=\"poeng (punktum ved desimal\">\n<br><br><br><br>"
                     + "<input type=\"submit\" name=\"btnGrade\" value=\"Registrer karakter\">\n<br>"
-                    + "</form>");
+                    + "</form>"
+                    + "</div>"
+                    + "</div>");
 
-                    ModuleTools mt = new ModuleTools();
-                   String type = mt.getType(intModuleID, out);
-                   out.println("Læringsmål for denne modulen: " + "<br>");
-                   out.println(mt.getGoal(intModuleID, out) + "<br>");
-                   
-                   if(type.contains("Skriftlig")){
-                       out.println("Studentens svar: " + "<br><br>");
-                       DeliveryTools dt = new DeliveryTools();
-                       out.println(dt.getDeliveryTextByModuleUser(moduleID, student, out));
-                       
-                       
-                   }else{
-                       out.println("Denne modulen er muntlig");
-                   }
-                    
+            ModuleTools mt = new ModuleTools();
+            String type = mt.getType(intModuleID, out);
+            
+            out.println("<div id=\"gradingModuleInfo\">");
+            out.println("<div id=\"gradingGoal\">");
+            out.println("Læringsmål for denne modulen: " + "<br><br>");
+            out.println(mt.getGoal(intModuleID, out) + "<br><br>");
+            out.println("</div>");
+            
+            if (type.contains("Skriftlig")) {
+                out.println("<div id=\"gradingAnswer\">");
+                out.println("Studentens svar: " + "<br><br>");
+                DeliveryTools dt = new DeliveryTools();
+                out.println(dt.getDeliveryTextByModuleUser(moduleID, student, out));
+
+            } else {
+                out.println("Denne modulen er muntlig");
+            }
+            out.println("</div>");
+            out.println("</div>");
+            
             
             String btn = request.getParameter("btnGrade");
 
@@ -106,7 +118,6 @@ public class GradingServlet extends HttpServlet {
                 ct.setRettetAndLevert(txtStudent, txtModuleID, out);
                 response.sendRedirect("ModuleMenuServlet");
             }
-            
 
             out.println("</body>");
             out.println("</html>");
