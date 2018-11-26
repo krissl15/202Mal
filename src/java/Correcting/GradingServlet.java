@@ -58,6 +58,8 @@ public class GradingServlet extends HttpServlet {
             String surname = request.getParameter("lastName");
             String moduleID = request.getParameter("moduleID");
             int intModuleID = Integer.parseInt(moduleID);
+            ModuleTools mt = new ModuleTools();
+            String maxPoints = mt.getMaxPoints(intModuleID, out);
 
             out.println("<div id=\"gradingPersonal\">"//personlig info 
                     + "<form method=\"post\">\n"
@@ -69,13 +71,13 @@ public class GradingServlet extends HttpServlet {
                     + "<div id=\"gradingComments\">"
                     + "Kommentar <br>" + "<textarea name=\"txtComment\" rows=\"8\" cols=\"50\" placeholder=\"kommentar\"></textarea><br><br>"
                     + "poeng <br>" + "<input type=\"text\" name=\"txtPoints1\" placeholder=\"poeng (punktum ved desimal\">\n" + "."
-                    + "<input type=\"text\" name=\"txtPoints2\" placeholder=\"poeng (punktum ved desimal\">\n<br><br><br><br>"
+                    + "<input type=\"text\" name=\"txtPoints2\" placeholder=\"poeng (punktum ved desimal\">" + " / " + maxPoints + "\n<br><br><br><br>"
                     + "<input type=\"submit\" name=\"btnGrade\" value=\"Registrer karakter\">\n<br>"
                     + "</form>"
                     + "</div>"
                     + "</div>");
 
-            ModuleTools mt = new ModuleTools();
+            
             String type = mt.getType(intModuleID, out);
             
             out.println("<div id=\"gradingModuleInfo\">");
