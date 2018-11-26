@@ -249,7 +249,8 @@ float: top;}
 
 #memberListRegistered{
      
- width: 400px;
+ max-width: 250px;
+ margin-bottom: 10px;
 border-radius: 5px 5px 5px 5px;
 -moz-border-radius: 5px 5px 5px 5px;
 -webkit-border-radius: 5px 5px 5px 5px;
