@@ -232,9 +232,10 @@ border: 1px solid #000000;
 margin-top: 10px;
 text-align: left;
 display: inline-block;
-float: top;}
+float: bottom;}
 
 #gradingAnswer{
+    width: 500px;
 padding: 10px;
    border-radius: 10px 10px 10px 10px;
 -moz-border-radius: 10px 10px 10px 10px;

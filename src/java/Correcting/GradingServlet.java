@@ -83,9 +83,9 @@ public class GradingServlet extends HttpServlet {
             out.println("Læringsmål for denne modulen: " + "<br><br>");
             out.println(mt.getGoal(intModuleID, out) + "<br><br>");
             out.println("</div>");
-            
+            out.println("<div id=\"gradingAnswer\">");
             if (type.contains("Skriftlig")) {
-                out.println("<div id=\"gradingAnswer\">");
+                
                 out.println("Studentens svar: " + "<br><br>");
                 DeliveryTools dt = new DeliveryTools();
                 out.println(dt.getDeliveryTextByModuleUser(moduleID, student, out));

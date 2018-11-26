@@ -148,7 +148,7 @@ public class DeliveryTools {
                         String chosenPerson  = "<li><a href='GradingServlet?moduleID=%s&userName=%s&firstName=%s&lastName=%s'>%s %s %s %s</a> </li>"; 
                     out.format(chosenPerson, moduleID, userName,firstName,surname, moduleID, 
                             userName, firstName, surname);
-                     out.println(" Modul:" + moduleName + ", " + mkCorrectedStatus);
+                     out.println(" Modul: " + moduleName + "<br> " + mkCorrectedStatus + "<br>" + "<b>" + mkType + "</b>");
                      out.println("</div>");
                      
                     }

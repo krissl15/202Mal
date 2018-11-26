@@ -142,7 +142,7 @@ public class ModuleTools {
                 psEvaluate.setInt(1, moduleID);
             try (ResultSet rsModulNavn = psEvaluate.executeQuery()) {
                 while (rsModulNavn.next()) {
-                    antall = rsModulNavn.getString("COUNT(mk_rettet_status");
+                    antall = rsModulNavn.getString("COUNT(mk_rettet_status)");
                 }
             }
         }
