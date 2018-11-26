@@ -61,7 +61,12 @@ public class AnnouncementPageServlet extends HttpServlet {
             
             //AnnouncementTools aT = new AnnouncementTools();
             //aT.showAnnouncement(out);
-
+           
+             if (request.isUserInRole("Foreleser")) {
+                out.print("<form action=\"AnnouncementDeleteServlet\" method=\"post\">\n"
+                        + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett beskjed " + IDString + "\"><br>"
+                        + "               </form>");
+            }
             
         }
    }
