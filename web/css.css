@@ -235,7 +235,7 @@ display: inline-block;
 float: bottom;}
 
 #gradingAnswer{
-    width: 500px;
+    width: 200px;
 padding: 10px;
    border-radius: 10px 10px 10px 10px;
 -moz-border-radius: 10px 10px 10px 10px;
@@ -245,3 +245,27 @@ margin-top: 1px;
 text-align: left;
 display: inline-block;
 float: top;}
+
+
+#memberListRegistered{
+     
+ width: 400px;
+border-radius: 5px 5px 5px 5px;
+-moz-border-radius: 5px 5px 5px 5px;
+-webkit-border-radius: 5px 5px 5px 5px;
+border: 1px double #000000;
+padding: 10px;
+-webkit-box-shadow: -5px 4px 3px -3px rgba(0,0,0,0.52);
+-moz-box-shadow: -5px 4px 3px -3px rgba(0,0,0,0.52);
+box-shadow: -5px 4px 3px -3px rgba(0,0,0,0.52);
+}
+
+
+#memberListRegisteredName{
+    
+}
+
+#memberListRegisteredButtons{
+ float: top;
+ padding: 5px;
+}

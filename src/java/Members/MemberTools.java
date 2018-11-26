@@ -41,13 +41,21 @@ public class MemberTools {
                     String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>"; 
 
                     if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
+                        out.println("<div id=\"memberListRegistered\">");
+                        out.println("<div id=\"memberListRegisteredName\">");
                         out.format(chosenPerson, firstName, surName, userName, "registrertstudent", firstName, surName, userName,"registrertstudent");
+                        out.println("</div>");
                         //out.println(userName + " (" + firstName + " " + surName + ")");
+                        
+
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                               // + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
-                                + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\"><br>");
+                                + "<div id=\"memberListRegisteredButtons\">"
+                                + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\">");
                          out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
+                         out.println("</div>");
+                         out.println("</div>");
                     } else if (rolle.equals("UregistrertStudent")) {
                         out.format(chosenPerson, firstName, surName, userName, "uregistrertstudent", firstName, surName, userName,"uregistrertstudent");
                         //out.println(userName + " (" + firstName + " " + surName + ")");
