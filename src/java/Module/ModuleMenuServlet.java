@@ -99,9 +99,7 @@ public class ModuleMenuServlet extends HttpServlet {
                 while (rsModules.next()) {
                     String modulID = rsModules.getString("modul_id");
                     int intID = Integer.parseInt(modulID);
-                    out.println("<form action=\"ModulePageServlet\" method=\"post\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">"
-                                    + "</form>");
+                    
                     out.println("<div class=\"moduleCol\">"
                             + mt.getModuleName(intID, out)
                             + "</div>");
@@ -117,7 +115,9 @@ public class ModuleMenuServlet extends HttpServlet {
                     out.println("<div class=\"evaluatedCol\">"
                             + mt.getEvaluated(intID, out)
                             + "</div>");
-                       
+                       out.println("<form action=\"ModulePageServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">"
+                                    + "</form>");
 
                     out.println("</form>");
                 }
