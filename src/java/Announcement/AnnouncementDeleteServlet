@@ -51,8 +51,8 @@ public class AnnouncementDeleteServlet extends HttpServlet {
             men.menuButtons(out);
             
             String btnDelete = request.getParameter("btnDelete");
-            String beskjedNr = btnDelete.substring(btnDelete.lastIndexOf(" ") + 1); 
-            int IDString = Integer.parseInt(beskjedNr);
+            String AnnouncementNr = btnDelete.substring(btnDelete.lastIndexOf(" ") + 1); 
+            int IDString = Integer.parseInt(AnnouncementNr);
 
             AnnouncementTools at = new AnnouncementTools();
             at.deleteAnnouncement(IDString, out);
