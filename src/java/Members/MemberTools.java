@@ -53,9 +53,10 @@ public class MemberTools {
                                 + "<div id=\"memberListRegisteredButtons\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\">");
                          out.println("<form action=\"MemberListServlet\" method=\"post\">"
-                                + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
+                                + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\">");
                          out.println("</div>");
                          out.println("</div>");
+                         out.println("<br>");
                     } else if (rolle.equals("UregistrertStudent")) {
                         out.format(chosenPerson, firstName, surName, userName, "uregistrertstudent", firstName, surName, userName,"uregistrertstudent");
                         //out.println(userName + " (" + firstName + " " + surName + ")");
