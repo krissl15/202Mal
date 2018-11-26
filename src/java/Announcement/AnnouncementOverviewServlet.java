@@ -57,7 +57,7 @@ public class AnnouncementOverviewServlet extends HttpServlet {
             
             if (request.isUserInRole("Foreleser")) {
                 out.print("<form action=\"NewAnnouncementServlet\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til beskjed\"> <br>  \n"
+                        + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Ny kunngjøring\"> <br>  \n"
                         + "            </form>");
             }
 
