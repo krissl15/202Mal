@@ -58,7 +58,7 @@ public class ModuleMenuServlet extends HttpServlet {
                 out.println("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
                           "<input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br>  \n" +
                           "</form>");
-                out.print("<form action=\"UncorrectedServlet\" method=\"post\">\n" +
+                out.println("<form action=\"UncorrectedServlet\" method=\"post\">\n" +
                           "<input type=\"Submit\" name=\"btnUnC\" value=\"Urettede moduler\"> <br><br>  \n" +
                           "</form>");
             }
@@ -87,9 +87,11 @@ try (Connection conn = db.getConnection(out)) {
         out.println("<th class=\"totalCol title\">"
         + "<b>Totalt</b>"
         + "</th>");
-        out.println("<th class=\"evaluatedCol title\">"
-        + "<b>Evaluert</b>"
-        + "</th>");
+        if (request.isUserInRole("Foreleser")) {
+            out.println("<th class=\"evaluatedCol title\">"
+            + "<b>Evaluert</b>"
+            + "</th>");
+        }
         out.println("</tr>" 
         + "</thead>"
         + "<tbody>");            
@@ -113,19 +115,21 @@ try (Connection conn = db.getConnection(out)) {
             out.println("<td class=\"totalCol\">"
             + mt.getTotalRegistered(out)
             + "</td>");
-            out.println("<td class=\"evaluatedCol\">"
-            + mt.getEvaluated(intID, out)
-            + "</td>");
-            out.println("<td class=\"editBtn\">");
-            out.println("<form action=\"ModuleStoreServlet\" method=\"post\">"
+            if (request.isUserInRole("Foreleser")) {
+                out.println("<td class=\"evaluatedCol\">"
+                + mt.getEvaluated(intID, out)
+                + "</td>");
+                out.println("<td class=\"editBtn\">");
+                out.println("<form action=\"ModuleStoreServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\"Endre\">"
                         + "</form>");
-            out.println("</td>");
-            out.println("<td class=\"deleteBtn\">");
-            out.println("<a href=\"DeleteModuleServlet\" onclick=\"return confirm('Trykk OK for å slette hele prosjektet');\">"
+                out.println("</td>");
+                out.println("<td class=\"deleteBtn\">");
+                out.println("<a href=\"DeleteModuleServlet\" onclick=\"return confirm('Trykk OK for å slette hele prosjektet');\">"
                         + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
                         + "</a>");
-            out.println("</td>");
+                out.println("</td>");
+            }
             out.println("</tr>"); 
         }
         out.println("</tbody></table>");
