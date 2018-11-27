@@ -51,8 +51,8 @@ public class GradingServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<body>");
+            out.println("<h2>Gi tilbakemelding</h2>");
             out.println("<div id=\"grading\">"); //hele boksen 
-
             String student = request.getParameter("userName");
             String firstName = request.getParameter("firstName");
             String surname = request.getParameter("lastName");
