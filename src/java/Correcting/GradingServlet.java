@@ -46,11 +46,12 @@ public class GradingServlet extends HttpServlet {
             out.println("<link href=\"css.css\" rel=\"stylesheet\" type=\"text/css\">");
             out.println("<title>Servlet GradingServlet</title>");
             out.println("</head>");
-            out.println("<body>");
-            
+            out.println("<div id=\"header\">");
             MenuTools men = new MenuTools();
             men.menuButtons(out);
-            
+            out.println("</div>");
+            out.println("<body>");
+            out.println("<h2>Gi tilbakemelding</h2>");
             
             String student = request.getParameter("userName");
             String firstName = request.getParameter("firstName");

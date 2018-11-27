@@ -49,19 +49,15 @@ public class InboxServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<body>");
+            out.println("<h2>Innboks</h2>");
             out.println("<form action=\"NewMessageServlet\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnNewMessage\" value=\"Ny melding\"> <br> \n" +
 "               </form>  \n");
             out.println("<form action=\"OutboxServlet\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnOutbox\" value=\"Sendte elementer\"> \n" +
 "                </form>  \n");
-            out.println("<h2>Innboks</h2>");
-            
-            
             String recipient = request.getRemoteUser();
             msg.showRecieved(recipient, out);
-            
-            
             out.println("</body>");
             out.println("</html>");
         }

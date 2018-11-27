@@ -66,16 +66,6 @@ public class ModuleTools {
      * 
      * @param moduleID
      * @param out
-     * @throws SQLException 
-     */
-    public void viewAllModules(int moduleID, PrintWriter out) throws SQLException{
-                out.println(getModuleName(moduleID, out) + " " + getDate(moduleID, out) + " " + getDelivered(moduleID, out) + " " + getTotalRegistered(out) + " " + getEvaluated(moduleID, out));
-    }
-    
-    /**
-     * 
-     * @param moduleID
-     * @param out
      * @return
      * @throws SQLException 
      */
@@ -142,13 +132,13 @@ public class ModuleTools {
                 psEvaluate.setInt(1, moduleID);
             try (ResultSet rsModulNavn = psEvaluate.executeQuery()) {
                 while (rsModulNavn.next()) {
-                    antall = rsModulNavn.getString("COUNT(mk_rettet_status");
+                    antall = rsModulNavn.getString("COUNT(mk_rettet_status)");
                 }
             }
         }
         if (antall==null){
             return ifNull;
-        }
+        } 
         return antall;
     }
     
