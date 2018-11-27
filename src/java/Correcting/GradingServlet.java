@@ -69,9 +69,9 @@ public class GradingServlet extends HttpServlet {
                     + "Modul ID <br> " + "<input type=\"text\" name=\"txtModuleId\" value=\"" + moduleID + "\"readonly>\n<br><br>"
                     + "</div>"//end personlig info 
                     + "<div id=\"gradingComments\">"
-                    + "Kommentar <br>" + "<textarea name=\"txtComment\" rows=\"8\" cols=\"50\" placeholder=\"kommentar\"></textarea><br><br>"
-                    + "poeng <br>" + "<input type=\"text\" name=\"txtPoints1\" placeholder=\"poeng (punktum ved desimal\">\n" + "."
-                    + "<input type=\"text\" name=\"txtPoints2\" placeholder=\"poeng (punktum ved desimal\">" + " / " + maxPoints + "\n<br><br><br><br>"
+                    + "Kommentar <br>" + "<textarea name=\"txtComment\" rows=\"8\" cols=\"50\" placeholder=\"kommentar\"required></textarea><br><br>"
+                    + "poeng <br>" + "<input type=\"text\" name=\"txtPoints1\" placeholder=\"poeng (punktum ved desimal\"required>\n" + "."
+                    + "<input type=\"text\" name=\"txtPoints2\" placeholder=\"poeng (punktum ved desimal\"required>" + " / " + maxPoints + "\n<br><br><br><br>"
                     + "<input type=\"submit\" name=\"btnGrade\" value=\"Registrer karakter\">\n<br>"
                     + "</form>"
                     + "</div>"
