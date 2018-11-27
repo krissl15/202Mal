@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -58,8 +59,7 @@ public class ModuleMenuServlet extends HttpServlet {
                           "<input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br>  \n" +
                           "</form>");
                 out.println("<form action=\"ModuleStoreServlet\" method=\"post\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\"Endre\">"
-                        + "</form>");
+                            + "<input type=\"Submit\" name=\"module\" value=\"Endre\">");
     
                     /*out.println("<form action=\"DeleteModuleServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
@@ -99,7 +99,9 @@ public class ModuleMenuServlet extends HttpServlet {
                 while (rsModules.next()) {
                     String modulID = rsModules.getString("modul_id");
                     int intID = Integer.parseInt(modulID);
-                    
+                    out.println("<form action=\"ModulePageServlet\" method=\"post\">"
+                            + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">"
+                                    + "</form>");
                     out.println("<div class=\"moduleCol\">"
                             + mt.getModuleName(intID, out)
                             + "</div>");
@@ -115,14 +117,28 @@ public class ModuleMenuServlet extends HttpServlet {
                     out.println("<div class=\"evaluatedCol\">"
                             + mt.getEvaluated(intID, out)
                             + "</div>");
-                       out.println("<form action=\"ModulePageServlet\" method=\"post\">"
-                            + "<input type=\"Submit\" name=\"module\" value=\""+ modulID + "\">"
-                                    + "</form>");
+                       
 
                     out.println("</form>");
                 }
             }
         }
+        
+         String commentBtn = request.getParameter("btnComment");
+            
+            if(commentBtn.contains("Kommenter")){
+                out.println(commentBtn);
+            LocalDate date = LocalDate.now();
+            String stringDate = date.toString();
+            String commentContent = request.getParameter("commentText");
+            String commenter = request.getRemoteUser();
+             ModuleTools mT = new ModuleTools();
+             String moduleID = request.getParameter("hdnId");
+             int intModuleId = Integer.parseInt(moduleID);
+            mT.commentModule(commentContent, stringDate, commenter, intModuleId, out);
+            response.sendRedirect("ModuleMenuServlet");
+            
+            }
 
                 
             }   
