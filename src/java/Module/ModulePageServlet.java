@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -114,12 +115,24 @@ public class ModulePageServlet extends HttpServlet {
                 } else {//om modulen er muntlig
                     out.println("Denne modulen er muntlig");
                 }
-
-                out.println("</body>");
-                out.println("</html>");
             }//end student if
+
+            String user = request.getRemoteUser();
+            out.println("<h3>Kommentarer</h3>");
+            mT.readModuleComments(intModuleNr, user, out);
+            out.println("<form action=\"ModuleMenuServlet\"><b><br><b>Svar på modul </b><input type=\"text\" name=\"commentText\" placeholder=\"Kommenter modulen...\">\n"
+              + "<input type=\"hidden\" name=\"hdnId\" value=\"" + intModuleNr + "\">"
+                    + "<input type=\"Submit\" name=\"btnComment\" value=\"Kommenter\"> \n"
+                 
+                
+                + "</form>  ");
+            
+           
+            out.println("</body>");
+            out.println("</html>");
         }
     }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -169,3 +182,4 @@ public class ModulePageServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+
