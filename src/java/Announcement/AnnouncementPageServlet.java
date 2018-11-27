@@ -5,16 +5,10 @@
  */
 package Announcement;
 
-import Delivery.DeliveryTools;
-import Module.ModuleTools;
-import Utilities.DbConnector;
 import Utilities.MenuTools;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -57,19 +51,19 @@ public class AnnouncementPageServlet extends HttpServlet {
             out.println("</div>");
             out.println("<h2>her er tittel</h2>");
             out.println("<body>");
-            String announcementID = request.getParameter("hdnID");
+            String IDString = request.getParameter("hdnID");
            
             AnnouncementTools at = new AnnouncementTools();
-            at.showAnnouncement(announcementID, out);
+            at.showAnnouncement(IDString, out);
             
-            //AnnouncementTools aT = new AnnouncementTools();
-            //aT.showAnnouncement(out);
-           
-             if (request.isUserInRole("Foreleser")) {
+            if (request.isUserInRole("Foreleser")) {
                 out.print("<form action=\"AnnouncementDeleteServlet\" method=\"post\">\n"
                         + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett beskjed " + IDString + "\"><br>"
                         + "               </form>");
             }
+            //AnnouncementTools aT = new AnnouncementTools();
+            //aT.showAnnouncement(out);
+
             
         }
    }
@@ -122,3 +116,4 @@ public class AnnouncementPageServlet extends HttpServlet {
     }// </editor-fold>
 
 }
+
