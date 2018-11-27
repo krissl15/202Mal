@@ -75,23 +75,23 @@ public class ModuleAddedServlet extends HttpServlet {
                     + "        <div>\n");
             
            String moduleName = request.getParameter("textmoduleName");
-            String module_id = request.getParameter("moduleID");
-            int intModuleId = Integer.parseInt(module_id);
+            String moduleID = request.getParameter("moduleID");
+            int intModuleId = Integer.parseInt(moduleID);
             String modulGoal = request.getParameter("textGoal");
             String moduleText = request.getParameter("textModule");
             String moduleStatus = request.getParameter("textStatus");
-            String modul_fristdato = request.getParameter("textDate");
+            String moduleDate = request.getParameter("textDate");
             String modulPoints = request.getParameter("textPoints");
             String moduleType = request.getParameter("textType");
 
             
-            int intDato = Integer.parseInt(modul_fristdato);
+            int intDato = Integer.parseInt(moduleDate);
 
             ModuleTools mt = new ModuleTools();
             MemberTools mem = new MemberTools();
 
             mt.insertModule(intModuleId, moduleName, modulGoal, moduleText, modulPoints, moduleType, moduleStatus, intDato, out);
-            mem.addAllToNewModulekanal(module_id, out);
+            mem.addAllToNewModulekanal(moduleID, out);
             
         }
         

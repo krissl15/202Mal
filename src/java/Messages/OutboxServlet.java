@@ -58,8 +58,8 @@ public class OutboxServlet extends HttpServlet {
 "            </form>  \n");
             out.println("<h2> Sendte meldinger </h2>");
             
-            String avsender = request.getRemoteUser();
-            msg.showSendt(avsender, out);
+            String sender = request.getRemoteUser();
+            msg.showSendt(sender, out);
             
             out.println("</body>");
             out.println("</html>");

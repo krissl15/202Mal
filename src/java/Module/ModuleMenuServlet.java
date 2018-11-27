@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -130,6 +131,22 @@ try (Connection conn = db.getConnection(out)) {
         out.println("</tbody></table>");
     }
 }   
+        
+         String commentBtn = request.getParameter("btnComment");
+            
+            if(commentBtn.contains("Kommenter")){
+                out.println(commentBtn);
+            LocalDate date = LocalDate.now();
+            String stringDate = date.toString();
+            String commentContent = request.getParameter("commentText");
+            String commenter = request.getRemoteUser();
+             ModuleTools mT = new ModuleTools();
+             String moduleID = request.getParameter("hdnId");
+             int intModuleId = Integer.parseInt(moduleID);
+            mT.commentModule(commentContent, stringDate, commenter, intModuleId, out);
+            response.sendRedirect("ModuleMenuServlet");
+            
+            }
             }   
              if (request.isUserInRole("RegistrertStudent")){
                  out.print("<form action =\"StudentProgressServlet\" method =\"POST\">\n" +

@@ -23,6 +23,7 @@ public class ModuleTools {
      */
     public void insertModule(int moduleID, String moduleName, String moduleGoal,
             String moduleText, String modulePoints, String moduleDeliveryType, String moduleStatus, int moduleDate, PrintWriter out) throws SQLException {
+        
         String sql = "insert into modul (modul_id, modul_navn, modul_goal, modul_tekst, modul_max_poeng, modul_innleveringstype, modul_status, modul_fristdato)\n"
                 + "values (?, ?, ?, ?, ?, ?, ?, ?);";
 
@@ -330,5 +331,51 @@ public class ModuleTools {
             out.println("Ikke fått oppdatert modul " + ex);
         }
     }
+    
+    public void commentModule(String commentContent, String commentDate, String commenter, int moduleID, PrintWriter out) throws SQLException {
+        String commentString = "INSERT INTO modul_kommentar (modul_kommentar_text, modul_kommentar_dato, brukernavn, modul_id) VALUES (?, ?, ?, ?);";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+            PreparedStatement updateComments = conn.prepareStatement(commentString)) {
+            
+            updateComments.setString(1, commentContent);
+            updateComments.setString(2, commentDate);
+            updateComments.setString(3, commenter);
+            updateComments.setInt(4, moduleID);
+            
+            updateComments.executeUpdate();
+        } catch (SQLException ex) {
+                        System.out.println(ex.getMessage());
+                    }
+    }
+    
+    public void readModuleComments(int moduleID, String user, PrintWriter out) throws SQLException{
+        String getComments = "SELECT * FROM modul_kommentar WHERE modul_id = ?;";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)){
+            try (PreparedStatement commentInfo = conn.prepareStatement(getComments)) {
+                        commentInfo.setInt(1, moduleID);
+                        
+                        ResultSet commentValue = commentInfo.executeQuery();
+                        while (commentValue.next()) { //iterator
+                         String commentText = commentValue.getString("modul_kommentar_text");
+                         String userName = commentValue.getString("brukernavn");
+                         String moduleDate = commentValue.getString("modul_kommentar_dato");
+                         
+                         if (user.equals(userName)){
+                             out.format("'" + commentText + "'<br> Publisert av deg, den " + moduleDate + "<br><br><br>");  //HER SJEKKES DET OM DET ER DU SOM ER FORFATTER AV KOMMENTAREN. BRUKES HVIS 
+                                                                                                                                        // VI VIL GJØRE DET MULIG Å REDIGERE OG SLETTE KOMMENTARER
+                         }
+                         else {
+                             out.format("'" + commentText + "'<br> Publisert av" + userName + ", den " + moduleDate + "<br><br><br>");
+                         }
+                         
+                        
+                    }
+        
+            }
+        }
+    }
+      
 
 }//class end

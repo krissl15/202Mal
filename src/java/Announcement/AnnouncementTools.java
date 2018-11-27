@@ -111,7 +111,17 @@ public class AnnouncementTools {
         }
 
     }
-
+    
+    public void deleteAnnouncement (int AnnouncementID, PrintWriter out) throws SQLException {
+      String deleteAnnouncement = "delete from beskjeder where beskjed_id=?;";
+      
+      DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out);
+              PreparedStatement psDeleteAnnouncement = conn.prepareStatement(deleteAnnouncement)) {
+            psDeleteAnnouncement.setInt(1, AnnouncementID);
+            psDeleteAnnouncement.executeUpdate();
+        }
+    }
     public String getTitle(int AnnouncementID, PrintWriter out) throws SQLException {
         String qAnnouncementTitle = "select beskjed_tittel from beskjeder where beskjed_id=?";
         String announcementTitle = null;
