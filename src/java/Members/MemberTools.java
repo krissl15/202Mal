@@ -102,7 +102,7 @@ public class MemberTools {
         }
     }
     
-    public void searchUser(String name, String roleName, PrintWriter out) throws SQLException, NamingException {
+  public void searchUser(String name, String roleName, PrintWriter out) throws SQLException, NamingException {
         
         String forSql = name+"%";
         String searchQ = "SELECT bruker.brukernavn, bruker.fornavn, bruker.etternavn, bruker_rolle.rolle\n" +
@@ -120,31 +120,36 @@ public class MemberTools {
                 
                 ResultSet searchResult = ps.executeQuery(); //resultset er en "liste" av alt queryen selected
                 while (searchResult.next()) { //iterator'
-
+                    
+                    String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>";
                     String userName = searchResult.getString("brukernavn");
                     String firstName = searchResult.getString("fornavn");
                     String surName = searchResult.getString("etternavn");
                     
                     if (roleName.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
-                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.format(chosenPerson, firstName, surName, userName, "registrertstudent", firstName, surName, userName, "registrertstudent");
+                       // out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"
                                // + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\"><br>");
                          out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"
                                 + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\"><br>");
                     } else if (roleName.equals("UregistrertStudent")) {
-                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.format(chosenPerson, firstName, surName, userName, "uregistrertstudent", firstName, surName, userName, "uregistrertstudent");
+                        //out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"
                                // + "<input type=\"checkbox\" name=\"addCheck\" value=\"Add " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Registrer " + userName + "\"><br>");
                     }else if (roleName.equals("Assistent")) {
-                        out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.format(chosenPerson, firstName, surName, userName, "assistent", firstName, surName, userName, "assistent");
+                        //out.println(userName + " (" + firstName + " " + surName + ")");
                         out.println("<form action=\"MemberSearchServlet" + "?search=" + name + "\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
                     }
                         
                     else if (roleName.equals("Foreleser")) {
-                        out.println(userName + " (" + firstName + " " + surName + ")");   
+                        out.format(chosenPerson, firstName, surName, userName, "foreleser", firstName, surName, userName, "foreleser");
+                        //out.println(userName + " (" + firstName + " " + surName + ")");   
 
                 }
 
@@ -171,15 +176,60 @@ public class MemberTools {
                 
                 ResultSet searchResult = ps.executeQuery(); //resultset er en "liste" av alt queryen selected
                 while (searchResult.next()) { //iterator'
-
+                    
+                    String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>";
                     String userName = searchResult.getString("brukernavn");
                     String firstName = searchResult.getString("fornavn");
                     String surName = searchResult.getString("etternavn");
-                    out.println(userName + " (" + firstName + " " + surName + ")<br>");
+                    out.format(chosenPerson, userName, firstName, surName);
+                    //out.println(userName + " (" + firstName + " " + surName + ")<br>");
                  }
              }
         }
     }
+
+    /*
+    *@Param name of student to register
+     */
+    public void registerStudent(String name, PrintWriter out) throws SQLException {
+        String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+            try (PreparedStatement ps = conn.prepareStatement(updateQ)) {
+                ps.setString(1, "RegistrertStudent");
+                ps.setString(2, name);
+                ps.executeUpdate();
+            }
+        }
+    }
+
+    /*
+    *@Param name of student to unregister
+     */
+    public void unRegister(String name, PrintWriter out) throws SQLException {
+        String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+            try (PreparedStatement ps = conn.prepareStatement(updateQ)) {
+                ps.setString(1, "UregistrertStudent");
+                ps.setString(2, name);
+                ps.executeUpdate();
+            }
+        }
+    }
+    
+    public void registerAssistent(String name, PrintWriter out) throws SQLException {
+        String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
+        DbConnector db = new DbConnector();
+        try (Connection conn = db.getConnection(out)) {
+            try (PreparedStatement ps = conn.prepareStatement(updateQ)) {
+                ps.setString(1, "Assistent");
+                ps.setString(2, name);
+                ps.executeUpdate();
+            }
+        }
+    }
+ 
 
     /*
     *@Param name of student to register
