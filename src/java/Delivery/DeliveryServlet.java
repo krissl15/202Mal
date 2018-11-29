@@ -74,7 +74,7 @@ public class DeliveryServlet extends HttpServlet {
               int deliveryID = dt.getLastDeliveryByUser(userName, out);
               dt.setDeliveryToModulkanal(deliveryID, moduleID, userName, out);
               
-          response.sendRedirect("DeliveryServlet"); //Oppdaterer siden ved å directe brukeren til samme side
+          response.sendRedirect("ModuleMenuServlet"); //Oppdaterer siden ved å directe brukeren til samme side
 
           }
           

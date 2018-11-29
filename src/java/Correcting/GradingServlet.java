@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This servlet is for the lecturer to correct students deliveries. It is coupled closesly with correctingtools. 
  */
 package Correcting;
 
@@ -77,9 +75,8 @@ public class GradingServlet extends HttpServlet {
                     + "</div>"
                     + "</div>");
 
-            
             String type = mt.getType(intModuleID, out);
-            
+
             out.println("<div id=\"gradingModuleInfo\">");
             out.println("<div id=\"gradingGoal\">");
             out.println("Læringsmål for denne modulen: " + "<br><br>");
@@ -87,7 +84,7 @@ public class GradingServlet extends HttpServlet {
             out.println("</div>");
             out.println("<div id=\"gradingAnswer\">");
             if (type.contains("Skriftlig")) {
-                
+
                 out.println("Studentens svar: " + "<br><br>");
                 DeliveryTools dt = new DeliveryTools();
                 out.println(dt.getDeliveryTextByModuleUser(moduleID, student, out));
@@ -97,8 +94,7 @@ public class GradingServlet extends HttpServlet {
             }
             out.println("</div>");
             out.println("</div>");
-            
-            
+
             String btn = request.getParameter("btnGrade");
 
             if (btn.contains("Registrer")) {

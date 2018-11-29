@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class contains tools used around member functionalities. Especially member servlets.
  */
 package Members;
 
@@ -16,8 +14,12 @@ import javax.naming.NamingException;
  */
 public class MemberTools {
 
-    /*
-    @param PrintWriter objekt, og en string som matcher rollene i databasen 
+    /**
+     * 
+     * @param role rollen til studentene du vil printe ut 
+     * @param out
+     * @throws SQLException
+     * @throws NamingException 
      */
     public void printMembersByRole(String role, PrintWriter out) throws SQLException, NamingException {
         String selectUsers = "select bruker.brukernavn, bruker.fornavn, bruker.etternavn, bruker_rolle.rolle\n"
@@ -77,8 +79,11 @@ public class MemberTools {
         }
     }//end printMembersByRole
     
-    /*
-    *This function prints all users marked as "RegistrertStudent" in the database
+    /**
+     * 
+     * @param out
+     * @throws SQLException
+     * @throws NamingException 
      */
     public void printRegisteredMembers(PrintWriter out) throws SQLException, NamingException {
         String selectUsers = "select bruker.brukernavn, bruker.fornavn, bruker.etternavn, bruker_rolle.rolle\n"
@@ -102,6 +107,14 @@ public class MemberTools {
         }
     }
     
+    /**
+     * 
+     * @param name name you are searching for 
+     * @param roleName
+     * @param out
+     * @throws SQLException
+     * @throws NamingException 
+     */
     public void searchUser(String name, String roleName, PrintWriter out) throws SQLException, NamingException {
         
         String forSql = name+"%";
@@ -153,6 +166,14 @@ public class MemberTools {
     }
     }
     
+    /**
+     * 
+     * @param name who are u searching for 
+     * @param roleName
+     * @param out
+     * @throws SQLException
+     * @throws NamingException 
+     */
     public void searchUserStudent(String name, String roleName, PrintWriter out) throws SQLException, NamingException {
         
         String forSql = name+"%";
@@ -181,8 +202,11 @@ public class MemberTools {
         }
     }
 
-    /*
-    *@Param name of student to register
+    /**
+     * 
+     * @param name who is being registered
+     * @param out
+     * @throws SQLException 
      */
     public void registerStudent(String name, PrintWriter out) throws SQLException {
         String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
@@ -196,8 +220,11 @@ public class MemberTools {
         }
     }
 
-    /*
-    *@Param name of student to unregister
+    /**
+     * 
+     * @param name who is being unregistered
+     * @param out
+     * @throws SQLException 
      */
     public void unRegister(String name, PrintWriter out) throws SQLException {
         String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
@@ -211,6 +238,12 @@ public class MemberTools {
         }
     }
     
+    /**
+     * 
+     * @param name
+     * @param out
+     * @throws SQLException 
+     */
     public void registerAssistent(String name, PrintWriter out) throws SQLException {
         String updateQ = "update bruker_rolle set rolle=? where brukernavn=?";
         DbConnector db = new DbConnector();
@@ -223,9 +256,11 @@ public class MemberTools {
         }
     }
  
-   /*
-    *Metode for å legge student inn i modulkanal 
-    * @param name er navn på student
+   /**
+    * 
+    * @param name
+    * @param out
+    * @throws SQLException 
     */
     public void addToModulKanal(String name, PrintWriter out) throws SQLException {
         String moduleQ = "select modul_id from modul";
@@ -249,7 +284,14 @@ public class MemberTools {
         }
 
     } //end addToModulKanal 
-    
+
+
+    /**
+     * Adds all students to modulkanal. Has to be done when a new module is created. 
+     * @param moduleID
+     * @param out
+     * @throws SQLException 
+     */
    public void addAllToNewModulekanal(String moduleID, PrintWriter out) throws SQLException{
        String qUsers ="select brukernavn from bruker_rolle where rolle=\"registrertstudent\";";
        String qInsert="insert into modulkanal (brukernavn, modul_id, mk_status, mk_rettet_status)\n" +
@@ -271,6 +313,12 @@ public class MemberTools {
        }
    }
     
+   /**
+    * 
+    * @param name
+    * @param out
+    * @throws SQLException 
+    */
     public void removeFromModulKanal(String name, PrintWriter out) throws SQLException{
         String deleteQ = "delete from modulkanal\n" +
 "where brukernavn = ?";
@@ -283,6 +331,12 @@ public class MemberTools {
         }
     }//end removeFromModulKanal
     
+    /**
+     * 
+     * @param out
+     * @throws SQLException
+     * @throws NamingException 
+     */
     public void printAssistants(PrintWriter out) throws SQLException, NamingException {
         String selectUsers = "select bruker.brukernavn, bruker.fornavn, bruker.etternavn, bruker_rolle.rolle\n"
                 + "from bruker\n"
