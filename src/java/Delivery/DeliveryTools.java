@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Tools used around functionalities about deliveries. Mainly in the deliveryservlet. 
  */
 package Delivery;
 
@@ -43,6 +41,13 @@ public class DeliveryTools {
 
     }//method end
 
+    /**
+     * 
+     * @param name
+     * @param out
+     * @return a string with the ID of the last delivery by the user. 
+     * @throws SQLException 
+     */
     public int getLastDeliveryByUser(String name, PrintWriter out) throws SQLException {
         String qModulKanal = ("select innlevering_id from innlevering where brukernavn=? order by innlevering_id desc limit 1;");
         Integer i = null;
@@ -61,6 +66,14 @@ public class DeliveryTools {
         return i;
     }
 
+    /**
+     * 
+     * @param name
+     * @param moduleID
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
     public String checkIfDelivered(String name, int moduleID, PrintWriter out) throws SQLException {
         String qStatus = "select mk_status from modulkanal where brukernavn=? and modul_id=?";
         String deliveryStatus = null;
@@ -80,6 +93,15 @@ public class DeliveryTools {
         return deliveryStatus;
     }//method end 
 
+    
+    /**
+     * Adds the delivery to modulkanal. Has to be done to connect the delivery to a users module. 
+     * @param deliveryID
+     * @param modulID
+     * @param userName
+     * @param out
+     * @throws SQLException 
+     */
     public void setDeliveryToModulkanal(int deliveryID, int modulID, String userName, PrintWriter out) throws SQLException {
 
         String qDeliveryModulKanal = ("update modulkanal set innlevering_id=?, mk_status=\"Levert\" where modul_id=? and brukernavn=?");
@@ -95,6 +117,14 @@ public class DeliveryTools {
         }
     }
 
+    /**
+     * 
+     * @param name
+     * @param moduleID
+     * @param out
+     * @return if corrected or not ("Rettet" or "Ikke rettet")
+     * @throws SQLException 
+     */
     public String checkIfDeliveryCorrected(String name, int moduleID, PrintWriter out) throws SQLException {
         String qStatus = "select mk_rettet_status from modulkanal where brukernavn=? and modul_id=?";
         String deliveryCheckedStatus = null;
@@ -115,10 +145,9 @@ public class DeliveryTools {
     }
 
     /**
-     *
-     * @param name
+     * 
      * @param out
-     * @throws SQLException
+     * @throws SQLException 
      */
     public void listUnCorrectedDeliveries(PrintWriter out) throws SQLException {
         String qUncorrected = "select bruker.fornavn, bruker.etternavn, modul_innleveringstype, bruker.brukernavn, modulkanal.mk_status, modulkanal.mk_rettet_status, innlevering_id, modul.modul_navn, modul.modul_id\n" +
@@ -159,6 +188,14 @@ public class DeliveryTools {
         }
     }
 
+    /**
+     * 
+     * @param moduleID
+     * @param user
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
     public String getDeliveryTextByModuleUser(String moduleID, String user, PrintWriter out) throws SQLException{
          String qDeliveryText = "select innlevering_tekst \n" +
 "from innlevering\n" +

@@ -1,3 +1,7 @@
+/*
+*This class contains all tools used around modules, specifically in the module servlets.
+*/
+
 package Module;
 
 import Utilities.DbConnector;
@@ -11,15 +15,17 @@ import java.sql.*;
 public class ModuleTools {
 
     /**
-     *
-     * @param modul_id
-     * @param modul_navn
-     * @param modul_læringsmål
-     * @param modul_tekst
-     * @param modul_status
-     * @param modul_fristdato
+     * 
+     * @param moduleID
+     * @param moduleName
+     * @param moduleGoal
+     * @param moduleText
+     * @param modulePoints
+     * @param moduleDeliveryType
+     * @param moduleStatus
+     * @param moduleDate
      * @param out
-     * @throws SQLException
+     * @throws SQLException 
      */
     public void insertModule(int moduleID, String moduleName, String moduleGoal,
             String moduleText, String modulePoints, String moduleDeliveryType, String moduleStatus, int moduleDate, PrintWriter out) throws SQLException {
@@ -160,7 +166,13 @@ public class ModuleTools {
         }//end connection
         return moduleName;
     }
-
+/**
+ * 
+ * @param moduleID
+ * @param out
+ * @return
+ * @throws SQLException 
+ */
     public String getGoal(int moduleID, PrintWriter out) throws SQLException {
         String psModuleGoal = "select modul_goal from modul where modul_id=?";
         String moduleGoal = null;
@@ -179,6 +191,13 @@ public class ModuleTools {
         return moduleGoal;
     }
 
+    /**
+     * 
+     * @param moduleID
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
     public String getText(int moduleID, PrintWriter out) throws SQLException {
         String psModuleText = "select modul_tekst from modul where modul_id=?";
         String moduleText = null;
@@ -223,6 +242,13 @@ public class ModuleTools {
         return moduleStatus;
     }
 
+    /**
+     * Returnerer om den er skriftlig eller mmuntlig
+     * @param moduleID
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
     public String getType(int moduleID, PrintWriter out) throws SQLException {
         String psModuleType = "select modul_innleveringstype from modul where modul_id=?";
         String moduleType = null;
@@ -241,6 +267,13 @@ public class ModuleTools {
         return moduleType;
     }
 
+    /**
+     * Innleveringsfrist
+     * @param moduleID
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
     public String getDate(int moduleID, PrintWriter out) throws SQLException {
         String psModuleDate = "select modul_fristdato from modul where modul_id=?";
         String moduleDate = null;
@@ -259,6 +292,13 @@ public class ModuleTools {
         return moduleDate;
     }
 
+    /**
+     * 
+     * @param moduleID
+     * @param out
+     * @return
+     * @throws SQLException 
+     */
     public String getMaxPoints(int moduleID, PrintWriter out) throws SQLException {
         String qMaxPoints = "select modul_max_poeng from modul where modul_id=?";
         String modulMaxPoints = null;
@@ -278,18 +318,10 @@ public class ModuleTools {
     }
 
     /**
-     *
-     * @param name
-     * @param moduleID
-     * @param out
-     * @return
-     * @throws SQLException
-     */
-    /**
-     *
+     * 
      * @param modul_id
      * @param out
-     * @throws SQLException
+     * @throws SQLException 
      */
     public void deleteModule(int modul_id, PrintWriter out) throws SQLException {
         String deleteModule = "DELETE FROM slit.modul WHERE Modul_id =?";
@@ -307,6 +339,20 @@ public class ModuleTools {
         }
     }
 
+    /**
+     * 
+     * @param modulID
+     * @param moduleName
+     * @param moduleGoal
+     * @param moduleText
+     * @param moduleDeliveryType
+     * @param moduleStatus
+     * @param moduleDate
+     * @param oldModuleID
+     * @param moduleMaxPoints
+     * @param out
+     * @throws SQLException 
+     */
     public void updateModule(int modulID, String moduleName, String moduleGoal,
             String moduleText, String moduleDeliveryType, String moduleStatus, String moduleDate, int oldModuleID, String moduleMaxPoints, PrintWriter out) throws SQLException {
         String upd = "UPDATE slit.modul SET modul_id=?, modul_navn =?, modul_goal=?, "
@@ -332,6 +378,15 @@ public class ModuleTools {
         }
     }
     
+    /**
+     * 
+     * @param commentContent
+     * @param commentDate
+     * @param commenter
+     * @param moduleID
+     * @param out
+     * @throws SQLException 
+     */
     public void commentModule(String commentContent, String commentDate, String commenter, int moduleID, PrintWriter out) throws SQLException {
         String commentString = "INSERT INTO modul_kommentar (modul_kommentar_text, modul_kommentar_dato, brukernavn, modul_id) VALUES (?, ?, ?, ?);";
         DbConnector db = new DbConnector();
@@ -349,6 +404,13 @@ public class ModuleTools {
                     }
     }
     
+    /**
+     * 
+     * @param moduleID
+     * @param user
+     * @param out
+     * @throws SQLException 
+     */
     public void readModuleComments(int moduleID, String user, PrintWriter out) throws SQLException{
         String getComments = "SELECT * FROM modul_kommentar WHERE modul_id = ?;";
         DbConnector db = new DbConnector();

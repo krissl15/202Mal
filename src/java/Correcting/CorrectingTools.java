@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * This class contains all the functionalities used for correcting and grading deliveries. 
  */
 package Correcting;
 
@@ -21,6 +19,16 @@ import java.util.Calendar;
  */
 public class CorrectingTools {
     
+    /**
+     * 
+     * @param comment
+     * @param points
+     * @param sender
+     * @param student
+     * @param moduleID
+     * @param out
+     * @throws SQLException 
+     */
        public void setGrade(String comment, String points, String sender, String student, String moduleID, PrintWriter out) throws SQLException {
       
            String qGrade = "insert into tilbakemelding (tilbakemelding_innhold, tilbakemelding_poeng, tilbakemelding_dato, avsender, brukernavn, modul_id)\n" +
@@ -43,7 +51,13 @@ public class CorrectingTools {
         }  
     }
        
-       
+       /**
+        * 
+        * @param userName
+        * @param moduleID
+        * @param out
+        * @throws SQLException 
+        */
        public void setRettetAndLevert(String userName, String moduleID, PrintWriter out) throws SQLException{
            
            String qGradedDelivered = "update modulkanal set mk_status=\"Levert\",mk_rettet_status=\"Rettet\"  where modul_id=? and brukernavn=?;";

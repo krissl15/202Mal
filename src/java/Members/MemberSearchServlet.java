@@ -69,7 +69,7 @@ public class MemberSearchServlet extends HttpServlet {
             
             String change = request.getParameter("member"); //alle knappene heter det samme ("member")
             //String aCheck = request.getParameter("addCheck");
-                //String rCheck = request.getParameter("removeCheck");
+            //String rCheck = request.getParameter("removeCheck");
 
             
             if (change.contains("Registrer")) { //Sjekker om knappen er en "fjern" eller "Registrer
