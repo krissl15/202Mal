@@ -54,19 +54,14 @@ public class NewAnnouncementServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<h2>Ny kunngjøring</h2>");
+            out.println("<div class=\"partedDiv\">");
             out.println("<body>");
-            out.println("<div>");
-            out.println("<form><p>Ny beskjed</p>\n"
-                    + "<b>Tittel</b> <input type=\"text\" name=\"AnnouncementTitle\" placeholder=\"Legg til tittel\"> <br><br>  \n"
-                    + "<b>Beskjed</b> <input type=\"text\" name=\"AnnouncementText\" placeholder=\"Legg til tekst\"> <br><br>  \n</div>"
+            out.println("<form>"
+                    + "<b>Tittel</b><br><input type=\"text\" name=\"AnnouncementTitle\" placeholder=\"Legg til tittel\"> <br><br>  \n"
+                    + "<b>Beskjed</b><br><textarea name=\"AnnouncementText\" rows=\"5\" cols=\"50\" placeholder=\"Skriv beskjeden din her..\"></textarea> <br><br>  \n"
                     + "<input type=\"Submit\" name=\"btnSendMessage\" value=\"Publiser\"> \n"
                     + "</form>");
-
-          out.println("<form action=\"MainPage\" >\n" +
-          "<input type=\"Submit\" name=\"btnHome\" value=\"Hovedmeny\"> \n" +
-          "</form>  ");
-            
-            
+         
             String btnSend = request.getParameter("btnSendMessage");
             if(btnSend.contains("Publiser")){
                 
@@ -78,7 +73,7 @@ public class NewAnnouncementServlet extends HttpServlet {
             
             at.insertAnnouncement(announceTitle, announceText, strAnnounceDate, userName, out);
             response.sendRedirect("AnnouncementOverviewServlet");
-            
+            out.print("</div>");
             
             
             }

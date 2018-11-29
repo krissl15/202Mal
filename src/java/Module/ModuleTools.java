@@ -14,7 +14,7 @@ public class ModuleTools {
      *
      * @param modul_id
      * @param modul_navn
-     * @param modul_lÃ¦ringsmÃ¥l
+     * @param modul_læringsmål
      * @param modul_tekst
      * @param modul_status
      * @param modul_fristdato
@@ -23,7 +23,7 @@ public class ModuleTools {
      */
     public void insertModule(int moduleID, String moduleName, String moduleGoal,
             String moduleText, String modulePoints, String moduleDeliveryType, String moduleStatus, int moduleDate, PrintWriter out) throws SQLException {
-        
+
         String sql = "insert into modul (modul_id, modul_navn, modul_goal, modul_tekst, modul_max_poeng, modul_innleveringstype, modul_status, modul_fristdato)\n"
                 + "values (?, ?, ?, ?, ?, ?, ?, ?);";
 
@@ -54,74 +54,75 @@ public class ModuleTools {
      * @throws SQLException
      */
     public void showModule(int moduleID, PrintWriter out) throws SQLException {
-        out.println("Modul navn: " + getModuleName(moduleID, out) + "<br><br>");
-        out.println("MÃ¥let: " + getGoal(moduleID, out) + "<br><br>");
         out.println(getText(moduleID, out) + "<br><br>");
-        out.println("Maks poeng: " + getMaxPoints(moduleID, out) +"<br><br>");
-        out.println("Innleveringstype: " + getType(moduleID, out) + "<br><br>");
-        out.println("Status: " + getStatus(moduleID, out) + "<br><br>");
-        out.println("Fristdato: " + getDate(moduleID, out) + "<br><br>");
+        out.println("<b>Læringsmål</b> "
+                + "<li>"
+                + getGoal(moduleID, out) + "</li><br>");
+        out.println("<b>Maks poeng: </b>" + getMaxPoints(moduleID, out) + "<br><br>");
+        out.println("<b>Innleveringstype: </b>" + getType(moduleID, out) + "<br><br>");
+        out.println("<b>Status: </b>" + getStatus(moduleID, out) + "<br><br>");
+        out.println("<b>Fristdato: </b>" + getDate(moduleID, out) + "<br><br>");
     }//try en
-    
+
     /**
-     * 
+     *
      * @param moduleID
      * @param out
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public String getDelivered(int moduleID, PrintWriter out) throws SQLException{
+    public String getDelivered(int moduleID, PrintWriter out) throws SQLException {
         String checkDelivered = "SELECT COUNT(mk_status), modul_id FROM modulkanal WHERE mk_status =\"levert\" AND modul_id = ? GROUP BY modul_id;";
         String antall = null;
         String ifNull = "0";
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
                 PreparedStatement psDelivered = conn.prepareStatement(checkDelivered)) {
-                psDelivered.setInt(1, moduleID);
+            psDelivered.setInt(1, moduleID);
             try (ResultSet rsModulNavn = psDelivered.executeQuery()) {
                 while (rsModulNavn.next()) {
                     antall = rsModulNavn.getString("COUNT(mk_status)");
                 }
             }
         }
-        if (antall ==null){
+        if (antall == null) {
             return ifNull;
         }
-        return antall;   
+        return antall;
     }
-    
+
     /**
-     * 
+     *
      * @param out
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
-    public String getTotalRegistered(PrintWriter out) throws SQLException{
-        String countRegistered ="SELECT COUNT(rolle) FROM bruker_rolle WHERE rolle =\"RegistrertStudent\";";
+    public String getTotalRegistered(PrintWriter out) throws SQLException {
+        String countRegistered = "SELECT COUNT(rolle) FROM bruker_rolle WHERE rolle =\"RegistrertStudent\";";
         String antall = null;
         String ifNull = "0";
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
                 PreparedStatement psTotal = conn.prepareStatement(countRegistered)) {
-                //psTotal.setInt(1, moduleID);
-        try (ResultSet rsModulNavn = psTotal.executeQuery()) {
+            //psTotal.setInt(1, moduleID);
+            try (ResultSet rsModulNavn = psTotal.executeQuery()) {
                 while (rsModulNavn.next()) {
                     antall = rsModulNavn.getString("COUNT(rolle)");
                 }
             }
         }
-        if (antall==null){
+        if (antall == null) {
             return ifNull;
         }
         return antall;
     }
-        
+
     /**
-     * 
+     *
      * @param moduleID
      * @param out
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     public String getEvaluated(int moduleID, PrintWriter out) throws SQLException {
         String countEvaluated = "SELECT COUNT(mk_rettet_status), modul_id FROM modulkanal WHERE mk_rettet_status=\"Rettet\" AND modul_id = ? GROUP BY modul_id;";
@@ -130,20 +131,20 @@ public class ModuleTools {
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
                 PreparedStatement psEvaluate = conn.prepareStatement(countEvaluated)) {
-                psEvaluate.setInt(1, moduleID);
+            psEvaluate.setInt(1, moduleID);
             try (ResultSet rsModulNavn = psEvaluate.executeQuery()) {
                 while (rsModulNavn.next()) {
                     antall = rsModulNavn.getString("COUNT(mk_rettet_status)");
                 }
             }
         }
-        if (antall==null){
+        if (antall == null) {
             return ifNull;
-        } 
+        }
         return antall;
     }
-    
-        public String getModuleName(int moduleID, PrintWriter out) throws SQLException {
+
+    public String getModuleName(int moduleID, PrintWriter out) throws SQLException {
         String psModuleName = "select modul_navn from modul where modul_id=?";
         String moduleName = null;
 
@@ -222,7 +223,13 @@ public class ModuleTools {
         }//end connection
         return moduleStatus;
     }
-
+/**
+ * 
+ * @param moduleID
+ * @param out
+ * @return
+ * @throws SQLException 
+ */
     public String getType(int moduleID, PrintWriter out) throws SQLException {
         String psModuleType = "select modul_innleveringstype from modul where modul_id=?";
         String moduleType = null;
@@ -276,15 +283,7 @@ public class ModuleTools {
         }//end connection
         return modulMaxPoints;
     }
-
-    /**
-     *
-     * @param name
-     * @param moduleID
-     * @param out
-     * @return
-     * @throws SQLException
-     */
+    
     /**
      *
      * @param modul_id
@@ -328,54 +327,49 @@ public class ModuleTools {
 
         } // end try     // end try     
         catch (SQLException ex) {
-            out.println("Ikke fÃ¥tt oppdatert modul " + ex);
+            out.println("Ikke fått oppdatert modul " + ex);
         }
     }
-    
+
     public void commentModule(String commentContent, String commentDate, String commenter, int moduleID, PrintWriter out) throws SQLException {
         String commentString = "INSERT INTO modul_kommentar (modul_kommentar_text, modul_kommentar_dato, brukernavn, modul_id) VALUES (?, ?, ?, ?);";
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
-            PreparedStatement updateComments = conn.prepareStatement(commentString)) {
-            
+                PreparedStatement updateComments = conn.prepareStatement(commentString)) {
+
             updateComments.setString(1, commentContent);
             updateComments.setString(2, commentDate);
             updateComments.setString(3, commenter);
             updateComments.setInt(4, moduleID);
-            
+
             updateComments.executeUpdate();
         } catch (SQLException ex) {
-                        System.out.println(ex.getMessage());
-                    }
+            System.out.println(ex.getMessage());
+        }
     }
-    
-    public void readModuleComments(int moduleID, String user, PrintWriter out) throws SQLException{
+
+    public void readModuleComments(int moduleID, String user, PrintWriter out) throws SQLException {
         String getComments = "SELECT * FROM modul_kommentar WHERE modul_id = ?;";
         DbConnector db = new DbConnector();
-        try (Connection conn = db.getConnection(out)){
+        try (Connection conn = db.getConnection(out)) {
             try (PreparedStatement commentInfo = conn.prepareStatement(getComments)) {
-                        commentInfo.setInt(1, moduleID);
-                        
-                        ResultSet commentValue = commentInfo.executeQuery();
-                        while (commentValue.next()) { //iterator
-                         String commentText = commentValue.getString("modul_kommentar_text");
-                         String userName = commentValue.getString("brukernavn");
-                         String moduleDate = commentValue.getString("modul_kommentar_dato");
-                         
-                         if (user.equals(userName)){
-                             out.format("'" + commentText + "'<br> Publisert av deg, den " + moduleDate + "<br><br><br>");  //HER SJEKKES DET OM DET ER DU SOM ER FORFATTER AV KOMMENTAREN. BRUKES HVIS 
-                                                                                                                                        // VI VIL GJÃ˜RE DET MULIG Ã… REDIGERE OG SLETTE KOMMENTARER
-                         }
-                         else {
-                             out.format("'" + commentText + "'<br> Publisert av" + userName + ", den " + moduleDate + "<br><br><br>");
-                         }
-                         
-                        
+                commentInfo.setInt(1, moduleID);
+
+                ResultSet commentValue = commentInfo.executeQuery();
+                while (commentValue.next()) { //iterator
+                    String commentText = commentValue.getString("modul_kommentar_text");
+                    String userName = commentValue.getString("brukernavn");
+                    String moduleDate = commentValue.getString("modul_kommentar_dato");
+
+                    if (user.equals(userName)) {
+                        out.format("'" + commentText + "'<h5><br> Publisert av deg, den " + moduleDate + "<br><br><br></h5>");  //HER SJEKKES DET OM DET ER DU SOM ER FORFATTER AV KOMMENTAREN. 
+                    } else {
+                        out.format("'" + commentText + "'<h5><br> Publisert av " + userName + ", den " + moduleDate + "<br><br><br></h5>");
                     }
-        
+                }
+
             }
         }
     }
-      
 
 }//class end

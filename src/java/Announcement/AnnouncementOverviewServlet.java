@@ -50,17 +50,15 @@ public class AnnouncementOverviewServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<h2>Kunngjøringer</h2>");
-
-            
-            AnnouncementTools aT = new AnnouncementTools();
-            aT.showAllAnnouncement(out);
-            
             if (request.isUserInRole("Foreleser")) {
                 out.print("<form action=\"NewAnnouncementServlet\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Ny kunngjøring\"> <br>  \n"
-                        + "            </form>");
+                        + "<input type=\"Submit\" name=\"btnAdd\" value=\"Ny kunngjøring\"> <br>  \n"
+                        + "</form>");
             }
-
+            out.println("<div class=\"announcementDiv\">");
+            AnnouncementTools aT = new AnnouncementTools();
+            aT.showAllAnnouncement(out);
+            out.println("</div>");
             out.println("</body>");
             out.println("</html>");
         }

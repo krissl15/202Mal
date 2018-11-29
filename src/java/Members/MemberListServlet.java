@@ -52,25 +52,28 @@ public class MemberListServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<body>");
+            
 
             MemberTools memt = new MemberTools();
             
             out.println("<div>\n"
             + "            <p><h2>Medlemsliste</h2></p>\n"
             + "            <form action=\"MemberSearchServlet\" method \"post\">\n"
-            + "              <input type=\"Text\"name=\"search\" placeholder=\"S√∏k etter medlemmer\"> \n"
-            + "              <input type=\"Submit\" value=\"S√∏k\">  <br><br> \n"
+            + "              <input type=\"Text\"name=\"search\" placeholder=\"S¯k etter medlemmer\"> \n"
+            + "              <input type=\"Submit\" value=\"S¯k\">  <br><br> \n"
             + "            </form>\n"
             + "        </div>\n");
-
+            out.println("<div class=\"partedDiv memberList\">");
+            out.println("<table class=\"memberTable\">"
+                    + "<tr>"
+                    + "<th>Navn</th>"
+                    + "<th>Rolle</th>"
+                    + "</tr>"
+                    + "<tbody>");
             if (request.isUserInRole("Foreleser")) {
-            out.println("Forelesere <br><br>");
             memt.printMembersByRole("Foreleser", out);
-            out.println("<br><br>Assistenter<br><br>");
             memt.printMembersByRole("Assistent",out);
-            out.println("<br><br>Registrerte brukere<br><br>");
             memt.printMembersByRole("RegistrertStudent", out);
-            out.println("<br><br>Ikke registrerte brukere<br><br>");
             memt.printMembersByRole("UregistrertStudent", out);
 
                 String change = request.getParameter("member"); //alle knappene heter det samme ("member")
@@ -78,7 +81,6 @@ public class MemberListServlet extends HttpServlet {
                 //String rCheck = request.getParameter("removeCheck");
 
                 if (change.contains("Registrer")) { //Sjekker om knappen er en "fjern" eller "Registrer
-
                     String name = change.substring(change.lastIndexOf(" ") + 1); // "name" blir siste ordet i valuen av knappen (change).
                     //if (aCheck.contains(name)) { //checkbox check
                         memt.registerStudent(name, out); //registrert brukeren n√•r knappen blir trykket
@@ -109,11 +111,8 @@ public class MemberListServlet extends HttpServlet {
              }
              
             } else if(request.isUserInRole("RegistrertStudent")){ //Studenter ser kun registrerte brukere, assistenter og forelesere
-                out.print("Forelesere <br><br>");
                  memt.printMembersByRole("Foreleser", out);
-                out.println("<br><br>Assistenter<br><br>");
                  memt.printAssistants(out);
-                out.print("<br><br>Registrerte brukere <br><br>");
                  memt.printRegisteredMembers(out);
             }
             
@@ -126,7 +125,9 @@ public class MemberListServlet extends HttpServlet {
                  memt.printRegisteredMembers(out);
                 
             }
-
+            out.println("</tbody>"
+                    + "</table>");
+            out.println("</div>");
             out.println("</body>");
             out.println("</html>");
         }

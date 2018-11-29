@@ -59,7 +59,8 @@ public class ModulePageServlet extends HttpServlet {
             ModuleTools mT = new ModuleTools();
             String moduleNr = request.getParameter("module"); //alle knappene heter det samme ("module")
             int intModuleNr = Integer.parseInt(moduleNr);
-            out.println("<h2>Modul  " + intModuleNr +"</h2>");
+            out.println("<div class=\"partedDiv\">");
+            out.println("<h2>Modul  " + intModuleNr +": " + mT.getModuleName(intModuleNr, out) +"</h2>");
             DbConnector db = new DbConnector();
             try (Connection conn = db.getConnection(out)) {
                 try (Statement st = conn.createStatement()) {
@@ -71,7 +72,6 @@ public class ModulePageServlet extends HttpServlet {
                             //modul1 her
                             int intID = Integer.parseInt(modulID);
                             int nr = intID;
-                            out.println("Name of module: ");
                             mT.showModule(nr, out);
 
                         }//end if
@@ -84,7 +84,7 @@ public class ModulePageServlet extends HttpServlet {
                         + "                <input type=\"Submit\" name=\"btnEdit\" value=\"Rediger modul " + intModuleNr + "\"<br>  \n"
                         + "               </form>");
                 out.print("<form action=\"DeleteModuleServlet\" method=\"post\">\n"
-                        + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett Modul " + intModuleNr + "\"><br>"
+                        + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett modul " + intModuleNr + "\"><br>"
                         + "               </form>");
             }
 
@@ -116,19 +116,20 @@ public class ModulePageServlet extends HttpServlet {
                     out.println("Denne modulen er muntlig");
                 }
             }//end student if
-
+            out.println("</div>"
+                    + "<div class=\"partedDiv\">");
             String user = request.getRemoteUser();
             out.println("<h3>Kommentarer</h3>");
             mT.readModuleComments(intModuleNr, user, out);
-            out.println("<form action=\"ModuleMenuServlet\"><b><br><b>Svar på modul </b><input type=\"text\" name=\"commentText\" placeholder=\"Kommenter modulen...\">\n"
-              + "<input type=\"hidden\" name=\"hdnId\" value=\"" + intModuleNr + "\">"
+            out.println("<form action=\"ModuleMenuServlet\"><textarea name=\"commentText\" rows=\"5\" cols=\"50\" placeholder=\"Legg igjen en kommentar\"></textarea><br>\n"
+                    + "<input type=\"hidden\" name=\"hdnId\" value=\"" + intModuleNr + "\">"
                     + "<input type=\"Submit\" name=\"btnComment\" value=\"Kommenter\"> \n"
-                 
-                
                 + "</form>  ");
+
             
            
-            out.println("</body>");
+            out.println("</div>"
+                    + "</body>");
             out.println("</html>");
         }
     }

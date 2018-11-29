@@ -49,18 +49,19 @@ public class AnnouncementPageServlet extends HttpServlet {
             MenuTools men = new MenuTools();
             men.menuButtons(out);
             out.println("</div>");
-            out.println("<h2>her er tittel</h2>");
-            out.println("<body>");
-            String IDString = request.getParameter("hdnID");
-           
             AnnouncementTools at = new AnnouncementTools();
-            at.showAnnouncement(IDString, out);
+            String IDString = request.getParameter("hdnID");
+            out.println("<h2>" + at.getTitle(IDString, out) + "</h2>");
+            out.println("<body>");
+            out.println("<div class=\"partedDiv\">");
             
+            at.showAnnouncement(IDString, out);
             if (request.isUserInRole("Foreleser")) {
                 out.print("<form action=\"AnnouncementDeleteServlet\" method=\"post\">\n"
                         + "                <input type=\"Submit\" name=\"btnDelete\" value=\"Slett beskjed " + IDString + "\"><br>"
                         + "               </form>");
             }
+            out.println("</div>");
             //AnnouncementTools aT = new AnnouncementTools();
             //aT.showAnnouncement(out);
 

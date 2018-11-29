@@ -68,7 +68,7 @@ public class ModuleStoreServlet extends HttpServlet {
             out.println("<h2>Rediger modul " + modulID + "</h2>");
             out.println("<form action=\"ModuleEditServlet\" method=\"POST\">\n"
 
-                    + "<b>Modul ID</b><br><input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modul ID\" value=\"" + modulID + "\" readonly> <br><br>  \n"
+                    + "<b>Modul nr</b><br><input type=\"text\" name=\"textmoduleId1\" placeholder=\"Modul nr\" value=\"" + modulID + "\" readonly> <br><br>  \n"
                     + "		 <b>Modulnavn</b><br><input type=\"text\" name=\"textmoduleName1\" placeholder=\"Modulnavn\" value=\"" + getName + "\" required><br><br>  \n"
                     + "                <b>Læringsmål</b><br><textarea type=\"text\" name=\"textGoal1\" rows=\"5\" cols=\"50\" placeholder=\"Læringsmål\" required>" + getGoal + "</textarea><br><br>  \n"
                     + "                <b>Beskrivelse</b><br><textarea name=\"textModule1\" rows=\"5\" cols=\"50\" placeholder=\"Beskrivelse\" required>" + getText + "</textarea> <br><br>  \n"

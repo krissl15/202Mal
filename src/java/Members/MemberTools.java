@@ -29,7 +29,9 @@ public class MemberTools {
         try (Connection conn = db.getConnection(out)) {
             try (PreparedStatement ps = conn.prepareStatement(selectUsers)) { //opprett ps med query som parameter
                 ps.setString(1, role);
-
+                
+                /*out.println("<table class=\"memberTable\">"
+                        + "<tbody>");*/
                 ResultSet rsRegistered = ps.executeQuery(); //resultset er en "liste" av alt queryen selected
                 while (rsRegistered.next()) { //iterator
                     String userName = rsRegistered.getString("brukernavn");
@@ -39,40 +41,67 @@ public class MemberTools {
                     
                     //deklarerer URL hvor valgte person blir lagret, slik at en kan hente ut kontaktinformasjon.
                     String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>"; 
-
+                    out.println("<tr>");
                     if (rolle.equals("RegistrertStudent")) { //sjekker om rollen til objektet som blir iterert er registrert
-                        out.println("<div id=\"memberListRegistered\">");
-                        out.println("<div id=\"memberListRegisteredName\">");
+                        //out.println("<div id=\"memberListRegistered\">");
+                        //out.println("<div id=\"memberListRegisteredName\">");
+                        out.println("<td class=\"memberNameCol\">");
                         out.format(chosenPerson, firstName, surName, userName, "registrertstudent", firstName, surName, userName,"registrertstudent");
-                        out.println("</div>");
-                        //out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.println("</td>");
+                        out.println("<td class=\"memberRoleCol\">");
+                        out.println(role);
+                        out.println("</td>");
+                        //out.println("</div>");
                         
-
+                        out.println("<td class=\"removeMemberCol\">");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                               // + "<input type=\"checkbox\" name=\"removeCheck\" value=\"Remove " + userName + "\"><br>"
                                 + "<div id=\"memberListRegisteredButtons\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Fjern " + userName + "\">");
-                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
+                        out.println("</td>");
+                        out.println("<td class=\"assistantMemberCol\">");
+                        out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name =\"member\" value =\"Assistent " + userName + "\">");
-                         out.println("</div>");
-                         out.println("</div>");
-                         out.println("<br>");
+                        out.println("</td>");
+
+                         //out.println("</div>");
+                         //out.println("</div>");
                     } else if (rolle.equals("UregistrertStudent")) {
+                        out.println("<td class=\"memberNameCol\">");
                         out.format(chosenPerson, firstName, surName, userName, "uregistrertstudent", firstName, surName, userName,"uregistrertstudent");
-                        //out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.println("</td>");
+                        out.println("<td class=\"memberRoleCol\">");
+                        out.println(role);
+                        out.println("</td>");
+                        out.println("<td class=\"addMemberCol\">");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                               // + "<input type=\"checkbox\" name=\"addCheck\" value=\"Add " + userName + "\"><br>"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Registrer " + userName + "\"><br>");
+                        out.println("</td>");
                     }else if (rolle.equals("Assistent")) {
+                        out.println("<td class=\"memberNameCol\">");
                         out.format(chosenPerson, firstName, surName, userName, "assistent", firstName, surName, userName,"assistent");
-                        //out.println(userName + " (" + firstName + " " + surName + ")");
+                        out.println("</td>");
+                        out.println("<td class=\"memberRoleCol\">");
+                        out.println(role);
+                        out.println("</td>");
+                        out.println("<td class=\"unAssistantCol\">");
                         out.println("<form action=\"MemberListServlet\" method=\"post\">"
                                 + "<input type=\"Submit\" name=\"member\" value=\"Ta bort assistent " + userName + "\"><br>");
+                        out.println("</td>");
                     }else if (rolle.equals("Foreleser")) {
+                        out.println("<td class=\"memberNameCol\">");
                         out.format(chosenPerson, firstName, surName, userName, "foreleser", firstName, surName, userName,"foreleser");
-                        //out.println(userName + " (" + firstName + " " + surName + ")");                    
+                        out.println("</td>");  
+                        out.println("<td class=\"memberRoleCol\">");
+                        out.println(role);
+                        out.println("</td>");
+                        out.println("<br>");
                     }
+                    out.println("</tr>");
                 }
+                /*out.println("</tbody>"
+                        + "</table>");*/
             }
         }
     }//end printMembersByRole
@@ -88,15 +117,20 @@ public class MemberTools {
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
             try (Statement psRegistered = conn.createStatement()) {
-
                 ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
                 while (rsRegistered.next()) {
+                    out.println("<tr>");
                     String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>";
                     String userName = rsRegistered.getString("brukernavn");
                     String firstName = rsRegistered.getString("fornavn");
                     String surName = rsRegistered.getString("etternavn");
+                    out.println("<td class=\"memberNameCol\">");
                     out.format(chosenPerson, firstName, surName, userName, "registrertstudent", firstName, surName, userName,"registrertstudent");
-                    //out.println(userName + " (" + firstName + " " + surName + ")<br>");
+                    out.println("</td>");
+                    out.println("<td class=\"memberRoleCol\">"
+                            + "Student"
+                            + "</td>");
+                    out.println("</tr>");
                 }
             }
         }
@@ -293,15 +327,23 @@ public class MemberTools {
             try (Statement psRegistered = conn.createStatement()) {
                  ResultSet rsRegistered = psRegistered.executeQuery(selectUsers);
                 while (rsRegistered.next()) {
+                    out.println("<tr>");
                     String chosenPerson  = "<a href='StudentProgressServlet?firstName=%s&lastName=%s&userName=%s&value=%s'>%s %s</a>"; 
                     String userName = rsRegistered.getString("brukernavn");
                     String firstName = rsRegistered.getString("fornavn");
                     String surName = rsRegistered.getString("etternavn");
+                    out.println("<td class=\"memberNameCol\">");
                     out.format(chosenPerson, firstName, surName, userName, "assistent", firstName, surName, userName,"assistent");
-                    
-                    //out.println(userName + " (" + firstName + " " + surName + ")<br>");
+                    out.println("</td>");
+                    out.println("<td class=\"memberRoleCol\">"
+                            + "Assistent"
+                            + "</td>");
+                    out.println("<br>");
+                    out.println("</tr>");
                 }
+                
             }
         }
     }
-}
+    }
+

@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.System.out;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -52,7 +51,6 @@ public class ModuleMenuServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<body>");
-            out.println("<div id=\"content\">");
             out.println("<h2>Moduler</h2>");
             if (request.isUserInRole("Foreleser")) {
                 out.println("<form action=\"ModuleAddedServlet\" method=\"post\">\n" +
@@ -62,19 +60,21 @@ public class ModuleMenuServlet extends HttpServlet {
                           "<input type=\"Submit\" name=\"btnUnC\" value=\"Urettede moduler\"> <br><br>  \n" +
                           "</form>");
             }
-ModuleTools mt = new ModuleTools();
-DbConnector db = new DbConnector();
-try (Connection conn = db.getConnection(out)) {
-    //modulnavn print start   
-    try (Statement st = conn.createStatement()) {
+            ModuleTools mt = new ModuleTools();
+            DbConnector db = new DbConnector();
+            try (Connection conn = db.getConnection(out)) {
+//modulnavn print start   
+try (Statement st = conn.createStatement()) {
+    
         String moduleQ = "select modul_id from modul";
         ResultSet rsModules = st.executeQuery(moduleQ);
+        out.println("<div class=\"partedDiv moduleMenu\">");
         out.println("<table class=\"modulesTable\">"
         + "<thead>"
         + "<tr>");
         out.println("<th class=\"buttonCol title\">"
-        + "Knapp"
-        + "</th>");
+                + "."
+                + "</th>");
         out.println("<th class=\"moduleCol title\">"
         + "<b>Modul</b>"
         + "</th>");
@@ -91,6 +91,10 @@ try (Connection conn = db.getConnection(out)) {
             out.println("<th class=\"evaluatedCol title\">"
             + "<b>Evaluert</b>"
             + "</th>");
+            out.println("<th class=\"editBtnCol title\">"
+                    + "</th>");
+            out.println("<th class=\"deleteBtnCol title\">"
+                    + "</th>");
         }
         out.println("</tr>" 
         + "</thead>"
@@ -119,12 +123,12 @@ try (Connection conn = db.getConnection(out)) {
                 out.println("<td class=\"evaluatedCol\">"
                 + mt.getEvaluated(intID, out)
                 + "</td>");
-                out.println("<td class=\"editBtn\">");
+                out.println("<td class=\"editBtnCol\">");
                 out.println("<form action=\"ModuleStoreServlet\" method=\"post\">"
                             + "<input type=\"Submit\" name=\"module\" value=\"Endre\">"
                         + "</form>");
                 out.println("</td>");
-                out.println("<td class=\"deleteBtn\">");
+                out.println("<td class=\"deleteBtnCol\">");
                 out.println("<a href=\"DeleteModuleServlet\" onclick=\"return confirm('Trykk OK for å slette hele prosjektet');\">"
                         + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
                         + "</a>");
@@ -132,6 +136,7 @@ try (Connection conn = db.getConnection(out)) {
             }
             out.println("</tr>"); 
         }
+        out.println("</div>");
         out.println("</tbody></table>");
     }
 }   
@@ -157,7 +162,6 @@ try (Connection conn = db.getConnection(out)) {
                            "<input type =\"Submit\" name =\"btnProgress\" value =\"Få oversikt over progresjon\">\n" +
                            "</form>");
              }
-             out.println("</div>");
             out.println("</body>");
             out.println("</html>");
         }

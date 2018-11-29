@@ -56,8 +56,10 @@ public class InboxServlet extends HttpServlet {
             out.println("<form action=\"OutboxServlet\" method=\"post\">\n" +
 "                <input type=\"Submit\" name=\"btnOutbox\" value=\"Sendte elementer\"> \n" +
 "                </form>  \n");
+            out.println("<div class=\"inboxDiv\">");
             String recipient = request.getRemoteUser();
             msg.showRecieved(recipient, out);
+            out.println("</div>");
             out.println("</body>");
             out.println("</html>");
         }

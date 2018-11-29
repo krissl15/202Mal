@@ -57,7 +57,7 @@ public class MainPage extends HttpServlet {
             MemberTools memT = new MemberTools();
             String user = request.getRemoteUser();
             
-            out.print("<div class=\"welcomeDiv\">");
+            out.print("<div class=\"partedDiv\">");
             if(request.isUserInRole("UregistrertStudent")){
             out.println("Du er ikke registrert i dette faget.<br>"
                     + "Få en foreleser til å registrere deg");
@@ -66,11 +66,11 @@ public class MainPage extends HttpServlet {
              out.println("<h3>IS-109 Objektorientert Programmering</h3>"); 
              out.println("<p>Forelesere: </p>");
              memT.printMembersByRole("Foreleser", out);
-             out.println("<p>Hjelpelærere: </p>");
+             out.println("<p>Hjelpel�rere: </p>");
              memT.printAssistants(out);
              out.print("</div>");
-             out.print("<div class=\"courseGoalDiv\">");
-             out.print("<h4>Læringsutbytte:</h4>");
+             out.print("<div class=\"partedDiv\">");
+             out.print("<h4>L�ringsutbytte:</h4>");
              out.println("<li>Kjenne hovedelementene i et objektorientert programmeringsspråk, og kunne bruke det til å skrive enkle programmer som bruker klasser uten arv </li>"
                      + "<li>Kunne skrive metoder med og uten parametere, med returverdier</li>"
                      + "<li>Kunne bruke if-setninger, løkker og tilordning</li>"
@@ -78,8 +78,10 @@ public class MainPage extends HttpServlet {
                      + "<li>Kjenne til og følge god programmeringsskikk (f.eks. dokumentasjon, testing og kodestandarder)</li>");
             }
             out.print("</div>");
-            out.print("<div class=\"announcementDiv\">");
-            out.print("<h3>Siste kunngjøringer</h3>");
+            out.print("<div class=\"partedDiv\">");
+            out.print("<h3>Siste kunngj�ringer</h3>"
+                    + "<hr>");
+            
             AnnouncementTools aT = new AnnouncementTools();
             aT.showLastThreeAnnouncements(out);
             out.print("</div>");

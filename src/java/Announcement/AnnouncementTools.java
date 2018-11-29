@@ -27,11 +27,11 @@ public class AnnouncementTools {
                 
                 ResultSet rsAnnounce = psAnnounce.executeQuery();
                 while (rsAnnounce.next()) { //iterator
-                String announceTitle = rsAnnounce.getString("beskjed_tittel");
+                //String announceTitle = rsAnnounce.getString("beskjed_tittel");
                 String announceText = rsAnnounce.getString("beskjed_innhold");
                 String userName = rsAnnounce.getString("brukernavn");
                 String announceDate = rsAnnounce.getString("beskjed_dato");
-                out.println("<br> " + announceTitle + "<br>" + announceText + "<br><br>" + userName + "<br>" + announceDate);
+                out.println("<h5>" + userName + "<br>" + announceDate + "</h5>" + "<br>" + announceText);
                 }
     }
         }
@@ -46,17 +46,17 @@ public class AnnouncementTools {
 
                 ResultSet rsAllAnnounce = psAllAnnounce.executeQuery();
                 while (rsAllAnnounce.next()) { //iterator
+                    out.println("<div class=\"partedDiv\">");
                     String announceID = rsAllAnnounce.getString("beskjed_id");
                     String announceTitle = rsAllAnnounce.getString("beskjed_tittel");
                     String userName = rsAllAnnounce.getString("brukernavn");
                     String announceDate = rsAllAnnounce.getString("beskjed_dato");
-                    out.format("<h3>" + announceTitle + "</h3>"+ "Publisert av: " + userName + "<br>" + announceDate + "<br>");
+                    out.format("<h3>" + announceTitle + "</h3>"+ "<h5>Publisert av: " + userName + "<br>" + announceDate + "</h5><br>");
                     out.println("<form action=\"AnnouncementPageServlet\" method=\"post\">\n" + 
-                            "<input type=\"hidden\" name=\"hdnID\" Value=\" " +announceID+ "\">" + 
-                            "<input type=\"Submit\" name=\"btnButtonBeskjed\" value=\"se mer\"> <br><br>\n" +
+                            "<input type=\"hidden\" name=\"hdnID\" Value=\" " + announceID + "\">" + 
+                            "<input type=\"Submit\" name=\"btnButtonBeskjed\" value=\"Les mer\"> <br><br>\n" +
                             "</form>  \n");
-                   
-                    
+                    out.println("</div>");
                 }
             }
         }
@@ -68,15 +68,14 @@ public class AnnouncementTools {
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out)) {
             try (PreparedStatement psLastThree = conn.prepareStatement(qThreeAnnounce)) {
-
                 ResultSet rsLastThree = psLastThree.executeQuery();
                 while (rsLastThree.next()) { //iterator
                     String announceTitle = rsLastThree.getString("beskjed_tittel");
                     String announceText = rsLastThree.getString("beskjed_innhold");
                     String userName = rsLastThree.getString("brukernavn");
                     String announceDate = rsLastThree.getString("beskjed_dato");
-                    out.format("<h3>" + announceTitle + "</h3>" + announceText + "<br> Publisert av: " + userName + "<br>" + announceDate + "<br> <br>");
-                    
+                    out.format("<h3>" + announceTitle + "</h3>" + "<h5> Publisert av: " + userName + "<br>" + announceDate + "</h5>" + announceText +"<br> <br>");
+                    out.println("<hr>");
                 }
             }
         }
@@ -122,14 +121,14 @@ public class AnnouncementTools {
             psDeleteAnnouncement.executeUpdate();
         }
     }
-    public String getTitle(int AnnouncementID, PrintWriter out) throws SQLException {
+    public String getTitle(String AnnouncementID, PrintWriter out) throws SQLException {
         String qAnnouncementTitle = "select beskjed_tittel from beskjeder where beskjed_id=?";
         String announcementTitle = null;
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
                 PreparedStatement psAnnouncementTitle = conn.prepareStatement(qAnnouncementTitle)) {
-            psAnnouncementTitle.setInt(1, AnnouncementID);
+            psAnnouncementTitle.setString(1, AnnouncementID);
 
             try (ResultSet rsAnnouncementTitle = psAnnouncementTitle.executeQuery()) {
                 while (rsAnnouncementTitle.next()) {

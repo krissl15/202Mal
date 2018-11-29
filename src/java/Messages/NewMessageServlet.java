@@ -50,8 +50,9 @@ public class NewMessageServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<body>");
-            out.println("<div>");
-            out.println("<form><h2>Ny melding</h2>"
+            out.println("<h2>Ny melding</h2>");
+            out.println("<div class=\"partedDiv\">");
+            out.println("<form>"
                     + "<b><b>Mottaker</b><br><input type=\"text\" name=\"messageRecipient\" placeholder=\"Mottaker av meldingen...\"> <br><br>  \n"
                 + "<b>Emne</b><br><input type=\"text\" name=\"messageTitle\" placeholder=\"Emne på meldingen...\"> <br><br>  \n"
                 + "<b>Melding</b><br><textarea name=\"messageContent\" rows=\"5\" cols=\"50\" placeholder=\"Skriv din melding her..\"></textarea> <br><br> </div> \n"
@@ -72,7 +73,7 @@ public class NewMessageServlet extends HttpServlet {
             
             msg.insertMessage(stringDate, recipient, title, message, messageSender, out);
             response.sendRedirect("InboxServlet");
-            
+            out.println("</div>");
             }
             
          

@@ -51,37 +51,30 @@ public class DeliveryServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<body>");
+            out.print("<h2>Modulen er levert</h2>");
 
-            
             String module = request.getParameter("btnDeliver");
-            String sModuleID = module.substring(module.lastIndexOf(" ") + 1); //siste ordet i knappen er nr. pÃ¥ modulen. 
-            
+            String sModuleID = module.substring(module.lastIndexOf(" ") + 1); //siste ordet i knappen er nr. på modulen. 
+
             int moduleID = Integer.parseInt(sModuleID);
-            String userName = request.getRemoteUser(); //navnet pÃ¥ brukeren
-            
-            
-            
-                 
-          
-          String deliveryText = request.getParameter("deliveryText");
-          String date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()); //kanskje denne blir needed
-          
-          String btnDeliver = request.getParameter("btnDeliver");
-          if(btnDeliver.contains("Lever")){
-              DeliveryTools dt = new DeliveryTools();
-              dt.registerDelivery(deliveryText, date, userName, out);
-              
-              int deliveryID = dt.getLastDeliveryByUser(userName, out);
-              dt.setDeliveryToModulkanal(deliveryID, moduleID, userName, out);
-              
-          response.sendRedirect("DeliveryServlet"); //Oppdaterer siden ved Ã¥ directe brukeren til samme side
+            String userName = request.getRemoteUser(); //navnet på brukeren
+            String deliveryText = request.getParameter("deliveryText");
+            String date = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime()); //kanskje denne blir needed
 
-          }
-          
-          
-        
+            String btnDeliver = request.getParameter("btnDeliver");
+            if (btnDeliver.contains("Lever")) {
+                DeliveryTools dt = new DeliveryTools();
+                dt.registerDelivery(deliveryText, date, userName, out);
+                
+                int deliveryID = dt.getLastDeliveryByUser(userName, out);
+                dt.setDeliveryToModulkanal(deliveryID, moduleID, userName, out);
 
-            
+                out.print("Modulen din er levert. Trykk tilbake for å komme til modulmenyen."
+                        + "<form action=\"ModuleMenuServlet\" method=\"POST\">"
+                        + "<input type=\"Submit\" value=\"Tilbake\">"
+                        + "</form>");
+            }
+
             out.println("</body>");
             out.println("</html>");
         }

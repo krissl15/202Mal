@@ -50,16 +50,18 @@ public class MessageTools {
                         
                         ResultSet rsInbox = psInbox.executeQuery();
                         while (rsInbox.next()) { //iterator
+                         out.println("<div class=\"partedDiv\">");
                          String date = rsInbox.getString("melding_dato");
                          String topic = rsInbox.getString("melding_emne");
                          String userName = rsInbox.getString("brukernavn");
                          String message = rsInbox.getString("melding_innhold");
-                         out.format("<br>" + date + "<br> Fra: " + userName + "<br> Emne: " + topic + "<br> Innhold: " + message + "<br>");
+                         out.format("<br><b>" + topic + "</b><br>" + date + "<br> Fra: " + userName + "<br><br> Innhold: " + message + "<br>");
                          out.println("<form action=\"ReplyServlet\" method=\"post\">\n" + 
                             "<input type=\"hidden\" name=\"hdnName\" Value=\" " + userName + "\">" + 
                             "<input type=\"hidden\" name=\"hdnEmne\" Value=\"" + topic + "\">" + 
                             "<input type=\"Submit\" name=\"btnReplyMessage\" value=\"Svar\"> <br> \n" +
                             "</form>  \n");
+                         out.println("</div>");
                          
                         }
                     } catch (SQLException ex) {
@@ -77,12 +79,14 @@ public class MessageTools {
                         
                         ResultSet rsRegistered = pstmt.executeQuery();
                         while (rsRegistered.next()) { //iterator
+                         out.println("<div class=\"partedDiv\">");
                          String messageDate = rsRegistered.getString("melding_dato");
                          String topic = rsRegistered.getString("melding_emne");
                          String userName = rsRegistered.getString("melding_mottaker");
                          String message = rsRegistered.getString("melding_innhold");
                         
-                         out.format("<br>" + messageDate + "<br> Til: " + userName + "<br> Emne: " + topic + "<br> Innhold: " + message + "<br>");
+                         out.format("<br><b>" + topic + "</b><br>" + messageDate + "<br> Til: " + userName + "<br> Innhold: " + message + "<br>");
+                         out.println("</div>");
                         
                     }
                     }catch (SQLException ex) {

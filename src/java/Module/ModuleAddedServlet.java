@@ -52,14 +52,12 @@ public class ModuleAddedServlet extends HttpServlet {
             men.menuButtons(out);
             out.println("</div>");
             out.println("<body>");
-            out.println("<body>\n"
-                    + "        <div>\n"
-                    + "            <h2>Opprett ny modul</h2>\n"
-                    + "\n"
-                    + "            <form>\n"
-                    + "		 <b>Modul ID</b><br><input type=\"text\" name=\"moduleID\" placeholder=\"Modul ID\" required> <br><br>  \n"
+            out.println("<h2>Opprett ny modul</h2>\n");
+            out.println("<div class=\"partedDiv\">");
+            out.println("<form>\n"
+                    + "		 <b>Modul nr</b><br><input type=\"text\" name=\"moduleID\" placeholder=\"Modul nr\" required> <br><br>  \n"
                     + "		 <b>Modulnavn</b><br><input type=\"text\" name=\"textmoduleName\" placeholder=\"Modulnavn\" required> <br><br>  \n"
-                    + "                <b>LÃ¦ringsmÃ¥l</b><br><textarea name=\"textGoal\" rows=\"5\" cols=\"50\" placeholder=\"Legg til lÃ¦ringsmÃ¥l\" required></textarea><br><br>  \n"
+                    + "                <b>Læringsmål</b><br><textarea name=\"textGoal\" rows=\"5\" cols=\"50\" placeholder=\"Legg til læringsmål\" required></textarea><br><br>  \n"
                     + "                <b>Beskrivelse</b><br><textarea name=\"textModule\" rows=\"5\" cols=\"50\" placeholder=\"Legg til beskrivelse av modulen\" required></textarea> <br><br>  \n"
                      + "                <b>Makspoeng</b><br><input type=\"text\" name=\"textPoints\" placeholder=\"Makspoeng\" required> <br><br>  \n"
                     + "                <b>Muntlig</b><input type=\"checkbox\" name=\"textType\" value=\"Muntlig\">  \n"
@@ -70,9 +68,8 @@ public class ModuleAddedServlet extends HttpServlet {
                     + "\n"
                     + "\n"
                     + "                <input type=\"Submit\" name=\"btnAdd\" value=\"Legg til modul\"> <br><br>  \n"
-                    + "            </form>\n"
-                    + "        </div>\n"
-                    + "        <div>\n");
+                    + "            </form>\n");
+            out.println("<div>\n");
             
            String moduleName = request.getParameter("textmoduleName");
             String moduleID = request.getParameter("moduleID");
