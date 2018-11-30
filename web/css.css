@@ -36,7 +36,7 @@ h5{
    text-align: center;
 }
 
-.partedDiv.memberList, .memberTable, .partedDiv.progress{
+.partedDiv.memberList, .memberTable{
     width: 950px;
 }
 

@@ -5,7 +5,6 @@
  */
 package StudentProgress;
 
-import Module.ModuleTools;
 import Utilities.DbConnector;
 import Utilities.MenuTools;
 import java.io.IOException;
@@ -91,7 +90,8 @@ public class StudentProgressServlet extends HttpServlet {
                 out.println("</div");
                 out.println("<br>");
             }
-            out.println("</div>");
+            out.println("</div>"
+                    + "</div>");
 
             /**
              * *
@@ -104,7 +104,7 @@ public class StudentProgressServlet extends HttpServlet {
                     ResultSet rsModules = st.executeQuery(moduleQ);
 
                     //Generell start-tekst for progresjon over en registrert student
-                    if ((user == null) || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent") || request.isUserInRole("RegistrertStudent") && userName.equalsIgnoreCase(user) && value.equals("registrertstudent") || request.isUserInRole("Foreleser") && user == null){
+                    if ((user == null) || request.isUserInRole("Foreleser") && value.equals("registrertstudent") || request.isUserInRole("Assistent") && value.equals("registrertstudent") || request.isUserInRole("RegistrertStudent") && userName.equalsIgnoreCase(user) && value.equals("registrertstudent")){
                         out.print("<div class=\"partedDiv progress\">");
                         out.print("<h3>Oversikt over progresjon</h3>");
                         out.print("<table class=\"progressTable\">"
@@ -119,7 +119,7 @@ public class StudentProgressServlet extends HttpServlet {
                                 + "</tr>"
                                 + "</thead>");
                     }
-
+                    
                     out.println("<tbody>");
                     while (rsModules.next()) {
                         out.println("<tr>");

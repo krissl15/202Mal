@@ -21,8 +21,6 @@ import java.util.logging.Logger;
  */
 public class ProgressTools {
         
-   
-    
     /**
      * Funksjon som viser status for alle moduler/innleveringer basert på
      * brukernavn
@@ -32,38 +30,7 @@ public class ProgressTools {
      * @param out
      * @throws SQLException
      */
-    /*
-    public void printModulesByUsername(String userName, int modulID, PrintWriter out) throws SQLException {
-        String selectModule = "SELECT tilbakemelding_id, modulkanal.modul_id, mk_status, mk_rettet_status, modul_navn, tilbakemelding_poeng, modul_max_poeng\n"
-                + "FROM modulkanal\n"
-                + "LEFT JOIN tilbakemelding ON tilbakemelding.modul_id = modulkanal.modul_id\n"
-                + "INNER JOIN modul ON modul.modul_id = modulkanal.modul_id\n"
-                + "WHERE modulkanal.brukernavn=?\n"
-                + "AND modulkanal.modul_id=?\n"
-                + "ORDER BY tilbakemelding_id\n"
-                + "DESC LIMIT 1;";
 
-        DbConnector db = new DbConnector();
-        try (Connection conn = db.getConnection(out);
-                PreparedStatement psListModules = conn.prepareStatement(selectModule)) {
-            psListModules.setString(1, userName);
-            psListModules.setInt(2, modulID);
-            ResultSet rsModulKanal = psListModules.executeQuery();
-            while (rsModulKanal.next()) {
-                int maxPoeng = rsModulKanal.getInt("modul_max_poeng");
-                String modulRettet = rsModulKanal.getString("mk_rettet_status");
-                String modulPoeng = rsModulKanal.getString("tilbakemelding_poeng");
-                String modulName = rsModulKanal.getString("modul_navn");
-                String modulStatus = rsModulKanal.getString("mk_status");
-                if (modulPoeng == null) {
-                    out.println(modulName + " " + modulStatus + " " + modulRettet + " -/" + maxPoeng + "<br>");
-                } else if (modulPoeng != null) {
-                    out.println(modulName + " " + modulStatus + " " + modulRettet + " " + modulPoeng + "/" + maxPoeng + "<br>");
-                }
-            }
-        }
-    }*/
-    
     public void printModulesByUserName(String userName, int moduleID, PrintWriter out) throws SQLException{
         ModuleTools mt = new ModuleTools();
         out.println("<td class=\"moduleCol prog\">");
@@ -76,7 +43,7 @@ public class ProgressTools {
         out.println(getUserCorrectedStatus(userName, moduleID, out));
         out.println("</td>");
         out.println("<td class=\"pointsCol prog\">");
-        out.println(getUserPointbyModule(userName, moduleID, out));
+        getUserPointbyModule(userName, moduleID, out);
         out.println("</td>");
         out.println("<td class=\"maxPointsCol prog\">");
         out.println("/" + mt.getMaxPoints(moduleID, out));
@@ -140,9 +107,9 @@ public class ProgressTools {
         return correctedStatus;
     }
         
-        public String getUserPointbyModule(String userName, int moduleID, PrintWriter out) throws SQLException {
+        public void getUserPointbyModule(String userName, int moduleID, PrintWriter out) throws SQLException {
         String selectPoints = "SELECT tilbakemelding_poeng FROM tilbakemelding WHERE brukernavn =? AND modul_id =?";
-        String pointsModule = null;
+        //String pointsModule = null;
 
         DbConnector db = new DbConnector();
         try (Connection conn = db.getConnection(out);
@@ -152,11 +119,16 @@ public class ProgressTools {
 
             try (ResultSet rsModuleStatus = psGetModuleName.executeQuery()) {
                 while (rsModuleStatus.next()) {
-                    pointsModule = rsModuleStatus.getString("tilbakemelding_poeng");
+                    String pointsModule = rsModuleStatus.getString("tilbakemelding_poeng");
+                    if (pointsModule != null){
+                        out.println(pointsModule);
+                    } else {
+                        out.println("0");
+                    }
                 }
             }
         }//end connection
-        return pointsModule;
+        //return pointsModule;
     }
 
     /**

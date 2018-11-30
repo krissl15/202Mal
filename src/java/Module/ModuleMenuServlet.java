@@ -129,7 +129,7 @@ try (Statement st = conn.createStatement()) {
                         + "</form>");
                 out.println("</td>");
                 out.println("<td class=\"deleteBtnCol\">");
-                out.println("<a href=\"DeleteModuleServlet\" onclick=\"return confirm('Trykk OK for Ã¥ slette hele prosjektet');\">"
+                out.println("<a href=\"DeleteModuleServlet\" onclick=\"return confirm('Er du sikker på at du vil slette modulen?');\">"
                         + "<input type=\"Submit\" name=\"module\" value=\"Slett\">"
                         + "</a>");
                 out.println("</td>");
@@ -159,7 +159,7 @@ try (Statement st = conn.createStatement()) {
             }   
              if (request.isUserInRole("RegistrertStudent")){
                  out.print("<form action =\"StudentProgressServlet\" method =\"POST\">\n" +
-                           "<input type =\"Submit\" name =\"btnProgress\" value =\"FÃ¥ oversikt over progresjon\">\n" +
+                           "<input type =\"Submit\" name =\"btnProgress\" value =\"Få oversikt over progresjon\">\n" +
                            "</form>");
              }
             out.println("</body>");

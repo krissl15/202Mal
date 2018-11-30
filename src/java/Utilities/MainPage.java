@@ -60,7 +60,7 @@ public class MainPage extends HttpServlet {
             out.print("<div class=\"partedDiv\">");
             if(request.isUserInRole("UregistrertStudent")){
             out.println("Du er ikke registrert i dette faget.<br>"
-                    + "FÃ¥ en foreleser til Ã¥ registrere deg");
+                    + "Få en foreleser til å registrere deg");
             }else{
              out.print("<h2> Velkommen, " + user + "</h2>");
              out.println("<h3>IS-109 Objektorientert Programmering</h3>"); 
@@ -71,11 +71,11 @@ public class MainPage extends HttpServlet {
              out.print("</div>");
              out.print("<div class=\"partedDiv\">");
              out.print("<h4>Læringsutbytte:</h4>");
-             out.println("<li>Kjenne hovedelementene i et objektorientert programmeringssprÃ¥k, og kunne bruke det til Ã¥ skrive enkle programmer som bruker klasser uten arv </li>"
+             out.println("<li>Kjenne hovedelementene i et objektorientert programmeringsspråk, og kunne bruke det til å skrive enkle programmer som bruker klasser uten arv </li>"
                      + "<li>Kunne skrive metoder med og uten parametere, med returverdier</li>"
-                     + "<li>Kunne bruke if-setninger, lÃ¸kker og tilordning</li>"
+                     + "<li>Kunne bruke if-setninger, løkker og tilordning</li>"
                      + "<li>Kunne bruke lister og arrayer</li>"
-                     + "<li>Kjenne til og fÃ¸lge god programmeringsskikk (f.eks. dokumentasjon, testing og kodestandarder)</li>");
+                     + "<li>Kjenne til og følge god programmeringsskikk (f.eks. dokumentasjon, testing og kodestandarder)</li>");
             }
             out.print("</div>");
             out.print("<div class=\"partedDiv\">");
